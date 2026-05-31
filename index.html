@@ -17,7 +17,14 @@
     <input type="email" name="email">
     <input type="text" name="nationality">
     <input type="text" name="neighborhood">
-    <select name="voter-status"></select>
+    <select name="voter-status">
+      <option value="registered">registered</option>
+      <option value="needs-cere">needs-cere</option>
+      <option value="needs-uk-bilateral">needs-uk-bilateral</option>
+      <option value="needs-ine">needs-ine</option>
+      <option value="cannot-vote">cannot-vote</option>
+      <option value="unsure">unsure</option>
+    </select>
     <input type="checkbox" name="newsletter">
   </form>
   <form name="donation" netlify netlify-honeypot="bot-field" hidden>
@@ -31,9 +38,9 @@
 
 <!-- ===== ALERT BANNER ===== -->
 <div class="alert-banner" id="alertBanner">
-  <span data-lang="en" class="lang-active">EU residents: You can vote in 2027 but must register on the CERE first. <a href="#vote-rights">Find out how →</a></span>
-  <span data-lang="es">Residentes UE: Podéis votar en 2027 pero debéis registraros en el CERE. <a href="#vote-rights">Cómo hacerlo →</a></span>
-  <span data-lang="ca">Residents UE: Podeu votar el 2027 però cal registrar-se al CERE. <a href="#vote-rights">Com fer-ho →</a></span>
+  <span data-lang="en" class="lang-active">EU &amp; British residents: You can vote in 2027 but must register first. <a href="#vote-rights">Check your registration →</a></span>
+  <span data-lang="es">Residentes UE y británicos: Podéis votar en 2027 pero debéis registraros. <a href="#vote-rights">Comprueba tu registro →</a></span>
+  <span data-lang="ca">Residents UE i britànics: Podeu votar el 2027 però cal registrar-se. <a href="#vote-rights">Comprova el teu registre →</a></span>
   <button class="close-banner" aria-label="Close">×</button>
 </div>
 
@@ -116,7 +123,7 @@
 
     <div class="hero-stats">
       <div>
-        <div class="hero-stat-val">32,086</div>
+        <div class="hero-stat-val">32,690</div>
         <div class="hero-stat-label">
           <span data-lang="en" class="lang-active">Registered Residents</span>
           <span data-lang="es">Residentes Registrados</span>
@@ -124,7 +131,7 @@
         </div>
       </div>
       <div>
-        <div class="hero-stat-val"><em>~45%</em></div>
+        <div class="hero-stat-val"><em>~47%</em></div>
         <div class="hero-stat-label">
           <span data-lang="en" class="lang-active">Non-Catalan Residents</span>
           <span data-lang="es">Residentes no catalanes</span>
@@ -158,15 +165,15 @@
 <div class="counter-strip" aria-label="Key statistics">
   <div class="counter-inner">
     <div>
-      <div class="counter-val"><em><span data-target="3000">0</span>–6,000</em></div>
+      <div class="counter-val"><em>3,000–6,000+</em></div>
       <div class="counter-label">
-        <span data-lang="en" class="lang-active">EU citizens not yet registered</span>
-        <span data-lang="es">Ciudadanos UE sin registrar</span>
-        <span data-lang="ca">Ciutadans UE sense registrar</span>
+        <span data-lang="en" class="lang-active">EU citizens not yet registered to vote</span>
+        <span data-lang="es">Ciudadanos UE sin registrar para votar</span>
+        <span data-lang="ca">Ciutadans UE sense registrar per votar</span>
       </div>
     </div>
     <div>
-      <div class="counter-val"><em><span data-target="4000">0</span></em></div>
+      <div class="counter-val"><em><span data-target="3811">0</span></em></div>
       <div class="counter-label">
         <span data-lang="en" class="lang-active">Spanish non-Catalan residents</span>
         <span data-lang="es">Residentes españoles no catalanes</span>
@@ -174,11 +181,11 @@
       </div>
     </div>
     <div>
-      <div class="counter-val"><em><span data-target="1500">0</span></em></div>
+      <div class="counter-val"><em><span data-target="849">0</span></em></div>
       <div class="counter-label">
-        <span data-lang="en" class="lang-active">Latin Americans with voting rights</span>
-        <span data-lang="es">Latinoamericanos con derecho a voto</span>
-        <span data-lang="ca">Llatinoamericans amb dret a vot</span>
+        <span data-lang="en" class="lang-active">Latin Americans with potential voting rights</span>
+        <span data-lang="es">Latinoamericanos con posibles derechos de voto</span>
+        <span data-lang="ca">Llatinoamericans amb possibles drets de vot</span>
       </div>
     </div>
     <div>
@@ -199,14 +206,15 @@
 
       <div class="about-visual">
         <div class="about-card">
-          <div class="about-badge">The 45%</div>
+          <div class="about-badge">The 47%</div>
           <div class="about-card-title">Sitges<br><em>Units</em></div>
           <p style="color:rgba(255,255,255,.75);font-size:15px;margin-top:16px;line-height:1.6;">
-            <span data-lang="en" class="lang-active">~14,400 non-Catalan residents. Scattered across parties or completely disengaged. United for Sitges is the first movement built for all of them.</span>
-            <span data-lang="es">~14.400 residentes no catalanes. Dispersos entre partidos o completamente desconectados. Unidos por Sitges es el primer movimiento construido para todos ellos.</span>
-            <span data-lang="ca">~14.400 residents no catalans. Dispersos entre partits o completament desconnectats. Sitges Units és el primer moviment construït per a tots ells.</span>
+            <span data-lang="en" class="lang-active">~15,200 non-Catalan residents. Scattered across parties or completely disengaged. United for Sitges is the first movement built for all of them.</span>
+            <span data-lang="es">~15.200 residentes no catalanes. Dispersos entre partidos o completamente desconectados. Unidos por Sitges es el primer movimiento construido para todos ellos.</span>
+            <span data-lang="ca">~15.200 residents no catalans. Dispersos entre partits o completament desconnectats. Sitges Units és el primer moviment construït per a tots ells.</span>
           </p>
           <div class="about-pill-row">
+            <span class="about-pill">🇬🇧 British</span>
             <span class="about-pill">🇫🇷 French</span>
             <span class="about-pill">🇳🇱 Dutch</span>
             <span class="about-pill">🇩🇪 German</span>
@@ -536,7 +544,7 @@
                 <span data-lang="es">Latinoamericanos (reciprocidad)</span>
                 <span data-lang="ca">Llatinoamericans (reciprocitat)</span>
               </strong><br>
-              <span style="font-size:13px;color:var(--muted);">Colombia, Ecuador, Bolivia, Chile, Peru — 5+ yrs residency</span>
+              <span style="font-size:13px;color:var(--muted);">Colombia, Ecuador, Bolivia, Chile, Peru, Brazil, Venezuela — 5+ yrs residency</span>
             </td>
             <td><span class="vote-badge vote-via">→ <span data-lang="en" class="lang-active">Via reciprocity</span><span data-lang="es">Vía reciprocidad</span><span data-lang="ca">Via reciprocitat</span></span></td>
             <td style="font-size:14px;">
@@ -550,16 +558,23 @@
           <tr>
             <td>
               <strong>
-                <span data-lang="en" class="lang-active">British residents (post-Brexit)</span>
-                <span data-lang="es">Residentes británicos (post-Brexit)</span>
-                <span data-lang="ca">Residents britànics (post-Brexit)</span>
-              </strong>
+                <span data-lang="en" class="lang-active">🇬🇧 British residents</span>
+                <span data-lang="es">🇬🇧 Residentes británicos</span>
+                <span data-lang="ca">🇬🇧 Residents britànics</span>
+              </strong><br>
+              <span style="font-size:13px;color:var(--muted);">
+                <span data-lang="en" class="lang-active">3+ years legal residency required. Largest single foreign group in Sitges (1,105 residents).</span>
+                <span data-lang="es">Requiere 3+ años de residencia legal. Mayor grupo extranjero en Sitges (1.105 residentes).</span>
+                <span data-lang="ca">Requereix 3+ anys de residència legal. El grup estranger més gran de Sitges (1.105 residents).</span>
+              </span>
             </td>
-            <td><span class="vote-badge vote-no">✗ <span data-lang="en" class="lang-active">Cannot vote</span><span data-lang="es">No pueden votar</span><span data-lang="ca">No poden votar</span></span></td>
-            <td style="font-size:14px;color:var(--muted);">
-              <span data-lang="en" class="lang-active">Lost EU voting rights post-Brexit</span>
-              <span data-lang="es">Perdieron derechos de voto tras el Brexit</span>
-              <span data-lang="ca">Van perdre drets de vot post-Brexit</span>
+            <td><span class="vote-badge vote-via">✓ <span data-lang="en" class="lang-active">UK–Spain bilateral</span><span data-lang="es">Acuerdo bilateral UK–España</span><span data-lang="ca">Acord bilateral UK–Espanya</span></span></td>
+            <td style="font-size:14px;">
+              <strong style="color:var(--terra);">
+                <span data-lang="en" class="lang-active">Must register — UK bilateral agreement (2019)</span>
+                <span data-lang="es">Debe registrarse — acuerdo bilateral UK (2019)</span>
+                <span data-lang="ca">Cal registrar-se — acord bilateral UK (2019)</span>
+              </strong>
             </td>
           </tr>
           <tr>
@@ -654,6 +669,71 @@
         </a>
       </div>
     </div>
+
+    <!-- UK Bilateral Registration Box -->
+    <div class="cere-box" style="background:linear-gradient(135deg,#1a3060 0%,#0f2040 100%);margin-top:24px;">
+      <div class="about-badge" style="background:#C8102E;margin-bottom:16px;">🇬🇧
+        <span data-lang="en" class="lang-active">British Residents — 1,105 in Sitges</span>
+        <span data-lang="es">Residentes Británicos — 1.105 en Sitges</span>
+        <span data-lang="ca">Residents Britànics — 1.105 a Sitges</span>
+      </div>
+      <h3>
+        <span data-lang="en" class="lang-active">British Residents: You CAN vote — via the 2019 UK–Spain Bilateral Agreement</span>
+        <span data-lang="es">Residentes Británicos: SÍ podéis votar — mediante el Acuerdo Bilateral UK–España de 2019</span>
+        <span data-lang="ca">Residents Britànics: SÍ podeu votar — mitjançant l'Acord Bilateral UK–Espanya del 2019</span>
+      </h3>
+      <p>
+        <span data-lang="en" class="lang-active">Despite Brexit, British residents retained municipal voting rights in Spain through a bilateral agreement signed in 2019. You need 3 years of legal residency in Spain. You are the single largest foreign national group in Sitges — 1,105 residents — and your votes can be decisive.</span>
+        <span data-lang="es">A pesar del Brexit, los residentes británicos mantuvieron los derechos de voto municipal en España mediante un acuerdo bilateral firmado en 2019. Se requieren 3 años de residencia legal en España. Sois el mayor grupo nacional extranjero en Sitges — 1.105 residentes — y vuestros votos pueden ser decisivos.</span>
+        <span data-lang="ca">Malgrat el Brexit, els residents britànics van mantenir els drets de vot municipal a Espanya mitjançant un acord bilateral signat el 2019. Calen 3 anys de residència legal a Espanya. Sou el grup nacional estranger més gran de Sitges — 1.105 residents — i els vostres vots poden ser decisius.</span>
+      </p>
+      <div class="cere-steps">
+        <div class="cere-step">
+          <div class="cere-step-n">01</div>
+          <div class="cere-step-title">
+            <span data-lang="en" class="lang-active">Check eligibility</span>
+            <span data-lang="es">Comprueba la elegibilidad</span>
+            <span data-lang="ca">Comprova l'elegibilitat</span>
+          </div>
+          <div class="cere-step-body">
+            <span data-lang="en" class="lang-active">British passport + 3 years continuous legal residency in Spain + empadronamiento in Sitges</span>
+            <span data-lang="es">Pasaporte británico + 3 años de residencia legal continua en España + empadronamiento en Sitges</span>
+            <span data-lang="ca">Passaport britànic + 3 anys de residència legal contínua a Espanya + empadronament a Sitges</span>
+          </div>
+        </div>
+        <div class="cere-step">
+          <div class="cere-step-n">02</div>
+          <div class="cere-step-title">
+            <span data-lang="en" class="lang-active">Submit your application</span>
+            <span data-lang="es">Presenta tu solicitud</span>
+            <span data-lang="ca">Presenta la teva sol·licitud</span>
+          </div>
+          <div class="cere-step-body">
+            <span data-lang="en" class="lang-active">Apply to the INE using the UK bilateral registration form. Our team can guide you through the process — register below.</span>
+            <span data-lang="es">Solicita al INE usando el formulario de registro bilateral UK. Nuestro equipo puede guiarte — regístrate abajo.</span>
+            <span data-lang="ca">Sol·licita a l'INE usant el formulari de registre bilateral UK. El nostre equip pot guiar-te — registra't avall.</span>
+          </div>
+        </div>
+        <div class="cere-step">
+          <div class="cere-step-n">03</div>
+          <div class="cere-step-title">
+            <span data-lang="en" class="lang-active">Check the deadline</span>
+            <span data-lang="es">Comprueba el plazo</span>
+            <span data-lang="ca">Comprova el termini</span>
+          </div>
+          <div class="cere-step-body">
+            <span data-lang="en" class="lang-active">Registration deadlines are strict. Contact us now — do not wait until 2027. Every registered voter matters.</span>
+            <span data-lang="es">Los plazos de registro son estrictos. Contáctanos ahora — no esperes a 2027. Cada votante registrado importa.</span>
+            <span data-lang="ca">Els terminis de registre són estrictes. Contacta'ns ara — no esperis fins al 2027. Cada votant registrat compta.</span>
+          </div>
+        </div>
+      </div>
+      <a href="#join" class="btn btn-primary">
+        <span data-lang="en" class="lang-active">Get UK Bilateral Registration Help →</span>
+        <span data-lang="es">Obtén ayuda con el registro bilateral UK →</span>
+        <span data-lang="ca">Obtén ajuda amb el registre bilateral UK →</span>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -688,9 +768,9 @@
             <span data-lang="ca">Fase 0: Fundació</span>
           </div>
           <div class="tl-body">
-            <span data-lang="en" class="lang-active">Party registration, candidate selection, core team formation, legal setup, HQ established</span>
-            <span data-lang="es">Registro del partido, selección de candidatos, formación del equipo, sede establecida</span>
-            <span data-lang="ca">Registre del partit, selecció de candidats, formació de l'equip, seu establerta</span>
+            <span data-lang="en" class="lang-active">Agrupación de electores setup, candidate selection, core team formation, legal setup, HQ established</span>
+            <span data-lang="es">Constitución de agrupación de electores, selección de candidatos, formación del equipo, sede establecida</span>
+            <span data-lang="ca">Constitució d'agrupació d'electors, selecció de candidats, formació de l'equip, seu establerta</span>
           </div>
         </div>
         <div class="tl-item" role="listitem">
@@ -723,7 +803,7 @@
         </div>
         <div class="tl-item" role="listitem">
           <div class="tl-dot"></div>
-          <div class="tl-date">Sep 2027–Election Day</div>
+          <div class="tl-date">Sep 2026–Election Day</div>
           <div class="tl-title">
             <span data-lang="en" class="lang-active">Phase 3: Full Campaign</span>
             <span data-lang="es">Fase 3: Campaña Completa</span>
@@ -939,13 +1019,16 @@
                   Already registered to vote in Sitges
                 </option>
                 <option value="needs-cere">
-                  EU citizen — need to register on CERE
+                  EU citizen — need to register on CERE (deadline applies)
+                </option>
+                <option value="needs-uk-bilateral">
+                  British resident — register under UK bilateral agreement (3yr residency)
                 </option>
                 <option value="needs-ine">
-                  Latin American — need to apply to INE
+                  Latin American — need to apply to INE (Modelo 2)
                 </option>
                 <option value="cannot-vote">
-                  Cannot vote (British / other)
+                  Cannot vote (Moroccan / Argentine / other no-reciprocity)
                 </option>
                 <option value="unsure">Not sure — please help me check</option>
               </select>
@@ -1030,9 +1113,9 @@
           </li>
         </ul>
         <p style="font-size:14px;color:rgba(255,255,255,.5);">
-          <span data-lang="en" class="lang-active">Note: Spanish electoral law limits and governs campaign financing. Consult uniteforsitges.com/legal for transparency disclosure.</span>
-          <span data-lang="es">Nota: La ley electoral española regula la financiación de campaña. Ver divulgación de transparencia.</span>
-          <span data-lang="ca">Nota: La llei electoral espanyola regula el finançament de campanya. Veure divulgació de transparència.</span>
+          <span data-lang="en" class="lang-active">Note: Spanish electoral law (LOREG) limits and governs campaign financing. Full transparency disclosure will be published prior to the official campaign period.</span>
+          <span data-lang="es">Nota: La ley electoral española (LOREG) regula la financiación de campaña. La divulgación completa de transparencia se publicará antes del período oficial de campaña.</span>
+          <span data-lang="ca">Nota: La llei electoral espanyola (LOREG) regula el finançament de campanya. La divulgació completa de transparència es publicarà abans del període oficial de campanya.</span>
         </p>
       </div>
 

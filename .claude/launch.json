@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "united-for-sitges",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-p", "3456", "-s", "C:\\Users\\gfuna\\united-for-sitges"],
+      "port": 3456
+    }
+  ]
+}

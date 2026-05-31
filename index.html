@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="United for Sitges — A pro-Sitges movement representing the 45%. Register your support, learn your voting rights, and help build a Sitges that works for everyone who calls it home.">
+  <meta property="og:title" content="United for Sitges | Your Town. Your Vote. Your Future.">
+  <meta property="og:description" content="A new political movement for Sitges. For the 45% who feel underrepresented. Join us.">
+  <meta property="og:type" content="website">
+  <title>United for Sitges | Your Town. Your Vote. Your Future.</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231F3864'/><text y='.9em' font-size='64' x='10'>🏡</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Netlify Forms detection -->
+  <form name="support" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="first-name">
+    <input type="text" name="last-name">
+    <input type="email" name="email">
+    <input type="text" name="nationality">
+    <input type="text" name="neighborhood">
+    <select name="voter-status"></select>
+    <input type="checkbox" name="newsletter">
+  </form>
+  <form name="donation" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="donor-name">
+    <input type="email" name="donor-email">
+    <input type="number" name="amount">
+    <input type="text" name="frequency">
+  </form>
+</head>
+<body>
+
+<!-- ===== ALERT BANNER ===== -->
+<div class="alert-banner" id="alertBanner">
+  <span data-lang="en" class="lang-active">EU residents: You can vote in 2027 but must register on the CERE first. <a href="#vote-rights">Find out how →</a></span>
+  <span data-lang="es">Residentes UE: Podéis votar en 2027 pero debéis registraros en el CERE. <a href="#vote-rights">Cómo hacerlo →</a></span>
+  <span data-lang="ca">Residents UE: Podeu votar el 2027 però cal registrar-se al CERE. <a href="#vote-rights">Com fer-ho →</a></span>
+  <button class="close-banner" aria-label="Close">×</button>
+</div>
+
+<!-- ===== MOBILE NAV ===== -->
+<div id="mobileNav" class="mobile-nav" role="dialog" aria-modal="true">
+  <button class="close-nav" aria-label="Close menu">×</button>
+  <a href="#movement">Movement</a>
+  <a href="#platform">Platform</a>
+  <a href="#vote-rights">Voting Rights</a>
+  <a href="#timeline">Timeline</a>
+  <a href="#join">Join Us</a>
+  <a href="#donate">Donate</a>
+</div>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand" aria-label="United for Sitges home">
+      <div class="nav-logo">US</div>
+      <div class="nav-name">
+        United for Sitges
+        <small>Your Town. Your Vote.</small>
+      </div>
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="#movement">Movement</a></li>
+      <li><a href="#platform">Platform</a></li>
+      <li><a href="#vote-rights">Voting Rights</a></li>
+      <li><a href="#timeline">Timeline</a></li>
+      <li><a href="#join">Join Us</a></li>
+      <li><a href="#donate" class="nav-cta">Donate</a></li>
+    </ul>
+    <div class="lang-switcher" role="group" aria-label="Language selector">
+      <button class="lang-btn active" data-lang="en" aria-label="English">EN</button>
+      <button class="lang-btn" data-lang="es" aria-label="Español">ES</button>
+      <button class="lang-btn" data-lang="ca" aria-label="Català">CA</button>
+    </div>
+    <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero" aria-label="Hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-content">
+
+    <div class="hero-eyebrow">
+      <span data-lang="en" class="lang-active">Municipal Elections 2027 · Sitges, Catalonia</span>
+      <span data-lang="es">Elecciones Municipales 2027 · Sitges, Cataluña</span>
+      <span data-lang="ca">Eleccions Municipals 2027 · Sitges, Catalunya</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span data-lang="en" class="lang-active">Your Town.<br><em>Your Vote.</em><br>Your Future.</span>
+      <span data-lang="es">Tu Ciudad.<br><em>Tu Voto.</em><br>Tu Futuro.</span>
+      <span data-lang="ca">La Teva Vila.<br><em>El Teu Vot.</em><br>El Teu Futur.</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      <span data-lang="en" class="lang-active">Sitges belongs to everyone who calls it home. The 45% of non-Catalan residents have never had a unified voice. Until now. United for Sitges is a pro-Sitges movement — practical, inclusive, and ready to govern.</span>
+      <span data-lang="es">Sitges pertenece a todos los que la llaman hogar. El 45% de residentes no catalanes nunca ha tenido una voz unificada. Hasta ahora. Unidos por Sitges es un movimiento pro-Sitges: práctico, inclusivo y listo para gobernar.</span>
+      <span data-lang="ca">Sitges pertany a tothom qui l'anomena llar. El 45% de residents no catalans mai ha tingut una veu unificada. Fins ara. Sitges Units és un moviment pro-Sitges: pràctic, inclusiu i preparat per governar.</span>
+    </p>
+
+    <div class="hero-actions">
+      <a href="#join" class="btn btn-primary btn-lg">
+        <span data-lang="en" class="lang-active">Register Your Support</span>
+        <span data-lang="es">Registra tu apoyo</span>
+        <span data-lang="ca">Registra el teu suport</span>
+      </a>
+      <a href="#vote-rights" class="btn btn-outline btn-lg">
+        <span data-lang="en" class="lang-active">Can I Vote?</span>
+        <span data-lang="es">¿Puedo votar?</span>
+        <span data-lang="ca">Puc votar?</span>
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-val">32,086</div>
+        <div class="hero-stat-label">
+          <span data-lang="en" class="lang-active">Registered Residents</span>
+          <span data-lang="es">Residentes Registrados</span>
+          <span data-lang="ca">Residents Registrats</span>
+        </div>
+      </div>
+      <div>
+        <div class="hero-stat-val"><em>~45%</em></div>
+        <div class="hero-stat-label">
+          <span data-lang="en" class="lang-active">Non-Catalan Residents</span>
+          <span data-lang="es">Residentes no catalanes</span>
+          <span data-lang="ca">Residents no catalans</span>
+        </div>
+      </div>
+      <div>
+        <div class="hero-stat-val">1,875</div>
+        <div class="hero-stat-label">
+          <span data-lang="en" class="lang-active">Votes Won 2023 Election</span>
+          <span data-lang="es">Votos ganaron las 2023</span>
+          <span data-lang="ca">Vots van guanyar el 2023</span>
+        </div>
+      </div>
+      <div>
+        <div class="hero-stat-val"><em>5,000+</em></div>
+        <div class="hero-stat-label">
+          <span data-lang="en" class="lang-active">Votes Needed for Majority</span>
+          <span data-lang="es">Votos para mayoría</span>
+          <span data-lang="ca">Vots per a majoria</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-bottom-band">
+    <div class="mosaic-band" data-count="40" style="height:8px;"></div>
+  </div>
+</section>
+
+<!-- ===== COUNTER STRIP ===== -->
+<div class="counter-strip" aria-label="Key statistics">
+  <div class="counter-inner">
+    <div>
+      <div class="counter-val"><em><span data-target="3000">0</span>–6,000</em></div>
+      <div class="counter-label">
+        <span data-lang="en" class="lang-active">EU citizens not yet registered</span>
+        <span data-lang="es">Ciudadanos UE sin registrar</span>
+        <span data-lang="ca">Ciutadans UE sense registrar</span>
+      </div>
+    </div>
+    <div>
+      <div class="counter-val"><em><span data-target="4000">0</span></em></div>
+      <div class="counter-label">
+        <span data-lang="en" class="lang-active">Spanish non-Catalan residents</span>
+        <span data-lang="es">Residentes españoles no catalanes</span>
+        <span data-lang="ca">Residents espanyols no catalans</span>
+      </div>
+    </div>
+    <div>
+      <div class="counter-val"><em><span data-target="1500">0</span></em></div>
+      <div class="counter-label">
+        <span data-lang="en" class="lang-active">Latin Americans with voting rights</span>
+        <span data-lang="es">Latinoamericanos con derecho a voto</span>
+        <span data-lang="ca">Llatinoamericans amb dret a vot</span>
+      </div>
+    </div>
+    <div>
+      <div class="counter-val"><em>21</em></div>
+      <div class="counter-label">
+        <span data-lang="en" class="lang-active">Council seats — 11 needed for majority</span>
+        <span data-lang="es">Escaños — 11 para mayoría</span>
+        <span data-lang="ca">Escons — 11 per a majoria</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MOVEMENT ===== -->
+<section id="movement" class="section band-paper">
+  <div class="section-inner">
+    <div class="about-grid">
+
+      <div class="about-visual">
+        <div class="about-card">
+          <div class="about-badge">The 45%</div>
+          <div class="about-card-title">Sitges<br><em>Units</em></div>
+          <p style="color:rgba(255,255,255,.75);font-size:15px;margin-top:16px;line-height:1.6;">
+            <span data-lang="en" class="lang-active">~14,400 non-Catalan residents. Scattered across parties or completely disengaged. United for Sitges is the first movement built for all of them.</span>
+            <span data-lang="es">~14.400 residentes no catalanes. Dispersos entre partidos o completamente desconectados. Unidos por Sitges es el primer movimiento construido para todos ellos.</span>
+            <span data-lang="ca">~14.400 residents no catalans. Dispersos entre partits o completament desconnectats. Sitges Units és el primer moviment construït per a tots ells.</span>
+          </p>
+          <div class="about-pill-row">
+            <span class="about-pill">🇫🇷 French</span>
+            <span class="about-pill">🇳🇱 Dutch</span>
+            <span class="about-pill">🇩🇪 German</span>
+            <span class="about-pill">🇮🇹 Italian</span>
+            <span class="about-pill">🇸🇪 Swedish</span>
+            <span class="about-pill">🇨🇴 Colombian</span>
+            <span class="about-pill">🇪🇸 Spanish</span>
+            <span class="about-pill">+ more</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-text">
+        <div class="eyebrow">
+          <span data-lang="en" class="lang-active">The Movement</span>
+          <span data-lang="es">El Movimiento</span>
+          <span data-lang="ca">El Moviment</span>
+        </div>
+        <h2 class="section-title">
+          <span data-lang="en" class="lang-active">Pro-Sitges. Not anti-anything.</span>
+          <span data-lang="es">Pro-Sitges. No somos anti-nada.</span>
+          <span data-lang="ca">Pro-Sitges. No som anti-res.</span>
+        </h2>
+        <p data-lang="en" class="lang-active" style="color:var(--muted);font-size:16px;margin-bottom:18px;">Sitges has a dormant majority that has never been activated as a bloc. The political landscape is fragmented — 9 parties sharing 21 seats, with the winner in 2023 needing just 1,875 votes. This creates an extraordinary opportunity.</p>
+        <p data-lang="es" style="color:var(--muted);font-size:16px;margin-bottom:18px;">Sitges tiene una mayoría durmiente que nunca ha sido activada como bloque. El panorama político está fragmentado — 9 partidos comparten 21 escaños y el ganador de 2023 solo necesitó 1.875 votos. Esto crea una oportunidad extraordinaria.</p>
+        <p data-lang="ca" style="color:var(--muted);font-size:16px;margin-bottom:18px;">Sitges té una majoria dormida que mai ha estat activada com a bloc. El panorama polític és fragmentat — 9 partits comparteixen 21 escons i el guanyador del 2023 només va necessitar 1.875 vots. Això crea una oportunitat extraordinària.</p>
+
+        <blockquote>
+          <span data-lang="en" class="lang-active">"Sitges belongs to everyone who calls it home. The 45% have a voice. It is time to use it."</span>
+          <span data-lang="es">"Sitges pertenece a todos los que la llaman hogar. El 45% tiene voz. Es hora de usarla."</span>
+          <span data-lang="ca">"Sitges pertany a tothom qui l'anomena llar. El 45% té veu. Ha arribat el moment d'usar-la."</span>
+        </blockquote>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="#platform" class="btn btn-blue">
+            <span data-lang="en" class="lang-active">Our Platform</span>
+            <span data-lang="es">Nuestra Plataforma</span>
+            <span data-lang="ca">La Nostra Plataforma</span>
+          </a>
+          <a href="#join" class="btn btn-ghost">
+            <span data-lang="en" class="lang-active">Join the Movement</span>
+            <span data-lang="es">Únete al Movimiento</span>
+            <span data-lang="ca">Uneix-te al Moviment</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PLATFORM PILLARS ===== -->
+<section id="platform" class="section band-stone">
+  <div class="section-inner">
+    <div class="eyebrow">
+      <span data-lang="en" class="lang-active">Our Platform</span>
+      <span data-lang="es">Nuestra Plataforma</span>
+      <span data-lang="ca">La Nostra Plataforma</span>
+    </div>
+    <h2 class="section-title">
+      <span data-lang="en" class="lang-active">Six pillars for a Sitges that works</span>
+      <span data-lang="es">Seis pilares para un Sitges que funcione</span>
+      <span data-lang="ca">Sis pilars per a un Sitges que funcioni</span>
+    </h2>
+    <p class="section-lede">
+      <span data-lang="en" class="lang-active">Practical governance, multilingual services, affordable housing, sustainable tourism, safety, and community integration.</span>
+      <span data-lang="es">Gobernanza práctica, servicios multilingües, vivienda asequible, turismo sostenible, seguridad e integración comunitaria.</span>
+      <span data-lang="ca">Governança pràctica, serveis multilingües, habitatge assequible, turisme sostenible, seguretat i integració comunitària.</span>
+    </p>
+
+    <div class="pillars-grid">
+
+      <!-- Pillar 1 -->
+      <div class="pillar-card pillar-1">
+        <div class="pillar-icon">🏛️</div>
+        <div class="pillar-num">Pillar 01</div>
+        <div class="pillar-title">
+          <span data-lang="en" class="lang-active">Practical, Efficient Local Government</span>
+          <span data-lang="es">Gobierno Local Práctico y Eficiente</span>
+          <span data-lang="ca">Govern Local Pràctic i Eficient</span>
+        </div>
+        <ul class="pillar-list">
+          <li>
+            <span data-lang="en" class="lang-active">End fragmentation — stable majority governance</span>
+            <span data-lang="es">Fin a la fragmentación — gobierno de mayoría estable</span>
+            <span data-lang="ca">Fi a la fragmentació — govern de majoria estable</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Faster permits, licenses & municipal services</span>
+            <span data-lang="es">Permisos, licencias y servicios municipales más rápidos</span>
+            <span data-lang="ca">Permisos, llicències i serveis municipals més ràpids</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Public dashboard showing spending in real time</span>
+            <span data-lang="es">Panel público con gasto en tiempo real</span>
+            <span data-lang="ca">Panell públic amb despesa en temps real</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Pillar 2 -->
+      <div class="pillar-card pillar-2">
+        <div class="pillar-icon">🌐</div>
+        <div class="pillar-num">Pillar 02</div>
+        <div class="pillar-title">
+          <span data-lang="en" class="lang-active">Multilingual Municipal Services</span>
+          <span data-lang="es">Servicios Municipales Multilingües</span>
+          <span data-lang="ca">Serveis Municipals Multilingües</span>
+        </div>
+        <ul class="pillar-list">
+          <li>
+            <span data-lang="en" class="lang-active">Catalan, Spanish & English as minimum in all key comms</span>
+            <span data-lang="es">Catalán, español e inglés como mínimo en comunicaciones clave</span>
+            <span data-lang="ca">Català, castellà i anglès com a mínim en totes les comunicacions</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">English-language section of the Ajuntament website</span>
+            <span data-lang="es">Sección en inglés del sitio web del Ajuntament</span>
+            <span data-lang="ca">Secció en anglès del web de l'Ajuntament</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Multilingual info sessions for new residents</span>
+            <span data-lang="es">Sesiones informativas multilingües para nuevos residentes</span>
+            <span data-lang="ca">Sessions informatives multilingües per a nous residents</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Pillar 3 -->
+      <div class="pillar-card pillar-3">
+        <div class="pillar-icon">🏠</div>
+        <div class="pillar-num">Pillar 03</div>
+        <div class="pillar-title">
+          <span data-lang="en" class="lang-active">Housing & Quality of Life</span>
+          <span data-lang="es">Vivienda y Calidad de Vida</span>
+          <span data-lang="ca">Habitatge i Qualitat de Vida</span>
+        </div>
+        <ul class="pillar-list">
+          <li>
+            <span data-lang="en" class="lang-active">Regulate short-term tourist rentals (Airbnb)</span>
+            <span data-lang="es">Regular los alquileres turísticos de corta duración</span>
+            <span data-lang="ca">Regular els lloguers turístics de curta durada</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Affordable housing for permanent residents</span>
+            <span data-lang="es">Vivienda asequible para residentes permanentes</span>
+            <span data-lang="ca">Habitatge assequible per a residents permanents</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Year-round services beyond summer peaks</span>
+            <span data-lang="es">Servicios durante todo el año, no solo en verano</span>
+            <span data-lang="ca">Serveis tot l'any, més enllà dels pics d'estiu</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Pillar 4 -->
+      <div class="pillar-card pillar-4">
+        <div class="pillar-icon">🏖️</div>
+        <div class="pillar-num">Pillar 04</div>
+        <div class="pillar-title">
+          <span data-lang="en" class="lang-active">Sustainable Tourism Management</span>
+          <span data-lang="es">Gestión Sostenible del Turismo</span>
+          <span data-lang="ca">Gestió Sostenible del Turisme</span>
+        </div>
+        <ul class="pillar-list">
+          <li>
+            <span data-lang="en" class="lang-active">Tourism must serve residents, not overwhelm them</span>
+            <span data-lang="es">El turismo debe servir a los residentes, no abrumarlos</span>
+            <span data-lang="ca">El turisme ha de servir els residents, no aclaparar-los</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Invest tourist tax revenue in resident infrastructure</span>
+            <span data-lang="es">Invertir la tasa turística en infraestructura para residentes</span>
+            <span data-lang="ca">Invertir la taxa turística en infraestructura per a residents</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Traffic & parking solutions during peak season</span>
+            <span data-lang="es">Soluciones de tráfico y aparcamiento en temporada alta</span>
+            <span data-lang="ca">Solucions de trànsit i aparcament a la temporada alta</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Pillar 5 -->
+      <div class="pillar-card pillar-5">
+        <div class="pillar-icon">🌿</div>
+        <div class="pillar-num">Pillar 05</div>
+        <div class="pillar-title">
+          <span data-lang="en" class="lang-active">Safe, Clean, Green Sitges</span>
+          <span data-lang="es">Sitges Seguro, Limpio y Verde</span>
+          <span data-lang="ca">Sitges Segur, Net i Verd</span>
+        </div>
+        <ul class="pillar-list">
+          <li>
+            <span data-lang="en" class="lang-active">Zero tolerance for anti-social behaviour</span>
+            <span data-lang="es">Tolerancia cero con el comportamiento antisocial</span>
+            <span data-lang="ca">Tolerància zero amb el comportament antisocial</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Accelerate beach & public space maintenance</span>
+            <span data-lang="es">Acelerar el mantenimiento de playas y espacios públicos</span>
+            <span data-lang="ca">Accelerar el manteniment de platges i espais públics</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Expand cycling infrastructure; reduce car dependency</span>
+            <span data-lang="es">Ampliar infraestructura ciclista; reducir la dependencia del coche</span>
+            <span data-lang="ca">Ampliar la infraestructura ciclista; reduir la dependència del cotxe</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Pillar 6 -->
+      <div class="pillar-card pillar-6">
+        <div class="pillar-icon">🤝</div>
+        <div class="pillar-num">Pillar 06</div>
+        <div class="pillar-title">
+          <span data-lang="en" class="lang-active">Community Integration</span>
+          <span data-lang="es">Integración Comunitaria</span>
+          <span data-lang="ca">Integració Comunitària</span>
+        </div>
+        <ul class="pillar-list">
+          <li>
+            <span data-lang="en" class="lang-active">Welcome programs for new residents of all origins</span>
+            <span data-lang="es">Programas de bienvenida para nuevos residentes de todos los orígenes</span>
+            <span data-lang="ca">Programes de benvinguda per a nous residents de tots els orígens</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Annual Residents Congress — all communities represented</span>
+            <span data-lang="es">Congreso Anual de Residentes — todas las comunidades representadas</span>
+            <span data-lang="ca">Congrés Anual de Residents — totes les comunitats representades</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Celebrate Sitges's diversity as its competitive advantage</span>
+            <span data-lang="es">Celebrar la diversidad de Sitges como su ventaja competitiva</span>
+            <span data-lang="ca">Celebrar la diversitat de Sitges com el seu avantatge competitiu</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== VOTING RIGHTS / CERE ===== -->
+<section id="vote-rights" class="section band-white">
+  <div class="section-inner">
+    <div class="eyebrow">
+      <span data-lang="en" class="lang-active">Voting Rights</span>
+      <span data-lang="es">Derecho al Voto</span>
+      <span data-lang="ca">Dret al Vot</span>
+    </div>
+    <h2 class="section-title">
+      <span data-lang="en" class="lang-active">Who can vote in Sitges?</span>
+      <span data-lang="es">¿Quién puede votar en Sitges?</span>
+      <span data-lang="ca">Qui pot votar a Sitges?</span>
+    </h2>
+    <p class="section-lede">
+      <span data-lang="en" class="lang-active">Not all non-Catalan residents have the same voting rights in Spanish municipal elections. Check your status below — then take action.</span>
+      <span data-lang="es">No todos los residentes no catalanes tienen los mismos derechos de voto en las elecciones municipales españolas. Comprueba tu situación a continuación.</span>
+      <span data-lang="ca">No tots els residents no catalans tenen els mateixos drets de vot a les eleccions municipals espanyoles. Comprova el teu estat a continuació.</span>
+    </p>
+
+    <div class="vote-table-wrap">
+      <table class="vote-table" role="table">
+        <thead>
+          <tr>
+            <th>
+              <span data-lang="en" class="lang-active">Resident Group</span>
+              <span data-lang="es">Grupo de Residentes</span>
+              <span data-lang="ca">Grup de Residents</span>
+            </th>
+            <th>
+              <span data-lang="en" class="lang-active">Voting Rights</span>
+              <span data-lang="es">Derecho al Voto</span>
+              <span data-lang="ca">Dret al Vot</span>
+            </th>
+            <th>
+              <span data-lang="en" class="lang-active">Action Required</span>
+              <span data-lang="es">Acción Necesaria</span>
+              <span data-lang="ca">Acció Necessària</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong>
+                <span data-lang="en" class="lang-active">Spanish citizens (non-Catalan)</span>
+                <span data-lang="es">Ciudadanos españoles (no catalanes)</span>
+                <span data-lang="ca">Ciutadans espanyols (no catalans)</span>
+              </strong><br>
+              <span style="font-size:13px;color:var(--muted);">
+                <span data-lang="en" class="lang-active">From Andalucia, Madrid, Valencia, etc.</span>
+                <span data-lang="es">De Andalucía, Madrid, Valencia, etc.</span>
+                <span data-lang="ca">D'Andalusia, Madrid, València, etc.</span>
+              </span>
+            </td>
+            <td><span class="vote-badge vote-yes">✓ <span data-lang="en" class="lang-active">Full Rights</span><span data-lang="es">Derechos plenos</span><span data-lang="ca">Drets plens</span></span></td>
+            <td style="font-size:14px;color:var(--muted);">
+              <span data-lang="en" class="lang-active">Auto-registered via padron</span>
+              <span data-lang="es">Auto-registrado vía padrón</span>
+              <span data-lang="ca">Auto-registrat via padró</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>
+                <span data-lang="en" class="lang-active">EU Citizens</span>
+                <span data-lang="es">Ciudadanos UE</span>
+                <span data-lang="ca">Ciutadans UE</span>
+              </strong><br>
+              <span style="font-size:13px;color:var(--muted);">French, Dutch, German, Italian, Swedish, Belgian…</span>
+            </td>
+            <td><span class="vote-badge vote-yes">✓ <span data-lang="en" class="lang-active">Municipal elections</span><span data-lang="es">Elecciones municipales</span><span data-lang="ca">Eleccions municipals</span></span></td>
+            <td style="font-size:14px;">
+              <strong style="color:var(--terra);">
+                <span data-lang="en" class="lang-active">Must register on CERE</span>
+                <span data-lang="es">Debe registrarse en el CERE</span>
+                <span data-lang="ca">Cal registrar-se al CERE</span>
+              </strong>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>
+                <span data-lang="en" class="lang-active">Latin Americans (reciprocity)</span>
+                <span data-lang="es">Latinoamericanos (reciprocidad)</span>
+                <span data-lang="ca">Llatinoamericans (reciprocitat)</span>
+              </strong><br>
+              <span style="font-size:13px;color:var(--muted);">Colombia, Ecuador, Bolivia, Chile, Peru — 5+ yrs residency</span>
+            </td>
+            <td><span class="vote-badge vote-via">→ <span data-lang="en" class="lang-active">Via reciprocity</span><span data-lang="es">Vía reciprocidad</span><span data-lang="ca">Via reciprocitat</span></span></td>
+            <td style="font-size:14px;">
+              <strong style="color:var(--terra);">
+                <span data-lang="en" class="lang-active">Must apply to INE (Modelo 2)</span>
+                <span data-lang="es">Solicitar al INE (Modelo 2)</span>
+                <span data-lang="ca">Sol·licitar a l'INE (Model 2)</span>
+              </strong>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>
+                <span data-lang="en" class="lang-active">British residents (post-Brexit)</span>
+                <span data-lang="es">Residentes británicos (post-Brexit)</span>
+                <span data-lang="ca">Residents britànics (post-Brexit)</span>
+              </strong>
+            </td>
+            <td><span class="vote-badge vote-no">✗ <span data-lang="en" class="lang-active">Cannot vote</span><span data-lang="es">No pueden votar</span><span data-lang="ca">No poden votar</span></span></td>
+            <td style="font-size:14px;color:var(--muted);">
+              <span data-lang="en" class="lang-active">Lost EU voting rights post-Brexit</span>
+              <span data-lang="es">Perdieron derechos de voto tras el Brexit</span>
+              <span data-lang="ca">Van perdre drets de vot post-Brexit</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>
+                <span data-lang="en" class="lang-active">Other non-EU (Moroccan, Argentine, Mexican…)</span>
+                <span data-lang="es">Otros no-UE (marroquíes, argentinos, mexicanos…)</span>
+                <span data-lang="ca">Altres no-UE (marroquins, argentins, mexicans…)</span>
+              </strong>
+            </td>
+            <td><span class="vote-badge vote-no">✗ <span data-lang="en" class="lang-active">Cannot vote</span><span data-lang="es">No pueden votar</span><span data-lang="ca">No poden votar</span></span></td>
+            <td style="font-size:14px;color:var(--muted);">
+              <span data-lang="en" class="lang-active">No reciprocity agreement</span>
+              <span data-lang="es">Sin acuerdo de reciprocidad</span>
+              <span data-lang="ca">Sense acord de reciprocitat</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CERE Registration Box -->
+    <div class="cere-box">
+      <div class="about-badge" style="background:var(--terra);margin-bottom:16px;">
+        <span data-lang="en" class="lang-active">#1 Campaign Priority</span>
+        <span data-lang="es">#1 Prioridad de Campaña</span>
+        <span data-lang="ca">#1 Prioritat de Campanya</span>
+      </div>
+      <h3>
+        <span data-lang="en" class="lang-active">EU Citizens: Register on the CERE</span>
+        <span data-lang="es">Ciudadanos UE: Regístrate en el CERE</span>
+        <span data-lang="ca">Ciutadans UE: Registreu-vos al CERE</span>
+      </h3>
+      <p>
+        <span data-lang="en" class="lang-active">The CERE (Censo Electoral de Residentes Extranjeros Comunitarios) is managed by the INE. Only 10–20% of eligible EU expats in Spanish coastal towns are registered. Registering 3,000 new voters alone can deliver an absolute majority — and no party has ever tried this before.</span>
+        <span data-lang="es">El CERE (Censo Electoral de Residentes Extranjeros Comunitarios) lo gestiona el INE. Solo el 10–20% de los expatriados comunitarios elegibles en municipios costeros españoles están registrados. Registrar 3.000 nuevos votantes puede garantizar una mayoría absoluta.</span>
+        <span data-lang="ca">El CERE (Cens Electoral de Residents Estrangers Comunitaris) és gestionat per l'INE. Només el 10–20% dels expatriats comunitaris elegibles a municipis costaners espanyols estan registrats. Registrar 3.000 nous votants pot garantir una majoria absoluta.</span>
+      </p>
+
+      <div class="cere-steps">
+        <div class="cere-step">
+          <div class="cere-step-n">01</div>
+          <div class="cere-step-title">
+            <span data-lang="en" class="lang-active">Get your documents</span>
+            <span data-lang="es">Consigue tus documentos</span>
+            <span data-lang="ca">Aconsegueix els teus documents</span>
+          </div>
+          <div class="cere-step-body">
+            <span data-lang="en" class="lang-active">Valid passport or EU ID card + proof of Sitges padron (empadronamiento) registration</span>
+            <span data-lang="es">Pasaporte válido o DNI de la UE + certificado de empadronamiento en Sitges</span>
+            <span data-lang="ca">Passaport vàlid o DNI de la UE + certificat d'empadronament a Sitges</span>
+          </div>
+        </div>
+        <div class="cere-step">
+          <div class="cere-step-n">02</div>
+          <div class="cere-step-title">
+            <span data-lang="en" class="lang-active">Fill in Modelo 1</span>
+            <span data-lang="es">Rellena el Modelo 1</span>
+            <span data-lang="ca">Omple el Model 1</span>
+          </div>
+          <div class="cere-step-body">
+            <span data-lang="en" class="lang-active">Available at the INE office or the Sitges Ajuntament. Simple one-page form — takes 10 minutes</span>
+            <span data-lang="es">Disponible en la oficina del INE o en el Ajuntament de Sitges. Formulario de una página — 10 minutos</span>
+            <span data-lang="ca">Disponible a l'oficina de l'INE o a l'Ajuntament de Sitges. Formulari d'una pàgina — 10 minuts</span>
+          </div>
+        </div>
+        <div class="cere-step">
+          <div class="cere-step-n">03</div>
+          <div class="cere-step-title">
+            <span data-lang="en" class="lang-active">Stay registered</span>
+            <span data-lang="es">Mantén tu registro</span>
+            <span data-lang="ca">Mantén el teu registre</span>
+          </div>
+          <div class="cere-step-body">
+            <span data-lang="en" class="lang-active">Once on the CERE, you remain registered for all future municipal elections. One time only.</span>
+            <span data-lang="es">Una vez en el CERE, permaneces registrado para todas las elecciones municipales futuras. Solo una vez.</span>
+            <span data-lang="ca">Un cop al CERE, romàs registrat per a totes les eleccions municipals futures. Només una vegada.</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <a href="#join" class="btn btn-primary">
+          <span data-lang="en" class="lang-active">Get CERE Help from Us</span>
+          <span data-lang="es">Obtén ayuda con el CERE</span>
+          <span data-lang="ca">Obtén ajuda amb el CERE</span>
+        </a>
+        <a href="https://www.ine.es" target="_blank" rel="noopener" class="btn btn-outline">
+          <span data-lang="en" class="lang-active">INE Official Site ↗</span>
+          <span data-lang="es">Sitio oficial del INE ↗</span>
+          <span data-lang="ca">Lloc oficial de l'INE ↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TIMELINE ===== -->
+<section id="timeline" class="section band-paper">
+  <div class="section-inner">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:start;">
+      <div>
+        <div class="eyebrow">
+          <span data-lang="en" class="lang-active">The Plan</span>
+          <span data-lang="es">El Plan</span>
+          <span data-lang="ca">El Pla</span>
+        </div>
+        <h2 class="section-title">
+          <span data-lang="en" class="lang-active">From movement to majority</span>
+          <span data-lang="es">Del movimiento a la mayoría</span>
+          <span data-lang="ca">Del moviment a la majoria</span>
+        </h2>
+        <p class="section-lede">
+          <span data-lang="en" class="lang-active">The 2027 municipal elections are the target. Every month matters. Here is the roadmap.</span>
+          <span data-lang="es">Las elecciones municipales de 2027 son el objetivo. Cada mes cuenta. Este es el plan.</span>
+          <span data-lang="ca">Les eleccions municipals del 2027 són l'objectiu. Cada mes compta. Aquest és el pla.</span>
+        </p>
+      </div>
+      <div class="timeline" role="list">
+        <div class="tl-item" role="listitem">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Jun–Sep 2026</div>
+          <div class="tl-title">
+            <span data-lang="en" class="lang-active">Phase 0: Foundation</span>
+            <span data-lang="es">Fase 0: Fundación</span>
+            <span data-lang="ca">Fase 0: Fundació</span>
+          </div>
+          <div class="tl-body">
+            <span data-lang="en" class="lang-active">Party registration, candidate selection, core team formation, legal setup, HQ established</span>
+            <span data-lang="es">Registro del partido, selección de candidatos, formación del equipo, sede establecida</span>
+            <span data-lang="ca">Registre del partit, selecció de candidats, formació de l'equip, seu establerta</span>
+          </div>
+        </div>
+        <div class="tl-item" role="listitem">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Oct 2026–Mar 2027</div>
+          <div class="tl-title">
+            <span data-lang="en" class="lang-active">Phase 1: Voter Registration Drive</span>
+            <span data-lang="es">Fase 1: Campaña de Registro de Votantes</span>
+            <span data-lang="ca">Fase 1: Campanya de Registre de Votants</span>
+          </div>
+          <div class="tl-body">
+            <span data-lang="en" class="lang-active">CERE + reciprocity registration campaign, community outreach, database building, expat partnerships</span>
+            <span data-lang="es">Campaña CERE + reciprocidad, difusión comunitaria, base de datos, asociaciones de expatriados</span>
+            <span data-lang="ca">Campanya CERE + reciprocitat, difusió comunitària, base de dades, associacions d'expatriats</span>
+          </div>
+        </div>
+        <div class="tl-item" role="listitem">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Apr–Aug 2027</div>
+          <div class="tl-title">
+            <span data-lang="en" class="lang-active">Phase 2: Platform Launch</span>
+            <span data-lang="es">Fase 2: Lanzamiento de la Plataforma</span>
+            <span data-lang="ca">Fase 2: Llançament de la Plataforma</span>
+          </div>
+          <div class="tl-body">
+            <span data-lang="en" class="lang-active">Full platform in 4 languages, media campaign, community forums, summer beach presence</span>
+            <span data-lang="es">Plataforma completa en 4 idiomas, campaña mediática, foros comunitarios, presencia en playa</span>
+            <span data-lang="ca">Plataforma completa en 4 idiomes, campanya mediàtica, fòrums comunitaris, presència a la platja</span>
+          </div>
+        </div>
+        <div class="tl-item" role="listitem">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Sep 2027–Election Day</div>
+          <div class="tl-title">
+            <span data-lang="en" class="lang-active">Phase 3: Full Campaign</span>
+            <span data-lang="es">Fase 3: Campaña Completa</span>
+            <span data-lang="ca">Fase 3: Campanya Completa</span>
+          </div>
+          <div class="tl-body">
+            <span data-lang="en" class="lang-active">Door-to-door canvassing, rallies, debates, GOTV, polling station coverage</span>
+            <span data-lang="es">Puerta a puerta, mítines, debates, movilización de votos, cobertura de colegios</span>
+            <span data-lang="ca">Porta a porta, mítings, debats, mobilització de vots, cobertura de col·legis</span>
+          </div>
+        </div>
+        <div class="tl-item" role="listitem">
+          <div class="tl-dot" style="background:var(--blue);box-shadow:0 0 0 2px var(--blue);"></div>
+          <div class="tl-date" style="color:var(--blue);">May 2027</div>
+          <div class="tl-title" style="color:var(--blue);">
+            <span data-lang="en" class="lang-active">Election Day</span>
+            <span data-lang="es">Día de las Elecciones</span>
+            <span data-lang="ca">Dia de les Eleccions</span>
+          </div>
+          <div class="tl-body">
+            <span data-lang="en" class="lang-active">Full mobilization. The 45% vote. A new Sitges begins.</span>
+            <span data-lang="es">Movilización total. El 45% vota. Comienza un nuevo Sitges.</span>
+            <span data-lang="ca">Mobilització total. El 45% vota. Comença un nou Sitges.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== JOIN / SUPPORT FORM ===== -->
+<section id="join" class="section band-sand">
+  <div class="section-inner">
+    <div class="join-grid">
+      <div class="join-info">
+        <div class="eyebrow">
+          <span data-lang="en" class="lang-active">Join the Movement</span>
+          <span data-lang="es">Únete al Movimiento</span>
+          <span data-lang="ca">Uneix-te al Moviment</span>
+        </div>
+        <h2 class="section-title">
+          <span data-lang="en" class="lang-active">Register your support</span>
+          <span data-lang="es">Registra tu apoyo</span>
+          <span data-lang="ca">Registra el teu suport</span>
+        </h2>
+        <p class="section-lede">
+          <span data-lang="en" class="lang-active">Add your name. Spread the word. Help us reach the 45% — and win.</span>
+          <span data-lang="es">Añade tu nombre. Difunde el mensaje. Ayúdanos a llegar al 45%.</span>
+          <span data-lang="ca">Afegeix el teu nom. Difon el missatge. Ajuda'ns a arribar al 45%.</span>
+        </p>
+        <ul class="join-reasons">
+          <li>
+            <div class="icon">🗳️</div>
+            <div>
+              <strong>
+                <span data-lang="en" class="lang-active">CERE registration assistance</span>
+                <span data-lang="es">Asistencia para el registro CERE</span>
+                <span data-lang="ca">Assistència per al registre CERE</span>
+              </strong><br>
+              <span style="color:var(--muted);font-size:14px;">
+                <span data-lang="en" class="lang-active">We'll guide EU citizens through the CERE registration process step by step.</span>
+                <span data-lang="es">Guiaremos a los ciudadanos UE en el proceso de registro del CERE paso a paso.</span>
+                <span data-lang="ca">Guiarem els ciutadans UE en el procés de registre del CERE pas a pas.</span>
+              </span>
+            </div>
+          </li>
+          <li>
+            <div class="icon">📢</div>
+            <div>
+              <strong>
+                <span data-lang="en" class="lang-active">Campaign updates in your language</span>
+                <span data-lang="es">Actualizaciones de campaña en tu idioma</span>
+                <span data-lang="ca">Actualitzacions de la campanya en el teu idioma</span>
+              </strong><br>
+              <span style="color:var(--muted);font-size:14px;">
+                <span data-lang="en" class="lang-active">News, events, and registration reminders in English, Spanish, French, Dutch, or German.</span>
+                <span data-lang="es">Noticias, eventos y recordatorios en inglés, español, francés, holandés o alemán.</span>
+                <span data-lang="ca">Notícies, esdeveniments i recordatoris en anglès, castellà, francès, neerlandès o alemany.</span>
+              </span>
+            </div>
+          </li>
+          <li>
+            <div class="icon">🤝</div>
+            <div>
+              <strong>
+                <span data-lang="en" class="lang-active">Volunteer opportunities</span>
+                <span data-lang="es">Oportunidades de voluntariado</span>
+                <span data-lang="ca">Oportunitats de voluntariat</span>
+              </strong><br>
+              <span style="color:var(--muted);font-size:14px;">
+                <span data-lang="en" class="lang-active">Registration stands, canvassing, events — make a real difference in your neighbourhood.</span>
+                <span data-lang="es">Puestos de registro, campaña puerta a puerta, eventos — marca la diferencia en tu barrio.</span>
+                <span data-lang="ca">Punts de registre, campanya porta a porta, esdeveniments — fes una diferència real al teu barri.</span>
+              </span>
+            </div>
+          </li>
+          <li>
+            <div class="icon">🏆</div>
+            <div>
+              <strong>
+                <span data-lang="en" class="lang-active">Founding member status</span>
+                <span data-lang="es">Estatus de miembro fundador</span>
+                <span data-lang="ca">Estatus de membre fundador</span>
+              </strong><br>
+              <span style="color:var(--muted);font-size:14px;">
+                <span data-lang="en" class="lang-active">Be part of history. Be one of the first 500 supporters of United for Sitges.</span>
+                <span data-lang="es">Sé parte de la historia. Sé uno de los primeros 500 seguidores de Unidos por Sitges.</span>
+                <span data-lang="ca">Sigues part de la història. Sigues un dels primers 500 seguidors de Sitges Units.</span>
+              </span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="form-card">
+          <h3>
+            <span data-lang="en" class="lang-active">Register Your Support</span>
+            <span data-lang="es">Registra tu Apoyo</span>
+            <span data-lang="ca">Registra el teu Suport</span>
+          </h3>
+          <p class="form-sub">
+            <span data-lang="en" class="lang-active">Takes 60 seconds. Free. No spam, ever.</span>
+            <span data-lang="es">60 segundos. Gratis. Sin spam.</span>
+            <span data-lang="ca">60 segons. Gratis. Sense spam.</span>
+          </p>
+
+          <form id="supportForm" name="support" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="support">
+            <p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">
+                  <span data-lang="en" class="lang-active">First name <span class="req">*</span></span>
+                  <span data-lang="es">Nombre <span class="req">*</span></span>
+                  <span data-lang="ca">Nom <span class="req">*</span></span>
+                </label>
+                <input type="text" id="firstName" name="first-name" class="form-control" required
+                  placeholder="Anna">
+              </div>
+              <div class="form-group">
+                <label for="lastName">
+                  <span data-lang="en" class="lang-active">Last name <span class="req">*</span></span>
+                  <span data-lang="es">Apellido <span class="req">*</span></span>
+                  <span data-lang="ca">Cognom <span class="req">*</span></span>
+                </label>
+                <input type="text" id="lastName" name="last-name" class="form-control" required
+                  placeholder="Schmidt">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">
+                Email <span class="req">*</span>
+              </label>
+              <input type="email" id="email" name="email" class="form-control" required
+                placeholder="anna@example.com">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nationality">
+                  <span data-lang="en" class="lang-active">Nationality <span class="req">*</span></span>
+                  <span data-lang="es">Nacionalidad <span class="req">*</span></span>
+                  <span data-lang="ca">Nacionalitat <span class="req">*</span></span>
+                </label>
+                <select id="nationality" name="nationality" class="form-control" required>
+                  <option value="">—</option>
+                  <option>🇫🇷 French</option>
+                  <option>🇳🇱 Dutch</option>
+                  <option>🇩🇪 German</option>
+                  <option>🇮🇹 Italian</option>
+                  <option>🇸🇪 Swedish</option>
+                  <option>🇧🇪 Belgian</option>
+                  <option>🇪🇸 Spanish (non-Catalan)</option>
+                  <option>🇨🇴 Colombian</option>
+                  <option>🇪🇨 Ecuadorian</option>
+                  <option>🇧🇴 Bolivian</option>
+                  <option>🇨🇱 Chilean</option>
+                  <option>🇵🇪 Peruvian</option>
+                  <option>🇬🇧 British</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="neighborhood">
+                  <span data-lang="en" class="lang-active">Neighbourhood</span>
+                  <span data-lang="es">Barrio</span>
+                  <span data-lang="ca">Barri</span>
+                </label>
+                <select id="neighborhood" name="neighborhood" class="form-control">
+                  <option value="">—</option>
+                  <option>Vinyet</option>
+                  <option>Can Robert</option>
+                  <option>Centre</option>
+                  <option>El Terramar</option>
+                  <option>Garraf</option>
+                  <option>Other / Urbanization</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="voterStatus">
+                <span data-lang="en" class="lang-active">My voter status</span>
+                <span data-lang="es">Mi situación de voto</span>
+                <span data-lang="ca">La meva situació de vot</span>
+              </label>
+              <select id="voterStatus" name="voter-status" class="form-control">
+                <option value="">—</option>
+                <option value="registered">
+                  Already registered to vote in Sitges
+                </option>
+                <option value="needs-cere">
+                  EU citizen — need to register on CERE
+                </option>
+                <option value="needs-ine">
+                  Latin American — need to apply to INE
+                </option>
+                <option value="cannot-vote">
+                  Cannot vote (British / other)
+                </option>
+                <option value="unsure">Not sure — please help me check</option>
+              </select>
+            </div>
+
+            <div class="form-check">
+              <input type="checkbox" id="newsletter" name="newsletter" value="yes" checked>
+              <label for="newsletter">
+                <span data-lang="en" class="lang-active">Send me campaign updates and voter registration reminders</span>
+                <span data-lang="es">Envíame actualizaciones de campaña y recordatorios de registro</span>
+                <span data-lang="ca">Envia'm actualitzacions de campanya i recordatoris de registre</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+              <span data-lang="en" class="lang-active">Register Support →</span>
+              <span data-lang="es">Registrar Apoyo →</span>
+              <span data-lang="ca">Registrar Suport →</span>
+            </button>
+          </form>
+
+          <div id="supportSuccess" class="form-success">
+            <div class="success-icon">✓</div>
+            <h4>
+              <span data-lang="en" class="lang-active">You're in. Thank you!</span>
+              <span data-lang="es">¡Estás dentro. Gracias!</span>
+              <span data-lang="ca">Ets dins. Gràcies!</span>
+            </h4>
+            <p>
+              <span data-lang="en" class="lang-active">We'll be in touch with your voter registration guide and campaign updates. Welcome to the movement.</span>
+              <span data-lang="es">Nos pondremos en contacto contigo con tu guía de registro y actualizaciones. Bienvenido al movimiento.</span>
+              <span data-lang="ca">Ens posarem en contacte amb la teva guia de registre i actualitzacions. Benvingut al moviment.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DONATE ===== -->
+<section id="donate" class="section band-deep">
+  <div class="section-inner">
+    <div class="donate-grid">
+
+      <div class="donate-info">
+        <div class="eyebrow">
+          <span data-lang="en" class="lang-active">Support the Campaign</span>
+          <span data-lang="es">Apoya la Campaña</span>
+          <span data-lang="ca">Dona Suport a la Campanya</span>
+        </div>
+        <h2 class="section-title" style="color:#fff;">
+          <span data-lang="en" class="lang-active">Fund the movement</span>
+          <span data-lang="es">Financia el movimiento</span>
+          <span data-lang="ca">Finança el moviment</span>
+        </h2>
+        <p>
+          <span data-lang="en" class="lang-active">Running a political campaign takes resources. The total campaign budget is €35,000–70,000 — funded entirely by residents like you. Every euro goes directly into voter registration, community outreach, and communications.</span>
+          <span data-lang="es">Llevar a cabo una campaña política requiere recursos. El presupuesto total de la campaña es de 35.000–70.000 € — financiado íntegramente por residentes como tú.</span>
+          <span data-lang="ca">Dur a terme una campanya política requereix recursos. El pressupost total de la campanya és de 35.000–70.000 € — finançat íntegrament per residents com tu.</span>
+        </p>
+        <ul>
+          <li>
+            <span data-lang="en" class="lang-active">Voter registration operation & multilingual materials</span>
+            <span data-lang="es">Operación de registro de votantes y materiales multilingües</span>
+            <span data-lang="ca">Operació de registre de votants i materials multilingües</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Community events, forums, and outreach stands</span>
+            <span data-lang="es">Eventos comunitarios, foros y puestos de difusión</span>
+            <span data-lang="ca">Esdeveniments comunitaris, fòrums i punts de difusió</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Digital and print communications campaign</span>
+            <span data-lang="es">Campaña de comunicación digital e impresa</span>
+            <span data-lang="ca">Campanya de comunicació digital i impresa</span>
+          </li>
+          <li>
+            <span data-lang="en" class="lang-active">Campaign HQ and full-time campaign team</span>
+            <span data-lang="es">Sede de campaña y equipo a tiempo completo</span>
+            <span data-lang="ca">Seu de campanya i equip a temps complet</span>
+          </li>
+        </ul>
+        <p style="font-size:14px;color:rgba(255,255,255,.5);">
+          <span data-lang="en" class="lang-active">Note: Spanish electoral law limits and governs campaign financing. Consult uniteforsitges.com/legal for transparency disclosure.</span>
+          <span data-lang="es">Nota: La ley electoral española regula la financiación de campaña. Ver divulgación de transparencia.</span>
+          <span data-lang="ca">Nota: La llei electoral espanyola regula el finançament de campanya. Veure divulgació de transparència.</span>
+        </p>
+      </div>
+
+      <div class="donate-form-card">
+        <h3>
+          <span data-lang="en" class="lang-active">Make a donation</span>
+          <span data-lang="es">Haz una donación</span>
+          <span data-lang="ca">Fes una donació</span>
+        </h3>
+        <p class="form-sub">
+          <span data-lang="en" class="lang-active">Secure payment. Any amount helps.</span>
+          <span data-lang="es">Pago seguro. Cualquier cantidad ayuda.</span>
+          <span data-lang="ca">Pagament segur. Qualsevol quantitat ajuda.</span>
+        </p>
+
+        <form id="donateForm" name="donation" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="donation">
+          <p class="hidden"><label>Don't fill: <input name="bot-field"></label></p>
+
+          <div class="donate-amounts" role="group" aria-label="Donation amount">
+            <button type="button" class="amount-btn" data-amount="10">€10</button>
+            <button type="button" class="amount-btn active" data-amount="25">€25</button>
+            <button type="button" class="amount-btn" data-amount="50">€50</button>
+            <button type="button" class="amount-btn" data-amount="100">€100</button>
+            <button type="button" class="amount-btn" data-amount="250">€250</button>
+            <button type="button" class="amount-btn" data-amount="500">€500</button>
+          </div>
+
+          <div class="amount-custom">
+            <span class="currency">€</span>
+            <input type="number" id="customAmount" name="custom-amount" min="1" step="1"
+              placeholder="Custom amount">
+          </div>
+
+          <div class="form-group">
+            <label for="donorName" style="color:rgba(255,255,255,.8);">
+              <span data-lang="en" class="lang-active">Full name <span class="req">*</span></span>
+              <span data-lang="es">Nombre completo <span class="req">*</span></span>
+              <span data-lang="ca">Nom complet <span class="req">*</span></span>
+            </label>
+            <input type="text" id="donorName" name="donor-name" class="form-control" required
+              placeholder="Anna Schmidt">
+          </div>
+
+          <div class="form-group">
+            <label for="donorEmail" style="color:rgba(255,255,255,.8);">
+              Email <span class="req">*</span>
+            </label>
+            <input type="email" id="donorEmail" name="donor-email" class="form-control" required
+              placeholder="anna@example.com">
+          </div>
+
+          <input type="hidden" name="amount" id="hiddenAmount" value="25">
+
+          <button type="submit" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;margin-top:4px;">
+            <span data-lang="en" class="lang-active">Donate Now →</span>
+            <span data-lang="es">Donar Ahora →</span>
+            <span data-lang="ca">Dona Ara →</span>
+          </button>
+
+          <div class="donate-secure">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3.5v3.5C2 10.1 4.1 12.9 7 13c2.9-.1 5-2.9 5-6V3.5L7 1z" fill="rgba(255,255,255,.3)"/></svg>
+            <span data-lang="en" class="lang-active">Secure & encrypted. Donations subject to Spanish electoral law.</span>
+            <span data-lang="es">Seguro y cifrado. Donaciones sujetas a la ley electoral española.</span>
+            <span data-lang="ca">Segur i xifrat. Donacions subjectes a la llei electoral espanyola.</span>
+          </div>
+        </form>
+
+        <div id="donateSuccess" class="form-success">
+          <div class="success-icon">❤️</div>
+          <h4 style="color:#fff;">
+            <span data-lang="en" class="lang-active">Thank you for your support!</span>
+            <span data-lang="es">¡Gracias por tu apoyo!</span>
+            <span data-lang="ca">Gràcies pel teu suport!</span>
+          </h4>
+          <p style="color:rgba(255,255,255,.7);">
+            <span data-lang="en" class="lang-active">You'll receive a confirmation email. Your donation powers the movement.</span>
+            <span data-lang="es">Recibirás un email de confirmación. Tu donación impulsa el movimiento.</span>
+            <span data-lang="ca">Rebràs un email de confirmació. La teva donació impulsa el moviment.</span>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="mosaic-band" data-count="40" style="height:5px;margin-bottom:48px;border-radius:3px;overflow:hidden;"></div>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <div class="nav-logo">US</div>
+          <div class="nav-name" style="color:#fff;">
+            United for Sitges
+            <small style="color:var(--terra);">Sitges Units · Unidos por Sitges</small>
+          </div>
+        </div>
+        <p>
+          <span data-lang="en" class="lang-active">A pro-Sitges movement for the 2027 municipal elections. Built by and for the 45% of non-Catalan residents who call Sitges home.</span>
+          <span data-lang="es">Un movimiento pro-Sitges para las elecciones municipales de 2027. Construido por y para el 45% de residentes no catalanes que llaman Sitges su hogar.</span>
+          <span data-lang="ca">Un moviment pro-Sitges per a les eleccions municipals del 2027. Construït per i per al 45% de residents no catalans que anomenen Sitges la seva llar.</span>
+        </p>
+        <div style="font-family:var(--font-head);font-size:13px;color:rgba(255,255,255,.3);margin-top:8px;font-style:italic;">
+          "Your Town. Your Vote. Your Future."
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>
+          <span data-lang="en" class="lang-active">Movement</span>
+          <span data-lang="es">Movimiento</span>
+          <span data-lang="ca">Moviment</span>
+        </h4>
+        <ul>
+          <li><a href="#movement">
+            <span data-lang="en" class="lang-active">About Us</span>
+            <span data-lang="es">Sobre Nosotros</span>
+            <span data-lang="ca">Sobre Nosaltres</span>
+          </a></li>
+          <li><a href="#platform">
+            <span data-lang="en" class="lang-active">Our Platform</span>
+            <span data-lang="es">Nuestra Plataforma</span>
+            <span data-lang="ca">La Nostra Plataforma</span>
+          </a></li>
+          <li><a href="#timeline">
+            <span data-lang="en" class="lang-active">Timeline</span>
+            <span data-lang="es">Plan de Acción</span>
+            <span data-lang="ca">Pla d'Acció</span>
+          </a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>
+          <span data-lang="en" class="lang-active">Take Action</span>
+          <span data-lang="es">Actúa</span>
+          <span data-lang="ca">Actua</span>
+        </h4>
+        <ul>
+          <li><a href="#join">
+            <span data-lang="en" class="lang-active">Register Support</span>
+            <span data-lang="es">Registrar Apoyo</span>
+            <span data-lang="ca">Registrar Suport</span>
+          </a></li>
+          <li><a href="#donate">
+            <span data-lang="en" class="lang-active">Donate</span>
+            <span data-lang="es">Donar</span>
+            <span data-lang="ca">Donar</span>
+          </a></li>
+          <li><a href="#vote-rights">
+            <span data-lang="en" class="lang-active">Check Voting Rights</span>
+            <span data-lang="es">Comprobar Derechos de Voto</span>
+            <span data-lang="ca">Comprovar Drets de Vot</span>
+          </a></li>
+          <li><a href="#vote-rights">
+            <span data-lang="en" class="lang-active">CERE Registration</span>
+            <span data-lang="es">Registro CERE</span>
+            <span data-lang="ca">Registre CERE</span>
+          </a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:hello@unitedforsitges.com">hello@unitedforsitges.com</a></li>
+          <li><a href="#join">
+            <span data-lang="en" class="lang-active">Volunteer</span>
+            <span data-lang="es">Voluntariado</span>
+            <span data-lang="ca">Voluntariat</span>
+          </a></li>
+          <li><a href="#join">Press</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>
+        <span data-lang="en" class="lang-active">© 2026 United for Sitges. All rights reserved. Subject to Spanish electoral law.</span>
+        <span data-lang="es">© 2026 Unidos por Sitges. Todos los derechos reservados. Sujeto a la ley electoral española.</span>
+        <span data-lang="ca">© 2026 Sitges Units. Tots els drets reservats. Subjecte a la llei electoral espanyola.</span>
+      </p>
+      <div class="footer-langs">
+        <a href="#" onclick="setLang('en');return false;">English</a>
+        <a href="#" onclick="setLang('es');return false;">Español</a>
+        <a href="#" onclick="setLang('ca');return false;">Català</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

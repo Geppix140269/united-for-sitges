@@ -125,9 +125,8 @@ const cyclerEl = document.getElementById('taglineCycler');
 if (cyclerEl) {
   let idx = 0;
   function renderTagline() {
-    const [lang, text] = TAGLINES[idx];
+    const [, text] = TAGLINES[idx];
     cyclerEl.innerHTML = `<div class="tagline-frame">
-      <div class="tagline-lang">${lang}</div>
       <div class="tagline-text">${text}</div>
     </div>`;
   }

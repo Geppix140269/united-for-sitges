@@ -1081,11 +1081,157 @@ footer {
 }
 .toast.show { transform: translateY(0); opacity: 1; }
 
+/* ---- Mosaic mark nav sizing ---- */
+.nav-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: transparent !important;
+}
+.nav-mark svg { width: 100%; height: 100%; }
+
+/* ---- Numbers section ---- */
+.numbers-heading {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: clamp(18px,2.2vw,24px);
+  color: var(--blue);
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--hairline);
+}
+.numbers-insight-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 40px 0;
+}
+.insight-card {
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.insight-orange { background: rgba(197,90,17,.08); border: 1.5px solid rgba(197,90,17,.2); }
+.insight-blue   { background: rgba(31,56,100,.07); border: 1.5px solid rgba(31,56,100,.15); }
+.insight-teal   { background: rgba(17,156,148,.08); border: 1.5px solid rgba(17,156,148,.2); }
+.insight-val {
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-size: clamp(28px,3.5vw,40px);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.insight-orange .insight-val { color: var(--terra); }
+.insight-blue   .insight-val { color: var(--blue); }
+.insight-teal   .insight-val { color: var(--teal); }
+.insight-label {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.insight-note {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Seat dots */
+.seat-dots { color: var(--blue); letter-spacing: 2px; font-size: 11px; }
+
+/* ---- Supporters section ---- */
+.supporters-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px,5vw,72px);
+  margin-top: 8px;
+}
+.supporters-heading {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: clamp(17px,2vw,22px);
+  color: var(--seafoam);
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,.15);
+}
+.band-navy .vote-table { background: transparent; }
+.band-navy .vote-table th { background: rgba(255,255,255,.12); color: rgba(255,255,255,.9); }
+.band-navy .vote-table td { border-bottom-color: rgba(255,255,255,.08); color: rgba(255,255,255,.85); }
+.band-navy .vote-table tr:nth-child(even) td { background: rgba(255,255,255,.04); }
+.band-navy .vote-table-wrap { border-color: rgba(255,255,255,.12); }
+
+.supporters-reason {
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  align-items: flex-start;
+}
+.supporters-reason:last-child { border-bottom: none; }
+.reason-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,.07);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.supporters-reason strong {
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  display: block;
+  margin-bottom: 4px;
+}
+.supporters-reason p {
+  font-size: 13.5px;
+  color: rgba(255,255,255,.65);
+  margin: 0;
+  line-height: 1.55;
+}
+
+.support-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.support-action {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 12px;
+  padding: 18px 16px;
+}
+.support-action-icon { font-size: 22px; margin-bottom: 8px; }
+.support-action-title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.support-action-body {
+  font-size: 13px;
+  color: rgba(255,255,255,.6);
+  line-height: 1.5;
+}
+
 /* ---- Responsive ---- */
 @media (max-width: 1024px) {
   .pillars-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-top { grid-template-columns: 1fr 1fr; }
   .cere-steps { grid-template-columns: 1fr; }
+  .numbers-insight-row { grid-template-columns: 1fr 1fr; }
+  .supporters-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
@@ -1108,4 +1254,6 @@ footer {
   .footer-top { grid-template-columns: 1fr; }
   .hero-actions { flex-direction: column; align-items: flex-start; }
   .donate-amounts { grid-template-columns: repeat(2, 1fr); }
+  .numbers-insight-row { grid-template-columns: 1fr; }
+  .support-actions-grid { grid-template-columns: 1fr; }
 }

@@ -1,5 +1,41 @@
 /* United for Sitges — main.js */
 
+/* ---- Mosaic Mark SVG generator ---- */
+function buildMosaicMark(size) {
+  const COLORS = ['#2E75B6','#119C94','#F4A81C','#F2604C','#D63E73','#6E4AA6','#C55A11','#BDD7EE','#1F3864'];
+  const cx = size / 2, cy = size / 2;
+  const R = size * 0.46, r = size * 0.14;
+  const n = COLORS.length, step = 360 / n, gap = 2.5;
+  const rad = d => d * Math.PI / 180;
+  const pt = (radius, deg) => [cx + radius * Math.cos(rad(deg)), cy + radius * Math.sin(rad(deg))];
+  const f = v => v.toFixed(2);
+
+  const paths = COLORS.map((color, i) => {
+    const a1 = -90 + i * step + gap / 2;
+    const a2 = -90 + (i + 1) * step - gap / 2;
+    const [x1i, y1i] = pt(r, a1);
+    const [x1o, y1o] = pt(R, a1);
+    const [x2o, y2o] = pt(R, a2);
+    const [x2i, y2i] = pt(r, a2);
+    return `<path d="M${f(x1i)},${f(y1i)} L${f(x1o)},${f(y1o)} A${f(R)},${f(R)} 0 0,1 ${f(x2o)},${f(y2o)} L${f(x2i)},${f(y2i)} A${f(r)},${f(r)} 0 0,0 ${f(x1i)},${f(y1i)}Z" fill="${color}"/>`;
+  }).join('');
+
+  const dotR = (r * 0.7).toFixed(2);
+  const dot = `<circle cx="${f(cx)}" cy="${f(cy)}" r="${dotR}" fill="#1F3864"/>`;
+  const ring = `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(R + 1)}" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>`;
+
+  return `<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="United for Sitges mosaic mark">${paths}${dot}${ring}</svg>`;
+}
+
+document.querySelectorAll('.mosaic-mark').forEach(el => {
+  const size = +(el.dataset.size || 40);
+  el.innerHTML = buildMosaicMark(size);
+  el.style.display = 'inline-flex';
+  el.style.alignItems = 'center';
+  el.style.justifyContent = 'center';
+  el.style.flexShrink = '0';
+});
+
 /* ---- Language switcher ---- */
 let currentLang = 'en';
 function setLang(lang) {

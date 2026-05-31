@@ -48,6 +48,8 @@
 <div id="mobileNav" class="mobile-nav" role="dialog" aria-modal="true">
   <button class="close-nav" aria-label="Close menu">×</button>
   <a href="#movement">Movement</a>
+  <a href="#positioning">Positioning</a>
+  <a href="#audiences">Who We Speak To</a>
   <a href="#numbers">The Numbers</a>
   <a href="#platform">Platform</a>
   <a href="#vote-rights">Voting Rights</a>
@@ -67,6 +69,7 @@
     </a>
     <ul class="nav-links" role="list">
       <li><a href="#movement">Movement</a></li>
+      <li><a href="#audiences">Who We Speak To</a></li>
       <li><a href="#numbers">The Numbers</a></li>
       <li><a href="#platform">Platform</a></li>
       <li><a href="#vote-rights">Voting Rights</a></li>
@@ -99,16 +102,19 @@
     </div>
 
     <h1 class="hero-title">
-      <span data-lang="en" class="lang-active">Your Town.<br><em>Your Vote.</em><br>Your Future.</span>
-      <span data-lang="es">Tu Ciudad.<br><em>Tu Voto.</em><br>Tu Futuro.</span>
-      <span data-lang="ca">La Teva Vila.<br><em>El Teu Vot.</em><br>El Teu Futur.</span>
+      <span data-lang="en" class="lang-active">Your Town.<br><em class="accent-marigold">Your Vote.</em><br>Your Future.</span>
+      <span data-lang="es">Tu Ciudad.<br><em class="accent-marigold">Tu Voto.</em><br>Tu Futuro.</span>
+      <span data-lang="ca">La Teva Vila.<br><em class="accent-marigold">El Teu Vot.</em><br>El Teu Futur.</span>
     </h1>
 
     <p class="hero-subtitle">
-      <span data-lang="en" class="lang-active">Sitges belongs to everyone who calls it home. The 45% of non-Catalan residents have never had a unified voice. Until now. United for Sitges is a pro-Sitges movement — practical, inclusive, and ready to govern.</span>
-      <span data-lang="es">Sitges pertenece a todos los que la llaman hogar. El 45% de residentes no catalanes nunca ha tenido una voz unificada. Hasta ahora. Unidos por Sitges es un movimiento pro-Sitges: práctico, inclusivo y listo para gobernar.</span>
-      <span data-lang="ca">Sitges pertany a tothom qui l'anomena llar. El 45% de residents no catalans mai ha tingut una veu unificada. Fins ara. Sitges Units és un moviment pro-Sitges: pràctic, inclusiu i preparat per governar.</span>
+      <span data-lang="en" class="lang-active">Citizens running for their town — not politicians running for power. The 47% of non-Catalan residents have never had a unified voice. United for Sitges changes that.</span>
+      <span data-lang="es">Ciudadanos que trabajan por su pueblo, no políticos que buscan el poder. El 47% de los residentes no catalanes nunca ha tenido una voz unificada. Unidos por Sitges lo cambia.</span>
+      <span data-lang="ca">Ciutadans que treballen per la seva vila, no polítics que busquen el poder. El 47% dels residents no catalans mai ha tingut una veu unificada. Sitges Units ho canvia.</span>
     </p>
+
+    <!-- Tagline cycler — 7 languages, 2400ms -->
+    <div id="taglineCycler" class="tagline-cycler" aria-live="polite"></div>
 
     <div class="hero-actions">
       <a href="#join" class="btn btn-primary btn-lg">
@@ -236,9 +242,9 @@
           <span data-lang="ca">El Moviment</span>
         </div>
         <h2 class="section-title">
-          <span data-lang="en" class="lang-active">Pro-Sitges. Not anti-anything.</span>
-          <span data-lang="es">Pro-Sitges. No somos anti-nada.</span>
-          <span data-lang="ca">Pro-Sitges. No som anti-res.</span>
+          <span data-lang="en" class="lang-active">Citizens running for their town — not politicians running for power.</span>
+          <span data-lang="es">Ciudadanos que trabajan por su pueblo, no políticos que buscan el poder.</span>
+          <span data-lang="ca">Ciutadans que treballen per la seva vila, no polítics que busquen el poder.</span>
         </h2>
         <p data-lang="en" class="lang-active" style="color:var(--muted);font-size:16px;margin-bottom:18px;">Sitges has a dormant majority that has never been activated as a bloc. The political landscape is fragmented — 9 parties sharing 21 seats, with the winner in 2023 needing just 1,875 votes. This creates an extraordinary opportunity.</p>
         <p data-lang="es" style="color:var(--muted);font-size:16px;margin-bottom:18px;">Sitges tiene una mayoría durmiente que nunca ha sido activada como bloque. El panorama político está fragmentado — 9 partidos comparten 21 escaños y el ganador de 2023 solo necesitó 1.875 votos. Esto crea una oportunidad extraordinaria.</p>
@@ -263,6 +269,268 @@
           </a>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== POSITIONING — IS vs IS NOT ===== -->
+<section id="positioning" class="section band-white">
+  <div class="section-inner">
+    <div class="eyebrow">
+      <span data-lang="en" class="lang-active">Positioning</span>
+      <span data-lang="es">Posicionamiento</span>
+      <span data-lang="ca">Posicionament</span>
+    </div>
+    <h2 class="section-title">
+      <span data-lang="en" class="lang-active">What we are — and what we are not.</span>
+      <span data-lang="es">Lo que somos — y lo que no somos.</span>
+      <span data-lang="ca">El que som — i el que no som.</span>
+    </h2>
+    <div class="positioning-table-wrap">
+      <div class="pos-header">
+        <div class="pos-col-dim">
+          <span data-lang="en" class="lang-active">Dimension</span>
+          <span data-lang="es">Dimensión</span>
+          <span data-lang="ca">Dimensió</span>
+        </div>
+        <div class="pos-col-is">
+          <span data-lang="en" class="lang-active">United for Sitges IS</span>
+          <span data-lang="es">Unidos por Sitges ES</span>
+          <span data-lang="ca">Sitges Units ÉS</span>
+        </div>
+        <div class="pos-col-not">
+          <span data-lang="en" class="lang-active">It is NOT</span>
+          <span data-lang="es">No ES</span>
+          <span data-lang="ca">NO és</span>
+        </div>
+      </div>
+      <div class="pos-row">
+        <div class="pos-col-dim"><strong>Identity</strong></div>
+        <div class="pos-col-is">Pro-Sitges. Community-first.</div>
+        <div class="pos-col-not">Anti-Catalan. Anti-Spain. Anti-anything.</div>
+      </div>
+      <div class="pos-row pos-row-alt">
+        <div class="pos-col-dim"><strong>Nature</strong></div>
+        <div class="pos-col-is">A civic movement. Citizens.</div>
+        <div class="pos-col-not">A political party machine.</div>
+      </div>
+      <div class="pos-row">
+        <div class="pos-col-dim"><strong>Tone</strong></div>
+        <div class="pos-col-is">Warm, practical, direct, inclusive.</div>
+        <div class="pos-col-not">Aggressive, partisan, ideological.</div>
+      </div>
+      <div class="pos-row pos-row-alt">
+        <div class="pos-col-dim"><strong>Visual feel</strong></div>
+        <div class="pos-col-is">Mediterranean. Coastal. Open. Modern.</div>
+        <div class="pos-col-not">Flag-waving. Nationalist. Corporate.</div>
+      </div>
+      <div class="pos-row">
+        <div class="pos-col-dim"><strong>Language</strong></div>
+        <div class="pos-col-is">Multilingual by default. All languages respected.</div>
+        <div class="pos-col-not">Catalan-only or English-only.</div>
+      </div>
+      <div class="pos-row pos-row-alt">
+        <div class="pos-col-dim"><strong>Aspiration</strong></div>
+        <div class="pos-col-is">Stable, accountable governance for everyone.</div>
+        <div class="pos-col-not">Protest. Opposition. Grievance.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== THREE BRAND TRUTHS ===== -->
+<section id="truths" class="section band-sand">
+  <div class="section-inner">
+    <div class="eyebrow">
+      <span data-lang="en" class="lang-active">The three brand truths</span>
+      <span data-lang="es">Las tres verdades de la marca</span>
+      <span data-lang="ca">Les tres veritats de la marca</span>
+    </div>
+    <h2 class="section-title">
+      <span data-lang="en" class="lang-active">Home. Voice. Future.</span>
+      <span data-lang="es">Hogar. Voz. Futuro.</span>
+      <span data-lang="ca">Llar. Veu. Futur.</span>
+    </h2>
+    <div class="truths-grid">
+      <div class="truth-card" style="border-top:4px solid #2E75B6;">
+        <div class="truth-num" style="color:#2E75B6;">1</div>
+        <h3 class="truth-title">
+          <span data-lang="en" class="lang-active">Your home.</span>
+          <span data-lang="es">Tu hogar.</span>
+          <span data-lang="ca">La teva llar.</span>
+        </h3>
+        <p class="truth-body">
+          <span data-lang="en" class="lang-active">Sitges is your town whether you were born here or chose to live here. That choice matters.</span>
+          <span data-lang="es">Sitges es tu pueblo tanto si naciste aquí como si elegiste vivir aquí. Esa elección importa.</span>
+          <span data-lang="ca">Sitges és la teva vila tant si hi vas néixer com si vas triar viure-hi. Aquesta elecció importa.</span>
+        </p>
+      </div>
+      <div class="truth-card" style="border-top:4px solid #F4A81C;">
+        <div class="truth-num" style="color:#F4A81C;">2</div>
+        <h3 class="truth-title">
+          <span data-lang="en" class="lang-active">Your voice.</span>
+          <span data-lang="es">Tu voz.</span>
+          <span data-lang="ca">La teva veu.</span>
+        </h3>
+        <p class="truth-body">
+          <span data-lang="en" class="lang-active">47% of residents have never been spoken to as a community. We change that.</span>
+          <span data-lang="es">El 47% de los residentes nunca ha sido interpelado como comunidad. Lo cambiamos.</span>
+          <span data-lang="ca">El 47% dels residents mai ha estat interpel·lat com a comunitat. Ho canviem.</span>
+        </p>
+      </div>
+      <div class="truth-card" style="border-top:4px solid #C55A11;">
+        <div class="truth-num" style="color:#C55A11;">3</div>
+        <h3 class="truth-title">
+          <span data-lang="en" class="lang-active">Your future.</span>
+          <span data-lang="es">Tu futuro.</span>
+          <span data-lang="ca">El teu futur.</span>
+        </h3>
+        <p class="truth-body">
+          <span data-lang="en" class="lang-active">Practical governance. A stable majority. A Sitges that works for everyone.</span>
+          <span data-lang="es">Gobernanza práctica. Una mayoría estable. Un Sitges que funcione para todos.</span>
+          <span data-lang="ca">Governança pràctica. Una majoria estable. Un Sitges que funcioni per a tothom.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AUDIENCES ===== -->
+<section id="audiences" class="section band-paper">
+  <div class="section-inner">
+    <div class="eyebrow">
+      <span data-lang="en" class="lang-active">Who we speak to</span>
+      <span data-lang="es">A quién nos dirigimos</span>
+      <span data-lang="ca">A qui ens adrecem</span>
+    </div>
+    <h2 class="section-title">
+      <span data-lang="en" class="lang-active">One movement, many origins.</span>
+      <span data-lang="es">Un movimiento, muchos orígenes.</span>
+      <span data-lang="ca">Un moviment, molts orígens.</span>
+    </h2>
+    <p class="section-lede">
+      <span data-lang="en" class="lang-active">The brand speaks to every community at a B2 language level — warm, direct, and never leaving anyone feeling like an afterthought.</span>
+      <span data-lang="es">La marca habla a cada comunidad de forma clara, cálida y directa — nunca dejando a nadie sentirse prescindible.</span>
+      <span data-lang="ca">La marca s'adreça a cada comunitat de forma clara, càlida i directa — sense deixar mai ningú sentir-se prescindible.</span>
+    </p>
+    <div class="audiences-grid">
+
+      <div class="audience-card">
+        <div class="audience-header">
+          <div>
+            <h3 class="audience-name">🇬🇧 British</h3>
+            <div class="audience-count">1,105</div>
+          </div>
+          <span class="audience-tag">
+            <span data-lang="en" class="lang-active">Largest foreign group</span>
+            <span data-lang="es">Mayor grupo extranjero</span>
+            <span data-lang="ca">Grup estranger més gran</span>
+          </span>
+        </div>
+        <p class="audience-desc">
+          <span data-lang="en" class="lang-active">Long-established homeowners, 45+. Many unaware they regained voting rights after Brexit via the 2019 UK–Spain bilateral agreement.</span>
+          <span data-lang="es">Propietarios de larga data, 45+. Muchos desconocen que recuperaron el derecho al voto tras el Brexit.</span>
+          <span data-lang="ca">Propietaris de llarga data, 45+. Molts desconeixen que van recuperar el dret al vot després del Brexit.</span>
+        </p>
+        <p class="audience-feel">
+          "<span data-lang="en" class="lang-active">Welcomed back into civic life.</span><span data-lang="es">Bienvenido de nuevo a la vida cívica.</span><span data-lang="ca">Benvingut de nou a la vida cívica.</span>"
+        </p>
+      </div>
+
+      <div class="audience-card">
+        <div class="audience-header">
+          <div>
+            <h3 class="audience-name">🇪🇸 Spanish (non-Catalan)</h3>
+            <div class="audience-count">3,811</div>
+          </div>
+          <span class="audience-tag">
+            <span data-lang="en" class="lang-active">Auto-registered</span>
+            <span data-lang="es">Auto-registrados</span>
+            <span data-lang="ca">Auto-registrats</span>
+          </span>
+        </div>
+        <p class="audience-desc">
+          <span data-lang="en" class="lang-active">From Andalucía, Madrid, Valencia. Already on the electoral roll. Feel like guests in their own country — no party has ever spoken to them in Sitges.</span>
+          <span data-lang="es">De Andalucía, Madrid, Valencia. Ya inscritos en el censo. Se sienten como invitados en su propio país.</span>
+          <span data-lang="ca">D'Andalusia, Madrid, València. Ja inscrits al cens. Es senten com a convidats al seu propi país.</span>
+        </p>
+        <p class="audience-feel">
+          "<span data-lang="en" class="lang-active">Finally, someone built this for me too.</span><span data-lang="es">Por fin, alguien lo hizo también para mí.</span><span data-lang="ca">Per fi, algú ha fet això també per a mi.</span>"
+        </p>
+      </div>
+
+      <div class="audience-card">
+        <div class="audience-header">
+          <div>
+            <h3 class="audience-name">🇮🇹 Italian</h3>
+            <div class="audience-count">998</div>
+          </div>
+          <span class="audience-tag">CERE</span>
+        </div>
+        <p class="audience-desc">
+          <span data-lang="en" class="lang-active">The largest votable EU group. Strong community identity, all ages. High potential if reached via the Italian residents' network.</span>
+          <span data-lang="es">El mayor grupo de la UE con derecho a voto. Fuerte identidad comunitaria, todas las edades.</span>
+          <span data-lang="ca">El major grup de la UE amb dret al vot. Forta identitat comunitària, totes les edats.</span>
+        </p>
+        <p class="audience-feel">
+          "<span data-lang="en" class="lang-active">Seen and valued.</span><span data-lang="es">Visto y valorado.</span><span data-lang="ca">Vist i valorat.</span>"
+        </p>
+      </div>
+
+      <div class="audience-card">
+        <div class="audience-header">
+          <div>
+            <h3 class="audience-name">🇫🇷 French</h3>
+            <div class="audience-count">838</div>
+          </div>
+          <span class="audience-tag">CERE</span>
+        </div>
+        <p class="audience-desc">
+          <span data-lang="en" class="lang-active">Politically engaged at home, disengaged in Spain. Educated, confident. Will respond to a clear civic argument delivered in French.</span>
+          <span data-lang="es">Políticamente activos en Francia, desconectados en España. Responderán a un argumento cívico claro en francés.</span>
+          <span data-lang="ca">Políticament actius a França, desconnectats a Espanya. Respondran a un argument cívic clar en francès.</span>
+        </p>
+        <p class="audience-feel">
+          "<span data-lang="en" class="lang-active">Respected as equals.</span><span data-lang="es">Respetado como igual.</span><span data-lang="ca">Respectat com a igual.</span>"
+        </p>
+      </div>
+
+      <div class="audience-card">
+        <div class="audience-header">
+          <div>
+            <h3 class="audience-name">🇨🇴🇪🇨🇧🇴 Latin American</h3>
+            <div class="audience-count">~849</div>
+          </div>
+          <span class="audience-tag">INE Modelo 2</span>
+        </div>
+        <p class="audience-desc">
+          <span data-lang="en" class="lang-active">Colombian, Bolivian, Peruvian, Brazilian, Venezuelan — community-oriented, warm, family-focused. Voting rights via reciprocity after 5 years residency.</span>
+          <span data-lang="es">Colombianos, bolivianos, peruanos, brasileños, venezolanos. Orientados a la comunidad. Derecho al voto por reciprocidad.</span>
+          <span data-lang="ca">Colombians, bolivians, peruans, brasilers, veneçolans. Orientats a la comunitat. Dret al vot per reciprocitat.</span>
+        </p>
+        <p class="audience-feel">
+          "<span data-lang="en" class="lang-active">My community matters here.</span><span data-lang="es">Mi comunidad importa aquí.</span><span data-lang="ca">La meva comunitat importa aquí.</span>"
+        </p>
+      </div>
+
+      <div class="audience-card">
+        <div class="audience-header">
+          <div>
+            <h3 class="audience-name">🇩🇪🇳🇱🇸🇪 German · Dutch · Nordic</h3>
+            <div class="audience-count">~3,000+</div>
+          </div>
+          <span class="audience-tag">CERE</span>
+        </div>
+        <p class="audience-desc">
+          <span data-lang="en" class="lang-active">Practical, efficiency-focused. Drawn to the good-governance argument above all others. High home-ownership rates — the housing platform resonates strongly.</span>
+          <span data-lang="es">Prácticos, orientados a la eficiencia. Atraídos por el argumento de buena gobernanza. Alta tasa de propietarios.</span>
+          <span data-lang="ca">Pràctics, orientats a l'eficiència. Atrets per l'argument de bona governança. Alta taxa de propietaris.</span>
+        </p>
+        <p class="audience-feel">
+          "<span data-lang="en" class="lang-active">This is how we fix things.</span><span data-lang="es">Así es como arreglamos las cosas.</span><span data-lang="ca">Així és com arreglem les coses.</span>"
+        </p>
+      </div>
+
     </div>
   </div>
 </section>
@@ -627,7 +895,7 @@
 
       <!-- Pillar 1 -->
       <div class="pillar-card pillar-1">
-        <div class="pillar-icon">🏛️</div>
+        <div class="pillar-icon"><span data-icon="home" data-icon-size="24" data-icon-stroke="var(--blue)"></span></div>
         <div class="pillar-num">Pillar 01</div>
         <div class="pillar-title">
           <span data-lang="en" class="lang-active">Practical, Efficient Local Government</span>
@@ -655,7 +923,7 @@
 
       <!-- Pillar 2 -->
       <div class="pillar-card pillar-2">
-        <div class="pillar-icon">🌐</div>
+        <div class="pillar-icon"><span data-icon="language" data-icon-size="24" data-icon-stroke="var(--teal)"></span></div>
         <div class="pillar-num">Pillar 02</div>
         <div class="pillar-title">
           <span data-lang="en" class="lang-active">Multilingual Municipal Services</span>
@@ -683,7 +951,7 @@
 
       <!-- Pillar 3 -->
       <div class="pillar-card pillar-3">
-        <div class="pillar-icon">🏠</div>
+        <div class="pillar-icon"><span data-icon="house" data-icon-size="24" data-icon-stroke="var(--terra)"></span></div>
         <div class="pillar-num">Pillar 03</div>
         <div class="pillar-title">
           <span data-lang="en" class="lang-active">Housing & Quality of Life</span>
@@ -711,7 +979,7 @@
 
       <!-- Pillar 4 -->
       <div class="pillar-card pillar-4">
-        <div class="pillar-icon">🏖️</div>
+        <div class="pillar-icon"><span data-icon="leaf" data-icon-size="24" data-icon-stroke="var(--marigold)"></span></div>
         <div class="pillar-num">Pillar 04</div>
         <div class="pillar-title">
           <span data-lang="en" class="lang-active">Sustainable Tourism Management</span>
@@ -739,7 +1007,7 @@
 
       <!-- Pillar 5 -->
       <div class="pillar-card pillar-5">
-        <div class="pillar-icon">🌿</div>
+        <div class="pillar-icon"><span data-icon="pin" data-icon-size="24" data-icon-stroke="var(--success)"></span></div>
         <div class="pillar-num">Pillar 05</div>
         <div class="pillar-title">
           <span data-lang="en" class="lang-active">Safe, Clean, Green Sitges</span>
@@ -767,7 +1035,7 @@
 
       <!-- Pillar 6 -->
       <div class="pillar-card pillar-6">
-        <div class="pillar-icon">🤝</div>
+        <div class="pillar-icon"><span data-icon="community" data-icon-size="24" data-icon-stroke="var(--magenta)"></span></div>
         <div class="pillar-num">Pillar 06</div>
         <div class="pillar-title">
           <span data-lang="en" class="lang-active">Community Integration</span>

@@ -1,6 +1,179 @@
 /* United for Sitges — main.js */
 
 /* =========================================================
+   i18n — 7-language translation system
+   ========================================================= */
+const SUPPORTED_LANGS = ['en','es','ca','fr','it','de','nl'];
+const LANG_META = {
+  en: { flag: '🇬🇧', name: 'English',    native: 'English'    },
+  es: { flag: '🇪🇸', name: 'Español',    native: 'Español'    },
+  ca: { flag: '🏵️',  name: 'Català',     native: 'Català'     },
+  fr: { flag: '🇫🇷', name: 'Français',   native: 'Français'   },
+  it: { flag: '🇮🇹', name: 'Italiano',   native: 'Italiano'   },
+  de: { flag: '🇩🇪', name: 'Deutsch',    native: 'Deutsch'    },
+  nl: { flag: '🇳🇱', name: 'Nederlands', native: 'Nederlands' },
+};
+
+// Catalan flag: use the senyera colours as text
+LANG_META.ca.flag = '🔴🟡';
+
+let _translations = {};    // { en: {...}, es: {...}, ... }
+let _activeLang   = 'en';
+
+async function loadLocale(lang) {
+  if (_translations[lang]) return _translations[lang];
+  try {
+    const res  = await fetch(`/locales/${lang}.json`);
+    const data = await res.json();
+    _translations[lang] = data;
+    return data;
+  } catch {
+    return {};
+  }
+}
+
+function t(key) {
+  const langData = _translations[_activeLang] || {};
+  const enData   = _translations['en']        || {};
+  return langData[key] ?? enData[key] ?? key;
+}
+
+function detectLanguage() {
+  const saved = localStorage.getItem('ufs_lang');
+  if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
+  const browser = (navigator.language || 'en').toLowerCase().substring(0, 2);
+  return SUPPORTED_LANGS.includes(browser) ? browser : 'en';
+}
+
+function shouldShowGate() {
+  return !localStorage.getItem('ufs_lang');
+}
+
+async function applyLanguage(lang) {
+  _activeLang = lang;
+  // Load both en (fallback) and target lang
+  await Promise.all([loadLocale('en'), loadLocale(lang)]);
+
+  // Update all elements with data-i18n attribute
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    el.textContent = t(key);
+  });
+  // Update elements with data-i18n-html (allows inner HTML)
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.dataset.i18nHtml;
+    el.innerHTML = t(key);
+  });
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.dataset.i18nPlaceholder);
+  });
+  // Update html lang attribute
+  document.documentElement.lang = lang;
+  // Update nav toggle display
+  const toggle = document.getElementById('langToggleBtn');
+  if (toggle) {
+    const meta = LANG_META[lang];
+    toggle.innerHTML = `${meta.flag} <span>${lang.toUpperCase()}</span>`;
+    toggle.setAttribute('aria-label', `Language: ${meta.native}. Click to change.`);
+  }
+  // Update active state on lang buttons
+  document.querySelectorAll('[data-lang-code]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.langCode === lang);
+  });
+}
+
+function confirmLanguage(lang) {
+  localStorage.setItem('ufs_lang', lang);
+  hideGate();
+  applyLanguage(lang);
+  // Also update the old data-lang system for elements not yet migrated
+  setLang(lang);
+}
+
+/* ---- Language gate ---- */
+function buildGate() {
+  const grid = document.getElementById('langGateGrid');
+  if (!grid) return;
+  grid.innerHTML = SUPPORTED_LANGS.map(code => {
+    const m = LANG_META[code];
+    return `<button class="lang-gate-btn" data-lang-code="${code}" onclick="confirmLanguage('${code}')" aria-label="${m.native}">
+      <span class="lg-flag">${m.flag}</span>
+      <span class="lg-name">${m.native}</span>
+    </button>`;
+  }).join('');
+  // Show skip link after 2s
+  setTimeout(() => {
+    const skip = document.getElementById('langGateSkip');
+    if (skip) skip.style.display = 'block';
+  }, 2000);
+}
+
+function showGate() {
+  const gate = document.getElementById('langGate');
+  if (!gate) return;
+  gate.style.display = 'flex';
+  requestAnimationFrame(() => gate.classList.add('visible'));
+  document.body.style.overflow = 'hidden';
+  buildGate();
+  // Focus first button
+  setTimeout(() => gate.querySelector('.lang-gate-btn')?.focus(), 200);
+}
+
+function hideGate() {
+  const gate = document.getElementById('langGate');
+  if (!gate) return;
+  gate.classList.add('hiding');
+  document.body.style.overflow = '';
+  setTimeout(() => { gate.style.display = 'none'; gate.classList.remove('visible','hiding'); }, 300);
+}
+
+/* ---- Language dropdown ---- */
+function buildDropdown() {
+  const dd = document.getElementById('langDropdown');
+  if (!dd) return;
+  dd.innerHTML = SUPPORTED_LANGS.map(code => {
+    const m = LANG_META[code];
+    return `<button class="lang-dd-item" data-lang-code="${code}" onclick="confirmLanguage('${code}')" role="option" aria-selected="${code === _activeLang}">
+      ${m.flag} ${m.native}
+    </button>`;
+  }).join('');
+}
+
+function toggleDropdown() {
+  const dd  = document.getElementById('langDropdown');
+  const btn = document.getElementById('langToggleBtn');
+  if (!dd) return;
+  const open = dd.style.display !== 'none';
+  dd.style.display = open ? 'none' : 'block';
+  btn?.setAttribute('aria-expanded', String(!open));
+  if (!open) { buildDropdown(); }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('langToggleBtn')?.addEventListener('click', e => {
+    e.stopPropagation();
+    toggleDropdown();
+  });
+});
+document.addEventListener('click', () => {
+  const dd = document.getElementById('langDropdown');
+  if (dd) dd.style.display = 'none';
+  document.getElementById('langToggleBtn')?.setAttribute('aria-expanded','false');
+});
+
+/* ---- Initialise i18n on page load ---- */
+(async function initI18n() {
+  if (shouldShowGate()) {
+    showGate();
+  } else {
+    const lang = detectLanguage();
+    await applyLanguage(lang);
+  }
+})();
+
+
+/* =========================================================
    TRENCADÍS MARK — exact port of logo-mosaic.jsx algorithm
    Jittered 7×7 grid, seeded PRNG, clipped to disc, animated
    ========================================================= */

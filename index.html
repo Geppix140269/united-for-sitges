@@ -36,6 +36,27 @@
 </head>
 <body>
 
+<!-- ===== LANGUAGE GATE ===== -->
+<div id="langGate" class="lang-gate" role="dialog" aria-modal="true" aria-label="Language selection" style="display:none;">
+  <div class="lang-gate-card">
+    <div class="lang-gate-mark">
+      <div class="mosaic-mark" data-size="72" data-animate="false"></div>
+    </div>
+    <div class="lang-gate-wordmark">United for Sitges</div>
+    <div class="lang-gate-heading">
+      <div>Choose your language</div>
+      <div>Elige tu idioma</div>
+      <div>Trieu el vostre idioma</div>
+    </div>
+    <div class="lang-gate-grid" id="langGateGrid">
+      <!-- Populated by JS -->
+    </div>
+    <button class="lang-gate-skip" id="langGateSkip" style="display:none;" onclick="confirmLanguage('en')">
+      Continue in English
+    </button>
+  </div>
+</div>
+
 <!-- ===== ALERT BANNER ===== -->
 <div class="alert-banner" id="alertBanner">
   <span data-lang="en" class="lang-active">EU &amp; British residents: You can vote in 2027 but must register first. <a href="#vote-rights">Check your registration →</a></span>
@@ -76,10 +97,13 @@
       <li><a href="#join">Join Us</a></li>
       <li><a href="#donate" class="nav-cta">Donate</a></li>
     </ul>
-    <div class="lang-switcher" role="group" aria-label="Language selector">
-      <button class="lang-btn active" data-lang="en" aria-label="English">EN</button>
-      <button class="lang-btn" data-lang="es" aria-label="Español">ES</button>
-      <button class="lang-btn" data-lang="ca" aria-label="Català">CA</button>
+    <div class="lang-switcher-new" style="position:relative;">
+      <button id="langToggleBtn" class="lang-toggle-btn" aria-label="Select language" aria-expanded="false" aria-haspopup="true">
+        🇬🇧 <span>EN</span>
+      </button>
+      <div id="langDropdown" class="lang-dropdown" style="display:none;" role="listbox">
+        <!-- Populated by JS -->
+      </div>
     </div>
     <button class="hamburger" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>

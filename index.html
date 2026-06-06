@@ -36,6 +36,19 @@
     <input type="number" name="amount">
     <input type="text" name="frequency">
   </form>
+  <form name="volunteer" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="name">
+    <input type="email" name="email">
+    <input type="tel" name="phone">
+    <input type="text" name="neighborhood">
+    <input type="text" name="help-with">
+    <input type="text" name="languages">
+    <input type="checkbox" name="consent">
+  </form>
+  <form name="newsletter" netlify netlify-honeypot="bot-field" hidden>
+    <input type="email" name="email">
+    <input type="checkbox" name="consent">
+  </form>
 </head>
 <body>
 
@@ -98,6 +111,7 @@
       <li><a href="#platform" data-i18n="nav.platform">Platform</a></li>
       <li><a href="#vote-rights" data-i18n="nav.votingRights">Voting Rights</a></li>
       <li><a href="#join" data-i18n="nav.joinUs">Join Us</a></li>
+      <li><a href="/community.html" data-i18n="nav.community">Community</a></li>
       <li><a href="#donate" class="nav-cta" data-i18n="nav.donate">Donate</a></li>
     </ul>
     <div class="lang-switcher-new" style="position:relative;">
@@ -1706,6 +1720,73 @@
   </div>
 </section>
 
+<!-- ===== VOLUNTEER ===== -->
+<section id="volunteer" class="section band-paper" aria-label="Volunteer">
+  <div class="section-inner">
+    <div class="eyebrow">
+      <span data-lang="en" class="lang-active">Get Involved</span>
+      <span data-lang="es">Participa</span>
+      <span data-lang="ca">Participa</span>
+    </div>
+    <h2 class="section-title">
+      <span data-lang="en" class="lang-active">Lend your time. Build the majority.</span>
+      <span data-lang="es">Dedica tu tiempo. Construye la mayoría.</span>
+      <span data-lang="ca">Dedica el teu temps. Construeix la majoria.</span>
+    </h2>
+    <p class="section-lede">
+      <span data-lang="en" class="lang-active">Door-knocking, translating, helping neighbours register, hosting a coffee morning — every hour counts. Tell us how you'd like to help.</span>
+      <span data-lang="es">Tocar puertas, traducir, ayudar a vecinos a registrarse, organizar un café — cada hora cuenta. Dinos cómo te gustaría ayudar.</span>
+      <span data-lang="ca">Trucar a les portes, traduir, ajudar veïns a registrar-se, organitzar un cafè — cada hora compta. Digues-nos com t'agradaria ajudar.</span>
+    </p>
+
+    <form name="volunteer" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html" class="ufs-form ufs-ajax">
+      <input type="hidden" name="form-name" value="volunteer">
+      <p hidden><label>Don't fill this: <input name="bot-field"></label></p>
+      <div class="ufs-form-grid">
+        <label class="ufs-field"><span data-lang="en" class="lang-active">Name</span><span data-lang="es">Nombre</span><span data-lang="ca">Nom</span>
+          <input type="text" name="name" required autocomplete="name"></label>
+        <label class="ufs-field"><span data-lang="en" class="lang-active">Email</span><span data-lang="es">Correo</span><span data-lang="ca">Correu</span>
+          <input type="email" name="email" required autocomplete="email"></label>
+        <label class="ufs-field"><span data-lang="en" class="lang-active">Phone (optional)</span><span data-lang="es">Teléfono (opcional)</span><span data-lang="ca">Telèfon (opcional)</span>
+          <input type="tel" name="phone" autocomplete="tel"></label>
+        <label class="ufs-field"><span data-lang="en" class="lang-active">Neighbourhood</span><span data-lang="es">Barrio</span><span data-lang="ca">Barri</span>
+          <input type="text" name="neighborhood"></label>
+        <label class="ufs-field"><span data-lang="en" class="lang-active">Languages you speak</span><span data-lang="es">Idiomas que hablas</span><span data-lang="ca">Idiomes que parles</span>
+          <input type="text" name="languages" placeholder="EN / ES / CA / FR / NL …"></label>
+        <label class="ufs-field ufs-field-full"><span data-lang="en" class="lang-active">How would you like to help?</span><span data-lang="es">¿Cómo te gustaría ayudar?</span><span data-lang="ca">Com t'agradaria ajudar?</span>
+          <textarea name="help-with" rows="3"></textarea></label>
+      </div>
+      <label class="ufs-consent">
+        <input type="checkbox" name="consent" required>
+        <span>
+          <span data-lang="en" class="lang-active">I agree that United for Sitges may store my details and contact me about the campaign. I can withdraw at any time. See our <a href="/privacy.html">Privacy Policy</a>.</span>
+          <span data-lang="es">Acepto que United for Sitges guarde mis datos y me contacte sobre la campaña. Puedo retirar mi consentimiento en cualquier momento. Ver la <a href="/privacy.html">Política de Privacidad</a>.</span>
+          <span data-lang="ca">Accepto que United for Sitges guardi les meves dades i em contacti sobre la campanya. Puc retirar el consentiment en qualsevol moment. Vegeu la <a href="/privacy.html">Política de Privacitat</a>.</span>
+        </span>
+      </label>
+      <button type="submit" class="btn btn-primary">
+        <span data-lang="en" class="lang-active">Sign me up to help</span><span data-lang="es">Quiero ayudar</span><span data-lang="ca">Vull ajudar</span>
+      </button>
+    </form>
+
+    <div class="ufs-share ufs-share-footer" role="group" aria-label="Share this campaign">
+      <span class="ufs-share-label">
+        <span data-lang="en" class="lang-active">Share the movement</span>
+        <span data-lang="es">Comparte el movimiento</span>
+        <span data-lang="ca">Comparteix el moviment</span>
+      </span>
+      <div class="ufs-share-btns">
+        <a class="ufs-share-btn" data-net="facebook" href="#" rel="noopener" aria-label="Share on Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+        <a class="ufs-share-btn" data-net="x" href="#" rel="noopener" aria-label="Share on X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.41l-5.8-7.58-6.64 7.58H.46l8.6-9.83L0 1.15h7.6l5.24 6.93 6.06-6.93zm-1.29 19.5h2.04L6.49 3.24H4.3L17.61 20.65z"/></svg></a>
+        <a class="ufs-share-btn" data-net="whatsapp" href="#" rel="noopener" aria-label="Share on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M.06 24l1.68-6.13A11.86 11.86 0 01.16 11.9C.16 5.34 5.5 0 12.06 0a11.82 11.82 0 018.42 3.49 11.82 11.82 0 013.48 8.42c0 6.56-5.34 11.9-11.9 11.9a11.9 11.9 0 01-5.69-1.45L.06 24zM6.6 20.13c1.68 1 3.28 1.6 5.4 1.6 5.45 0 9.9-4.43 9.9-9.88a9.85 9.85 0 00-2.9-7A9.79 9.79 0 0012.06 2c-5.46 0-9.9 4.44-9.9 9.9 0 2.22.65 3.88 1.74 5.62l-1 3.63 3.7-1.02zm11.4-5.5c-.07-.12-.27-.2-.57-.35-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49 0 1.47 1.07 2.89 1.22 3.09.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41z"/></svg></a>
+        <a class="ufs-share-btn" data-net="telegram" href="#" rel="noopener" aria-label="Share on Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-1.99.94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56l.38-5.56 10.12-9.15c.44-.39-.1-.61-.68-.22L6.12 13.13l-5.45-1.7c-1.18-.37-1.2-1.18.25-1.75l21.27-8.2c.98-.36 1.84.22 1.52 1.72z"/></svg></a>
+        <a class="ufs-share-btn" data-net="email" href="#" aria-label="Share by email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a>
+        <button class="ufs-share-btn" data-net="copy" type="button" aria-label="Copy link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== DONATE ===== -->
 <section id="donate" class="section band-deep">
   <div class="section-inner">
@@ -1927,7 +2008,7 @@
         <h4>Contact</h4>
         <ul>
           <li><a href="mailto:hello@unitedforsitges.com">hello@unitedforsitges.com</a></li>
-          <li><a href="#join">
+          <li><a href="#volunteer">
             <span data-lang="en" class="lang-active" data-i18n="footer.volunteer">Volunteer</span>
             <span data-lang="es">Voluntariado</span>
             <span data-lang="ca">Voluntariat</span>
@@ -1935,6 +2016,24 @@
           <li><a href="#join">Press</a></li>
         </ul>
       </div>
+    </div>
+
+    <div class="ufs-newsletter">
+      <div class="ufs-newsletter-text">
+        <strong><span data-lang="en" class="lang-active">Get campaign updates</span><span data-lang="es">Recibe novedades de la campaña</span><span data-lang="ca">Rep novetats de la campanya</span></strong>
+        <span class="ufs-newsletter-sub"><span data-lang="en" class="lang-active">News, events and voting deadlines. No spam.</span><span data-lang="es">Noticias, eventos y plazos de voto. Sin spam.</span><span data-lang="ca">Notícies, esdeveniments i terminis de vot. Sense spam.</span></span>
+      </div>
+      <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html" class="ufs-newsletter-form ufs-ajax">
+        <input type="hidden" name="form-name" value="newsletter">
+        <p hidden><label>Don't fill this: <input name="bot-field"></label></p>
+        <input type="email" name="email" required placeholder="email@example.com" aria-label="Email">
+        <label class="ufs-newsletter-consent"><input type="checkbox" name="consent" required>
+          <span data-lang="en" class="lang-active">I agree to receive emails. <a href="/privacy.html">Privacy</a>.</span>
+          <span data-lang="es">Acepto recibir correos. <a href="/privacy.html">Privacidad</a>.</span>
+          <span data-lang="ca">Accepto rebre correus. <a href="/privacy.html">Privacitat</a>.</span>
+        </label>
+        <button type="submit" class="btn btn-primary"><span data-lang="en" class="lang-active">Subscribe</span><span data-lang="es">Suscribirme</span><span data-lang="ca">Subscriure'm</span></button>
+      </form>
     </div>
 
     <div class="footer-bottom">
@@ -1955,5 +2054,6 @@
 <div id="toast" class="toast" role="alert" aria-live="polite"></div>
 
 <script src="js/main.js"></script>
+<script src="js/community-features.js"></script>
 </body>
 </html>

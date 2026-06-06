@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Community — United for Sitges</title>
+  <meta name="description" content="The United for Sitges community board. Register, share your views, and connect with neighbours building a Sitges for everyone.">
+  <!-- Reuse the site's main stylesheet so this page matches the brand -->
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* ---- Community-specific styles (move to styles.css if you prefer) ---- */
+    .cm-wrap { max-width:760px; margin:0 auto; padding:40px 20px 80px; }
+    .cm-head { text-align:center; margin-bottom:28px; }
+    .cm-head h1 { font-family:var(--font-head,sans-serif); margin:0 0 8px; }
+    .cm-head p  { color:var(--muted,#555); }
+    .cm-auth, .cm-composer, .cm-post {
+      border:1px solid rgba(0,0,0,.1); border-radius:14px; background:#fff; padding:20px; margin-bottom:18px;
+    }
+    .cm-auth h2 { margin:0 0 12px; font-size:18px; }
+    .cm-tabs { display:flex; gap:8px; margin-bottom:14px; }
+    .cm-tab { flex:1; padding:9px; border:1px solid rgba(0,0,0,.15); background:#fafafa; border-radius:8px; cursor:pointer; font-weight:600; }
+    .cm-tab.active { background:var(--navy,#13294b); color:#fff; border-color:var(--navy,#13294b); }
+    .cm-field { display:block; margin-bottom:12px; font-size:14px; font-weight:600; }
+    .cm-field input, .cm-field textarea {
+      width:100%; box-sizing:border-box; font:inherit; font-weight:400; margin-top:5px;
+      padding:11px 13px; border:1px solid rgba(0,0,0,.18); border-radius:8px;
+    }
+    .cm-consent { display:flex; gap:9px; align-items:flex-start; font-size:12px; color:var(--muted,#555); margin:4px 0 14px; line-height:1.5; }
+    .cm-consent input { margin-top:3px; }
+    .cm-msg { font-size:14px; font-weight:600; margin-top:10px; }
+    .cm-msg.err { color:#c0392b; } .cm-msg.ok { color:var(--terra,#c0573b); }
+    .cm-bar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:18px; font-size:14px; }
+    .cm-post-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+    .cm-post-author { font-weight:700; }
+    .cm-post-meta { font-size:12px; color:var(--muted,#888); }
+    .cm-post-body { white-space:pre-wrap; line-height:1.55; }
+    .cm-badge { font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px; }
+    .cm-badge.pending { background:#fff3d6; color:#9a6b00; }
+    .cm-badge.mine { background:#e6f0ff; color:#13294b; }
+    .cm-actions { margin-top:8px; display:flex; gap:8px; }
+    .cm-actions button { font-size:12px; padding:5px 10px; border-radius:6px; border:1px solid rgba(0,0,0,.2); background:#fff; cursor:pointer; }
+    .cm-approve { background:var(--terra,#c0573b)!important; color:#fff!important; border:none!important; }
+    .hidden { display:none!important; }
+    [data-lang]:not(.lang-active) { display:none; }
+  </style>
+</head>
+<body>
+
+<div class="cm-wrap">
+  <div class="cm-head">
+    <h1>
+      <span data-lang="en" class="lang-active">Community Board</span>
+      <span data-lang="es">Foro de la Comunidad</span>
+      <span data-lang="ca">Fòrum de la Comunitat</span>
+    </h1>
+    <p>
+      <span data-lang="en" class="lang-active">Sitges belongs to everyone who calls it home. Register, share your view, and connect with neighbours. Posts are reviewed before they appear.</span>
+      <span data-lang="es">Sitges pertenece a todos los que lo llaman hogar. Regístrate, comparte tu opinión y conecta con vecinos. Las publicaciones se revisan antes de aparecer.</span>
+      <span data-lang="ca">Sitges pertany a tothom que l'anomena llar. Registra't, comparteix la teva opinió i connecta amb veïns. Les publicacions es revisen abans d'aparèixer.</span>
+    </p>
+  </div>
+
+  <!-- ===== AUTH (shown when logged out) ===== -->
+  <div class="cm-auth" id="authBox">
+    <div class="cm-tabs">
+      <button class="cm-tab active" id="tabLogin" type="button">
+        <span data-lang="en" class="lang-active">Log in</span><span data-lang="es">Entrar</span><span data-lang="ca">Entrar</span>
+      </button>
+      <button class="cm-tab" id="tabSignup" type="button">
+        <span data-lang="en" class="lang-active">Register</span><span data-lang="es">Registrarse</span><span data-lang="ca">Registrar-se</span>
+      </button>
+    </div>
+
+    <label class="cm-field" id="nameField">
+      <span data-lang="en" class="lang-active">Display name</span><span data-lang="es">Nombre público</span><span data-lang="ca">Nom públic</span>
+      <input type="text" id="dispName" autocomplete="nickname">
+    </label>
+    <label class="cm-field">
+      <span data-lang="en" class="lang-active">Email</span><span data-lang="es">Correo</span><span data-lang="ca">Correu</span>
+      <input type="email" id="email" autocomplete="email">
+    </label>
+    <label class="cm-field">
+      <span data-lang="en" class="lang-active">Password</span><span data-lang="es">Contraseña</span><span data-lang="ca">Contrasenya</span>
+      <input type="password" id="password" autocomplete="current-password">
+    </label>
+
+    <label class="cm-consent" id="consentRow">
+      <input type="checkbox" id="consent">
+      <span>
+        <span data-lang="en" class="lang-active">I am a resident or supporter and I agree to the <a href="/privacy.html">Privacy Policy</a> and community rules. I understand my display name and approved posts are public.</span>
+        <span data-lang="es">Soy residente o simpatizante y acepto la <a href="/privacy.html">Política de Privacidad</a> y las normas. Entiendo que mi nombre y publicaciones aprobadas son públicos.</span>
+        <span data-lang="ca">Sóc resident o simpatitzant i accepto la <a href="/privacy.html">Política de Privacitat</a> i les normes. Entenc que el meu nom i publicacions aprovades són públics.</span>
+      </span>
+    </label>
+
+    <button class="btn btn-primary" id="authSubmit" type="button">
+      <span data-lang="en" class="lang-active">Log in</span><span data-lang="es">Entrar</span><span data-lang="ca">Entrar</span>
+    </button>
+    <div class="cm-msg" id="authMsg"></div>
+  </div>
+
+  <!-- ===== COMPOSER (shown when logged in) ===== -->
+  <div class="cm-composer hidden" id="composerBox">
+    <div class="cm-bar">
+      <span id="welcome"></span>
+      <button class="cm-tab" id="logoutBtn" type="button" style="flex:0;padding:6px 12px;">
+        <span data-lang="en" class="lang-active">Log out</span><span data-lang="es">Salir</span><span data-lang="ca">Sortir</span>
+      </button>
+    </div>
+    <label class="cm-field">
+      <span data-lang="en" class="lang-active">Share something with the community</span><span data-lang="es">Comparte algo con la comunidad</span><span data-lang="ca">Comparteix alguna cosa amb la comunitat</span>
+      <textarea id="postBody" rows="4" maxlength="4000" placeholder="…"></textarea>
+    </label>
+    <button class="btn btn-primary" id="postSubmit" type="button">
+      <span data-lang="en" class="lang-active">Post (will be reviewed)</span><span data-lang="es">Publicar (será revisado)</span><span data-lang="ca">Publicar (serà revisat)</span>
+    </button>
+    <div class="cm-msg" id="postMsg"></div>
+  </div>
+
+  <!-- ===== FEED ===== -->
+  <div id="feed"></div>
+</div>
+
+<!-- Supabase JS client -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* =====================================================================
+   CONFIG — paste your values from Supabase → Project Settings → API.
+   The anon key is PUBLIC and safe to ship; Row Level Security protects data.
+   ===================================================================== */
+const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
+const SUPABASE_ANON_KEY = "YOUR-ANON-PUBLIC-KEY";
+/* ===================================================================== */
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const $ = (id) => document.getElementById(id);
+const L = () => document.documentElement.getAttribute('data-lang') || 'en';
+
+const T = {
+  consent:   { en:"Please tick the consent box.", es:"Marca la casilla de consentimiento.", ca:"Marca la casella de consentiment." },
+  fillAll:   { en:"Please fill in all fields.", es:"Rellena todos los campos.", ca:"Omple tots els camps." },
+  checkEmail:{ en:"Check your email to confirm your account, then log in.", es:"Revisa tu correo para confirmar la cuenta y luego entra.", ca:"Revisa el correu per confirmar el compte i després entra." },
+  posted:    { en:"Thank you. Your post is pending review and will appear once approved.", es:"Gracias. Tu publicación está pendiente de revisión.", ca:"Gràcies. La teva publicació està pendent de revisió." },
+  empty:     { en:"No posts yet. Be the first to share.", es:"Aún no hay publicaciones. Sé el primero.", ca:"Encara no hi ha publicacions. Sigues el primer." },
+  pending:   { en:"Pending review", es:"Pendiente", ca:"Pendent" },
+  mine:      { en:"You", es:"Tú", ca:"Tu" },
+  approve:   { en:"Approve", es:"Aprobar", ca:"Aprovar" },
+  del:       { en:"Delete", es:"Borrar", ca:"Esborrar" }
+};
+const tr = (k) => (T[k] && (T[k][L()] || T[k].en)) || '';
+
+let mode = 'login';   // 'login' | 'signup'
+let me = null;        // { id, display_name, is_admin }
+
+/* ---------- AUTH UI ---------- */
+$('tabLogin').onclick  = () => setMode('login');
+$('tabSignup').onclick = () => setMode('signup');
+function setMode(m){
+  mode = m;
+  $('tabLogin').classList.toggle('active', m==='login');
+  $('tabSignup').classList.toggle('active', m==='signup');
+  $('nameField').classList.toggle('hidden', m==='login');
+  $('consentRow').classList.toggle('hidden', m==='login');
+  const label = m==='login'
+    ? {en:'Log in',es:'Entrar',ca:'Entrar'}
+    : {en:'Create my account',es:'Crear mi cuenta',ca:'Crear el meu compte'};
+  $('authSubmit').querySelector('.lang-active').textContent = label[L()] || label.en;
+}
+
+$('authSubmit').onclick = async () => {
+  const email = $('email').value.trim();
+  const password = $('password').value;
+  const msg = $('authMsg'); msg.className='cm-msg';
+  if(!email || !password){ msg.textContent=tr('fillAll'); msg.classList.add('err'); return; }
+
+  if(mode==='signup'){
+    const name = $('dispName').value.trim();
+    if(!name){ msg.textContent=tr('fillAll'); msg.classList.add('err'); return; }
+    if(!$('consent').checked){ msg.textContent=tr('consent'); msg.classList.add('err'); return; }
+    const { error } = await sb.auth.signUp({
+      email, password, options:{ data:{ display_name:name } }
+    });
+    if(error){ msg.textContent=error.message; msg.classList.add('err'); return; }
+    msg.textContent=tr('checkEmail'); msg.classList.add('ok');
+  } else {
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if(error){ msg.textContent=error.message; msg.classList.add('err'); return; }
+    await loadSession();
+  }
+};
+
+$('logoutBtn').onclick = async () => { await sb.auth.signOut(); me=null; render(); loadFeed(); };
+
+/* ---------- SESSION ---------- */
+async function loadSession(){
+  const { data:{ user } } = await sb.auth.getUser();
+  if(user){
+    const { data:profile } = await sb.from('profiles').select('id,display_name,is_admin').eq('id',user.id).single();
+    me = profile || { id:user.id, display_name:user.email, is_admin:false };
+  } else { me=null; }
+  render(); loadFeed();
+}
+
+function render(){
+  const inn = !!me;
+  $('authBox').classList.toggle('hidden', inn);
+  $('composerBox').classList.toggle('hidden', !inn);
+  if(inn){
+    const hi = {en:'Signed in as',es:'Conectado como',ca:'Connectat com a'};
+    $('welcome').innerHTML = '<strong>'+(hi[L()]||hi.en)+' '+escapeHtml(me.display_name)+'</strong>'+(me.is_admin?' · moderator':'');
+  }
+}
+
+/* ---------- POSTING ---------- */
+$('postSubmit').onclick = async () => {
+  const body = $('postBody').value.trim();
+  const msg = $('postMsg'); msg.className='cm-msg';
+  if(body.length<2){ return; }
+  const { error } = await sb.from('posts').insert({ author_id:me.id, body, approved:false });
+  if(error){ msg.textContent=error.message; msg.classList.add('err'); return; }
+  $('postBody').value='';
+  msg.textContent=tr('posted'); msg.classList.add('ok');
+  loadFeed();
+};
+
+/* ---------- FEED ---------- */
+async function loadFeed(){
+  // RLS returns: approved posts + (your own pending) + (everything if admin)
+  const { data:posts, error } = await sb
+    .from('posts')
+    .select('id,body,created_at,approved,author_id, profiles(display_name)')
+    .order('created_at',{ascending:false})
+    .limit(200);
+  const feed = $('feed');
+  if(error){ feed.innerHTML='<p class="cm-msg err">'+escapeHtml(error.message)+'</p>'; return; }
+  if(!posts || !posts.length){ feed.innerHTML='<p class="cm-post">'+tr('empty')+'</p>'; return; }
+
+  feed.innerHTML = posts.map(p=>{
+    const author = p.profiles ? p.profiles.display_name : '—';
+    const mine = me && p.author_id===me.id;
+    const date = new Date(p.created_at).toLocaleDateString();
+    let badges='';
+    if(!p.approved) badges+=' <span class="cm-badge pending">'+tr('pending')+'</span>';
+    if(mine)        badges+=' <span class="cm-badge mine">'+tr('mine')+'</span>';
+    let actions='';
+    if(me && me.is_admin && !p.approved) actions+='<button class="cm-approve" data-approve="'+p.id+'">'+tr('approve')+'</button>';
+    if(mine || (me && me.is_admin))      actions+='<button data-del="'+p.id+'">'+tr('del')+'</button>';
+    return '<div class="cm-post">'
+      + '<div class="cm-post-head"><span class="cm-post-author">'+escapeHtml(author)+badges+'</span>'
+      + '<span class="cm-post-meta">'+date+'</span></div>'
+      + '<div class="cm-post-body">'+escapeHtml(p.body)+'</div>'
+      + (actions?'<div class="cm-actions">'+actions+'</div>':'')
+      + '</div>';
+  }).join('');
+
+  feed.querySelectorAll('[data-approve]').forEach(b=> b.onclick=async()=>{
+    await sb.from('posts').update({ approved:true, approved_at:new Date().toISOString(), approved_by:me.id }).eq('id', b.dataset.approve);
+    loadFeed();
+  });
+  feed.querySelectorAll('[data-del]').forEach(b=> b.onclick=async()=>{
+    await sb.from('posts').delete().eq('id', b.dataset.del);
+    loadFeed();
+  });
+}
+
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ---------- INIT ---------- */
+setMode('login');
+loadSession();
+sb.auth.onAuthStateChange(()=>loadSession());
+</script>
+</body>
+</html>

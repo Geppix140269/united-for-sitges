@@ -315,13 +315,17 @@ if (cyclerEl) {
    LANGUAGE SWITCHER
    ========================================================= */
 let currentLang = 'en';
+// Legacy data-lang spans only exist for en/es/ca.
+// For FR/IT/DE/NL we fall back to showing the English spans.
+const LEGACY_LANGS = ['en', 'es', 'ca'];
 function setLang(lang) {
   currentLang = lang;
+  const legacyLang = LEGACY_LANGS.includes(lang) ? lang : 'en';
   document.querySelectorAll('[data-lang]').forEach(el => {
-    el.classList.toggle('lang-active', el.dataset.lang === lang);
+    el.classList.toggle('lang-active', el.dataset.lang === legacyLang);
   });
   document.querySelectorAll('[data-lang-inline]').forEach(el => {
-    el.classList.toggle('lang-active', el.dataset.langInline === lang);
+    el.classList.toggle('lang-active', el.dataset.langInline === legacyLang);
   });
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);

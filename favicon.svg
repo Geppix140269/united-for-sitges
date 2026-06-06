@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="disc">
+      <circle cx="50" cy="50" r="47"/>
+    </clipPath>
+  </defs>
+  <!-- Background -->
+  <circle cx="50" cy="50" r="50" fill="#FBF8F2"/>
+  <!-- Trencadís mosaic tiles — jittered 7×7 grid, seed 7, colours from spectrum -->
+  <g clip-path="url(#disc)" stroke="#FBF8F2" stroke-width="2.1">
+    <!-- Row 0 -->
+    <polygon points="0,0 14.3,0 13.6,14.3 0,13.5" fill="#1F3864"/>
+    <polygon points="14.3,0 28.6,0 27.2,13.1 13.6,14.3" fill="#2E75B6"/>
+    <polygon points="28.6,0 42.9,0 43.8,12.4 27.2,13.1" fill="#119C94"/>
+    <polygon points="42.9,0 57.1,0 56.5,13.8 43.8,12.4" fill="#F4A81C"/>
+    <polygon points="57.1,0 71.4,0 72.6,14.1 56.5,13.8" fill="#F2604C"/>
+    <polygon points="71.4,0 85.7,0 85.7,14.3 72.6,14.1" fill="#D63E73"/>
+    <polygon points="85.7,0 100,0 100,14.3 85.7,14.3" fill="#6E4AA6"/>
+    <!-- Row 1 -->
+    <polygon points="0,13.5 13.6,14.3 12.8,27.4 0,28.6" fill="#C55A11"/>
+    <polygon points="13.6,14.3 27.2,13.1 28.9,26.2 12.8,27.4" fill="#BDD7EE"/>
+    <polygon points="27.2,13.1 43.8,12.4 42.1,27.8 28.9,26.2" fill="#F5E6D0"/>
+    <polygon points="43.8,12.4 56.5,13.8 57.3,27.1 42.1,27.8" fill="#1F3864"/>
+    <polygon points="56.5,13.8 72.6,14.1 71.4,28.6 57.3,27.1" fill="#2E75B6"/>
+    <polygon points="72.6,14.1 85.7,14.3 85.7,28.6 71.4,28.6" fill="#119C94"/>
+    <polygon points="85.7,14.3 100,14.3 100,28.6 85.7,28.6" fill="#F4A81C"/>
+    <!-- Row 2 -->
+    <polygon points="0,28.6 12.8,27.4 13.9,41.2 0,42.9" fill="#F2604C"/>
+    <polygon points="12.8,27.4 28.9,26.2 27.6,42.4 13.9,41.2" fill="#D63E73"/>
+    <polygon points="28.9,26.2 42.1,27.8 43.5,41.8 27.6,42.4" fill="#6E4AA6"/>
+    <polygon points="42.1,27.8 57.3,27.1 56.2,43.6 43.5,41.8" fill="#C55A11"/>
+    <polygon points="57.3,27.1 71.4,28.6 72.8,42.2 56.2,43.6" fill="#BDD7EE"/>
+    <polygon points="71.4,28.6 85.7,28.6 85.7,42.9 72.8,42.2" fill="#F5E6D0"/>
+    <polygon points="85.7,28.6 100,28.6 100,42.9 85.7,42.9" fill="#1F3864"/>
+    <!-- Row 3 -->
+    <polygon points="0,42.9 13.9,41.2 14.7,56.3 0,57.1" fill="#2E75B6"/>
+    <polygon points="13.9,41.2 27.6,42.4 26.4,57.8 14.7,56.3" fill="#119C94"/>
+    <polygon points="27.6,42.4 43.5,41.8 44.2,56.5 26.4,57.8" fill="#F4A81C"/>
+    <polygon points="43.5,41.8 56.2,43.6 55.8,57.3 44.2,56.5" fill="#F2604C"/>
+    <polygon points="56.2,43.6 72.8,42.2 71.4,57.1 55.8,57.3" fill="#D63E73"/>
+    <polygon points="72.8,42.2 85.7,42.9 85.7,57.1 71.4,57.1" fill="#6E4AA6"/>
+    <polygon points="85.7,42.9 100,42.9 100,57.1 85.7,57.1" fill="#C55A11"/>
+    <!-- Row 4 -->
+    <polygon points="0,57.1 14.7,56.3 13.2,71.4 0,71.4" fill="#BDD7EE"/>
+    <polygon points="14.7,56.3 26.4,57.8 27.9,70.6 13.2,71.4" fill="#F5E6D0"/>
+    <polygon points="26.4,57.8 44.2,56.5 42.8,71.8 27.9,70.6" fill="#1F3864"/>
+    <polygon points="44.2,56.5 55.8,57.3 57.1,70.9 42.8,71.8" fill="#2E75B6"/>
+    <polygon points="55.8,57.3 71.4,57.1 72.1,71.4 57.1,70.9" fill="#119C94"/>
+    <polygon points="71.4,57.1 85.7,57.1 85.7,71.4 72.1,71.4" fill="#F4A81C"/>
+    <polygon points="85.7,57.1 100,57.1 100,71.4 85.7,71.4" fill="#F2604C"/>
+    <!-- Row 5 -->
+    <polygon points="0,71.4 13.2,71.4 14.1,85.7 0,85.7" fill="#D63E73"/>
+    <polygon points="13.2,71.4 27.9,70.6 28.6,85.7 14.1,85.7" fill="#6E4AA6"/>
+    <polygon points="27.9,70.6 42.8,71.8 42.9,85.7 28.6,85.7" fill="#C55A11"/>
+    <polygon points="42.8,71.8 57.1,70.9 57.1,85.7 42.9,85.7" fill="#BDD7EE"/>
+    <polygon points="57.1,70.9 72.1,71.4 71.4,85.7 57.1,85.7" fill="#F5E6D0"/>
+    <polygon points="72.1,71.4 85.7,71.4 85.7,85.7 71.4,85.7" fill="#1F3864"/>
+    <polygon points="85.7,71.4 100,71.4 100,85.7 85.7,85.7" fill="#2E75B6"/>
+    <!-- Row 6 -->
+    <polygon points="0,85.7 14.1,85.7 14.3,100 0,100" fill="#119C94"/>
+    <polygon points="14.1,85.7 28.6,85.7 28.6,100 14.3,100" fill="#F4A81C"/>
+    <polygon points="28.6,85.7 42.9,85.7 42.9,100 28.6,100" fill="#F2604C"/>
+    <polygon points="42.9,85.7 57.1,85.7 57.1,100 42.9,100" fill="#D63E73"/>
+    <polygon points="57.1,85.7 71.4,85.7 71.4,100 57.1,100" fill="#6E4AA6"/>
+    <polygon points="71.4,85.7 85.7,85.7 85.7,100 71.4,100" fill="#C55A11"/>
+    <polygon points="85.7,85.7 100,85.7 100,100 85.7,100" fill="#BDD7EE"/>
+  </g>
+  <!-- Disc border -->
+  <circle cx="50" cy="50" r="47" fill="none" stroke="#FBF8F2" stroke-width="3"/>
+</svg>

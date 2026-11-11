@@ -15,7 +15,7 @@
 <body>
 <div class="band"></div><header class="header"><div class="wrap"><a class="brand" href="/"><img src="/favicon.svg" width="55" height="55" alt=""><span>United for Sitges</span></a><a class="back" href="/">← Back to the information hub</a></div></header>
 <section class="hero"><div class="wrap"><span class="tag">Community / Residents' forum</span>
-<div id="not-ready" class="notice"><strong>Member registration is closed</strong>When registration opens, choose “Create an account” in Member access and confirm your email.</div>
+<div id="not-ready" class="notice"><strong>Member registration remains closed</strong>Verified moderators can now test the community privately. Public registrations will open only after email and privacy checks pass.</div>
 <h1>Conversations that make Sitges feel like home.</h1><p>Ask your neighbours, share practical information and discuss local life. An independent, moderated community space — not a campaigning platform.</p></div></section>
 <main class="main"><div class="wrap layout"><div>
 <div class="panel">
@@ -46,7 +46,9 @@
 <script type="module">
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.75.0";
 const cfg=window.UFS_FORUM_CONFIG||{};
-const active=Boolean(cfg.enabled&&cfg.url&&cfg.publishableKey);
+const publicEnabled=Boolean(cfg.enabled&&cfg.url&&cfg.publishableKey);
+const betaEnabled=Boolean(!publicEnabled&&cfg.betaEnabled&&cfg.url&&cfg.publishableKey);
+const active=publicEnabled||betaEnabled;
 const $=id=>document.getElementById(id);
 const show=(id,yes)=>$(id).classList.toggle("hidden",!yes);
 const setStatus=(id,message,error=false)=>{const el=$(id);el.textContent=message;el.classList.toggle("error",error)};
@@ -72,12 +74,16 @@ async function authRefresh(){
   const {data,error}=await api.auth.getUser();
   me=error?null:data.user;
   try{await loadProfile()}catch(e){setStatus("auth-status",errorMessage(e),true)}
-  show("auth-forms",!me && !recovering);show("signed-in",Boolean(me)&&!recovering);show("new-password-form",recovering);
-  show("new-topic-toggle",Boolean(me&&profile&&!profile.is_suspended));
+  show("auth-forms",publicEnabled&&!me&&!recovering);
+  show("signed-in",Boolean(me)&&(publicEnabled||mayModerate())&&!recovering);
+  show("new-password-form",recovering&&publicEnabled);
+    show("new-topic-toggle",Boolean(me&&profile&&!profile.is_suspended&&(publicEnabled||mayModerate())));
   show("refresh",true);
   show("moderation-panel",mayModerate());
   if(me)$("signed-in-name").textContent=profile?.display_name||me.email||"member";
-  $("auth-note").textContent=me?"You can join the discussion. All new posts require moderation.":"Sign in or create a free member account. Email verification may be required.";
+  $("auth-note").textContent=betaEnabled
+    ?"Moderator-only preview is available after email verification. Public registrations remain closed."
+    :me?"You can join the discussion. All new posts require moderation.":"Sign in or create a free member account. Email verification may be required.";
   await loadTopics();
   if(mayModerate())await loadQueue();
 }
@@ -163,8 +169,8 @@ async function loadQueue(){
 document.querySelectorAll("#category-filters button").forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll("#category-filters button").forEach(n=>n.classList.toggle("active",n===b));renderTopics()});
 if(active){
   api=createClient(cfg.url,cfg.publishableKey,{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}});
-  show("not-ready",false);
-  $("forum-badge").textContent="Moderated forum";
+  show("not-ready",!publicEnabled);
+  $("forum-badge").textContent=publicEnabled?"Moderated forum":"Moderator preview · registrations closed";
   $("refresh").onclick=()=>authRefresh();
   $("new-topic-toggle").onclick=()=>show("new-topic-panel",$("new-topic-panel").classList.contains("hidden"));
   $("show-signup").onclick=()=>{show("sign-in-form",false);show("sign-up-form",true);setStatus("auth-status","")};

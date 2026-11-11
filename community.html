@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="United for Sitges community: a moderated forum for international residents of Sitges.">
+<meta name="robots" content="index,follow">
+<title>Community Forum — United for Sitges</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&family=Lora:ital,wght@0,400;0,500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1F3864;--cream:#FBF8F2;--terra:#C55A11;--teal:#119C94;--sea:#BDD7EE;--ink:#24384c;--muted:#526776;--line:#dbe4e9}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font:16px/1.65 'Nunito Sans',sans-serif;background:var(--cream);color:var(--ink)}a{color:#205c88;text-underline-offset:3px}button,input,select,textarea{font:inherit}button{cursor:pointer}h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:'Nunito Sans',sans-serif;line-height:1.15;letter-spacing:-.035em}h1{font-weight:900;font-size:clamp(2.7rem,5vw,4.6rem);max-width:13ch}h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--terra);outline-offset:3px}.band{height:8px;background:linear-gradient(90deg,#1F3864 0 14%,#2E75B6 14% 27%,#119C94 27% 40%,#F4A81C 40% 53%,#F2604C 53% 66%,#D63E73 66% 79%,#6E4AA6 79% 90%,#C55A11 90%)}.wrap{max-width:1120px;padding:0 25px;margin:auto}.header{background:white;border-bottom:1px solid var(--line)}.header .wrap{display:flex;gap:20px;align-items:center;justify-content:space-between;min-height:90px}.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--navy);font-size:19px;font-weight:900}.brand img{width:55px;height:55px}.header a.back{font-weight:800;text-decoration:none}.hero{padding:71px 0 70px;background:linear-gradient(123deg,#1F3864,#263f6b 60%,#154d73);color:white;position:relative;overflow:hidden}.hero:after{content:'';width:300px;height:300px;position:absolute;border:42px solid #fff1;border-radius:50%;right:-100px;top:-155px}.eyebrow{font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#edb982;font-size:12px;margin-bottom:13px}.hero p{color:#d6e5ed;max-width:760px;font:17px/1.7 'Lora',Georgia,serif}.tag{display:inline-block;border-radius:90px;background:#ffedd5;color:#874412;font-size:11px;letter-spacing:.04em;padding:5px 12px;text-transform:uppercase;font-weight:900;margin-bottom:19px}.main{padding:48px 0 70px}.layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(270px,.75fr);gap:30px}.panel{border:1px solid var(--line);border-radius:16px;background:white;padding:26px;margin-bottom:22px;box-shadow:0 8px 26px #142e5110}.panel h2{margin-bottom:11px}.muted{color:var(--muted)}.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--terra);border:1px solid var(--terra);border-radius:9px;padding:11px 16px;color:white;font-size:14px;font-weight:900;text-decoration:none;min-height:44px}.btn:hover{background:#a34a0e;color:white}.btn.secondary{background:white;border-color:#b9cbd3;color:var(--navy)}.btn.navy{background:var(--navy);border-color:var(--navy)}.btn:disabled{cursor:not-allowed;opacity:.55}.cats{display:flex;flex-wrap:wrap;gap:8px;margin:19px 0}.cats button{border:1px solid #cfdee4;background:#f4f8fa;color:var(--navy);font-weight:800;border-radius:20px;padding:7px 13px;font-size:12px}.cats button.active{background:#1F3864;color:white;border-color:#1F3864}.notice{padding:19px;border-left:4px solid #f0a354;border-radius:0 8px 8px 0;background:#fff3e6;color:#624326;margin-bottom:23px;font-size:14px}.notice strong{display:block;margin-bottom:4px}.entry{padding:19px 0;border-bottom:1px solid var(--line)}.entry:last-child{border-bottom:0}.entry-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.entry h3{margin-bottom:7px;font-size:18px}.entry h3 button{border:0;background:transparent;padding:0;color:var(--navy);font-weight:900;text-align:left}.entry p{color:var(--muted);font-size:13px;margin-bottom:0}.entry .body{white-space:pre-wrap;word-break:break-word;font-size:15px;color:#28455a;margin:14px 0}.badge{font-size:11px;font-weight:900;padding:4px 9px;border-radius:15px;background:#e5f3ef;color:#22675f}.badge.pending{background:#fff1d9;color:#915200}.rule{border-bottom:1px solid var(--line);padding:13px 0;font-size:14px}.rule:last-child{border:0}.field{margin:13px 0}.field label{display:block;font-weight:800;margin-bottom:5px}.field input,.field select,.field textarea{border:1px solid #bccdd7;border-radius:9px;padding:12px;width:100%;background:#fff;color:var(--ink)}.field textarea{min-height:125px;resize:vertical}form small{color:var(--muted)}.buttons{display:flex;gap:10px;flex-wrap:wrap}.hidden{display:none!important}.status{font-size:13px;color:var(--muted);margin-top:10px}.status.error{color:#b42b25}.side h3{font-size:17px}.side p,.side li{font-size:14px;color:var(--muted)}ul{padding-left:21px}.reply{border-left:3px solid #d2e5e8;padding:12px 15px;margin-top:13px;background:#f8fbfb;border-radius:3px 8px 8px 3px}.reply p{white-space:pre-wrap;word-break:break-word;margin:7px 0}.reply small{color:var(--muted)}.admin-actions{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}.small-btn{border:1px solid #bcd0dc;background:white;padding:5px 10px;border-radius:6px;color:var(--navy);font-weight:800;font-size:12px}.small-btn.approve{border-color:#80c5b0;color:#087c5a}.small-btn.reject{border-color:#ebaaa1;color:#b42b25}.footer{background:#172d4d;color:#ced9e3;padding:30px 0;font-size:13px}.footer a{color:white}.footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px}@media(max-width:800px){.layout{grid-template-columns:1fr}.hero{padding:50px 0}.header .wrap{min-height:72px}.brand img{width:42px;height:42px}.brand{font-size:16px}.panel{padding:20px}}@media(max-width:440px){.wrap{padding:0 17px}.header a.back{font-size:12px}.hero h1{font-size:2.7rem}}
+</style></head>
+<body>
+<div class="band"></div><header class="header"><div class="wrap"><a class="brand" href="/"><img src="/favicon.svg" width="55" height="55" alt=""><span>United for Sitges</span></a><a class="back" href="/">← Back to the information hub</a></div></header>
+<section class="hero"><div class="wrap"><span class="tag">Community / Residents' forum</span><h1>Conversations that make Sitges feel like home.</h1><p>Ask your neighbours, share practical information and discuss local life. An independent, moderated community space — not a campaigning platform.</p></div></section>
+<main class="main"><div class="wrap layout"><div>
+<div id="not-ready" class="notice"><strong>Community opening soon</strong>We are preparing secure member registration and moderation. Registration is not available until the independent database and privacy review are complete. The main site's voting information is already available.</div>
+<div class="panel">
+<div class="entry-head"><h2 style="margin:0">Community discussions</h2><span class="badge" id="forum-badge">In preparation</span></div>
+<div class="cats" id="category-filters"><button class="active" data-filter="all">All topics</button><button data-filter="voting">Voting & registration</button><button data-filter="living">Life in Sitges</button><button data-filter="issues">Local issues</button><button data-filter="questions">Questions</button><button data-filter="official">Official information</button></div>
+<div id="topics" aria-live="polite"><p class="muted">No public discussions yet. After registration opens, members can start conversations here.</p></div>
+<div class="buttons" style="margin-top:20px"><button id="new-topic-toggle" class="btn hidden" type="button">Start a discussion</button><button id="refresh" class="btn secondary hidden" type="button">Refresh</button></div>
+</div>
+<div class="panel hidden" id="new-topic-panel"><h2>Start a new discussion</h2><p class="muted">Your post will be reviewed before others can see it.</p><form id="new-topic-form"><div class="field"><label for="topic-category">Category</label><select id="topic-category" required><option value="voting">Voting & registration</option><option value="living">Life in Sitges</option><option value="issues">Local issues</option><option value="questions">Ask the community</option><option value="official">Official information</option></select></div><div class="field"><label for="topic-title">Title</label><input id="topic-title" required minlength="6" maxlength="140" placeholder="What would you like to discuss?"></div><div class="field"><label for="topic-body">Your message</label><textarea id="topic-body" required minlength="20" maxlength="4000" placeholder="Explain your question or experience."></textarea></div><div class="field"><label><input id="consent" type="checkbox" required style="width:auto"> I consent to my message and display name being published if approved. I understand that forum posts may reveal sensitive views and can be removed.</label></div><button type="submit" class="btn">Send for moderation</button><p class="status" id="topic-status" role="status"></p></form></div>
+<div class="panel hidden" id="moderation-panel"><h2>Moderator queue</h2><p class="muted">Pending topics and replies are visible only to moderators and their authors.</p><div id="moderation-list"></div></div>
+</div><aside class="side">
+<div class="panel" id="auth-panel"><h3>Member access</h3><p class="muted" id="auth-note">Registration will open after the forum backend is connected.</p>
+<div id="auth-forms" class="hidden"><form id="sign-in-form"><div class="field"><label for="email">Email</label><input type="email" id="email" autocomplete="email" required></div><div class="field"><label for="password">Password</label><input type="password" minlength="8" id="password" autocomplete="current-password" required></div><div class="buttons"><button type="submit" class="btn navy">Sign in</button><button id="show-signup" type="button" class="btn secondary">Create an account</button></div></form>
+<form id="sign-up-form" class="hidden"><div class="field"><label for="nickname">Public display name</label><input id="nickname" minlength="2" maxlength="40" required></div><div class="field"><label for="signup-email">Email</label><input id="signup-email" type="email" required></div><div class="field"><label for="signup-pass">Password (8+ characters)</label><input id="signup-pass" type="password" minlength="8" required></div><div class="field"><label><input id="signup-consent" type="checkbox" required style="width:auto"> I accept the <a href="/privacy.html" target="_blank" rel="noopener">privacy information</a> and community rules.</label></div><div class="buttons"><button type="submit" class="btn navy">Sign up</button><button id="show-login" type="button" class="btn secondary">Back to login</button></div></form></div>
+<div class="hidden" id="signed-in"><p class="muted">Signed in as <strong id="signed-in-name"></strong></p><button class="btn secondary" id="sign-out">Sign out</button></div><p id="auth-status" class="status" role="status"></p></div>
+<div class="panel"><h3>Community rules</h3>
+<div class="rule"><strong>1. Respect neighbours.</strong><br>No insults, harassment, discrimination or threats.</div>
+<div class="rule"><strong>2. Cite official sources.</strong><br>Especially for election rights, registration and deadlines. Mark unverified claims clearly.</div>
+<div class="rule"><strong>3. No campaigning or spam.</strong><br>No party advertisements, coordinated promotion or candidate campaigning in general discussion.</div>
+<div class="rule"><strong>4. Equal treatment.</strong><br>Any future candidate Q&A must use published, equal and moderated rules for all participating parties.</div>
+<div class="rule"><strong>5. Privacy matters.</strong><br>Do not post another person's private details. All public posts are approved before publication.</div></div>
+<div class="panel"><h3>Need official voting information?</h3><p>Find the complete list of eligible nationalities and election registration deadlines.</p><a class="btn secondary" href="/#vote">Check who can vote →</a></div>
+</aside></div></main>
+<footer class="footer"><div class="wrap"><div>© 2026 United for Sitges · An independent residents' information project</div><div><a href="/privacy.html">Privacy</a> · <a href="/">Home</a></div></div></footer>
+<script src="/forum-config.js"></script>
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.75.0";
+const cfg=window.UFS_FORUM_CONFIG||{};
+const active=Boolean(cfg.enabled&&cfg.url&&cfg.publishableKey);
+const $=id=>document.getElementById(id);
+const show=(id,yes)=>$(id).classList.toggle("hidden",!yes);
+const setStatus=(id,message,error=false)=>{const el=$(id);el.textContent=message;el.classList.toggle("error",error)};
+const categories={voting:"Voting & registration",living:"Life in Sitges",issues:"Local issues",questions:"Questions",official:"Official information"};
+let api=null,me=null,profile=null,allTopics=[],filter="all";
+function el(tag,cls,text){const node=document.createElement(tag);if(cls)node.className=cls;if(text!==undefined)node.textContent=text;return node}
+function mayModerate(){return Boolean(profile?.is_moderator && !profile?.is_suspended)}
+function errorMessage(e){return e?.message || "Something went wrong. Please try again."}
+async function loadProfile(){
+  if(!me){profile=null;return}
+  let q=await api.from("ufs_profiles").select("user_id,display_name,is_moderator,is_suspended").eq("user_id",me.id).maybeSingle();
+  if(q.error)throw q.error;
+  profile=q.data;
+  if(!profile && me.user_metadata?.display_name){
+    const name=String(me.user_metadata.display_name).slice(0,40);
+    q=await api.from("ufs_profiles").insert({user_id:me.id,display_name:name}).select("user_id,display_name,is_moderator,is_suspended").single();
+    if(q.error)throw q.error;
+    profile=q.data;
+  }
+}
+async function authRefresh(){
+  if(!active)return;
+  const {data,error}=await api.auth.getUser();
+  me=error?null:data.user;
+  try{await loadProfile()}catch(e){setStatus("auth-status",errorMessage(e),true)}
+  show("auth-forms",!me);show("signed-in",Boolean(me));
+  show("new-topic-toggle",Boolean(me&&profile&&!profile.is_suspended));
+  show("refresh",true);
+  show("moderation-panel",mayModerate());
+  if(me)$("signed-in-name").textContent=profile?.display_name||me.email||"member";
+  $("auth-note").textContent=me?"You can join the discussion. All new posts require moderation.":"Sign in or create a free member account. Email verification may be required.";
+  await loadTopics();
+  if(mayModerate())await loadQueue();
+}
+async function loadTopics(){
+  if(!active)return;
+  $("topics").replaceChildren(el("p","muted","Loading discussions…"));
+  let q=await api.from("ufs_topics").select("id,category,title,body,author_name,author_id,status,created_at").order("created_at",{ascending:false}).limit(100);
+  if(q.error){$("topics").replaceChildren(el("p","muted",errorMessage(q.error)));return}
+  allTopics=q.data||[];renderTopics();
+}
+function renderTopics(){
+  const root=$("topics");root.replaceChildren();
+  const visible=allTopics.filter(t=>filter==="all"||t.category===filter);
+  if(!visible.length){root.append(el("p","muted","No discussions in this category yet."));return}
+  for(const topic of visible){
+    const block=el("article","entry");
+    const top=el("div","entry-head");const h=el("h3");const b=el("button",null,topic.title);b.type="button";b.onclick=()=>toggleThread(topic,block);h.append(b);top.append(h);
+    if(topic.status!=="approved")top.append(el("span","badge pending",topic.status));
+    block.append(top);
+    block.append(el("p","",categories[topic.category]+" · "+topic.author_name+" · "+new Date(topic.created_at).toLocaleDateString()));
+    const details=el("div","hidden");
+    details.append(el("p","body",topic.body));
+    const replies=el("div","");details.append(replies);
+    const replyForm=el("form","hidden");replyForm.innerHTML='<div class="field"><label>Your reply</label><textarea minlength="3" maxlength="2500" required></textarea></div><button class="btn" type="submit">Send for review</button>';
+    const note=el("div","status","");replyForm.append(note);
+    replyForm.onsubmit=async e=>{e.preventDefault();const text=replyForm.querySelector("textarea").value;if(!profile)return;const {error}=await api.from("ufs_replies").insert({topic_id:topic.id,author_id:me.id,author_name:profile.display_name,body:text});note.textContent=error?errorMessage(error):"Reply submitted for moderator approval.";if(!error)replyForm.reset()};
+    if(me&&profile&&!profile.is_suspended&&topic.status==="approved")replyForm.classList.remove("hidden");
+    details.append(replyForm);block.append(details);root.append(block);
+  }
+}
+async function toggleThread(topic,block){
+  const details=block.lastElementChild;details.classList.toggle("hidden");
+  if(details.classList.contains("hidden"))return;
+  const replies=details.children[1];replies.replaceChildren(el("p","muted","Loading replies…"));
+  const {data,error}=await api.from("ufs_replies").select("id,body,author_name,status,created_at").eq("topic_id",topic.id).order("created_at",{ascending:true}).limit(200);
+  replies.replaceChildren();
+  if(error){replies.append(el("p","muted",errorMessage(error)));return}
+  for(const reply of data||[]){
+    const item=el("div","reply");item.append(el("small","",reply.author_name+" · "+new Date(reply.created_at).toLocaleDateString()+(reply.status!=="approved"?" · "+reply.status:"")));item.append(el("p","",reply.body));replies.append(item)
+  }
+  if(!(data||[]).length)replies.append(el("p","muted","No approved replies yet."));
+}
+async function loadQueue(){
+  if(!active||!mayModerate())return;
+  const [t,r]=await Promise.all([
+    api.from("ufs_topics").select("id,title,body,author_name,status").eq("status","pending").order("created_at").limit(100),
+    api.from("ufs_replies").select("id,body,author_name,topic_id,status").eq("status","pending").order("created_at").limit(100)
+  ]);
+  const root=$("moderation-list");root.replaceChildren();
+  if(t.error||r.error){root.append(el("p","muted",errorMessage(t.error||r.error)));return}
+  const pending=[...(t.data||[]).map(p=>({...p,table:"ufs_topics"})),...(r.data||[]).map(p=>({...p,table:"ufs_replies"}))];
+  if(!pending.length){root.append(el("p","muted","Moderation queue is empty."));return}
+  for(const item of pending){
+    const box=el("div","entry");box.append(el("strong","",item.title||"Reply"));box.append(el("p","body",item.body));box.append(el("p","muted",item.author_name));
+    const actions=el("div","admin-actions");
+    for(const [status,label] of [["approved","Approve"],["rejected","Reject"]]){
+      const btn=el("button","small-btn "+(status==="approved"?"approve":"reject"),label);
+      btn.onclick=async()=>{if(!mayModerate())return;btn.disabled=true;const {error}=await api.from(item.table).update({status}).eq("id",item.id);if(error){alert(errorMessage(error));btn.disabled=false;return}await loadQueue();await loadTopics()};actions.append(btn)
+    }
+    box.append(actions);root.append(box);
+  }
+}
+document.querySelectorAll("#category-filters button").forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll("#category-filters button").forEach(n=>n.classList.toggle("active",n===b));renderTopics()});
+if(active){
+  api=createClient(cfg.url,cfg.publishableKey,{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}});
+  show("not-ready",false);
+  $("forum-badge").textContent="Moderated forum";
+  $("refresh").onclick=()=>authRefresh();
+  $("new-topic-toggle").onclick=()=>show("new-topic-panel",$("new-topic-panel").classList.contains("hidden"));
+  $("show-signup").onclick=()=>{show("sign-in-form",false);show("sign-up-form",true);setStatus("auth-status","")};
+  $("show-login").onclick=()=>{show("sign-in-form",true);show("sign-up-form",false);setStatus("auth-status","")};
+  $("sign-in-form").onsubmit=async e=>{e.preventDefault();setStatus("auth-status","Signing in…");const {error}=await api.auth.signInWithPassword({email:$("email").value,password:$("password").value});if(error)setStatus("auth-status",errorMessage(error),true);else{setStatus("auth-status","");await authRefresh()}};
+  $("sign-up-form").onsubmit=async e=>{
+    e.preventDefault();setStatus("auth-status","Creating account…");
+    const {data,error}=await api.auth.signUp({email:$("signup-email").value,password:$("signup-pass").value,options:{data:{display_name:$("nickname").value},emailRedirectTo:location.origin+"/community.html"}});
+    if(error)setStatus("auth-status",errorMessage(error),true);
+    else {setStatus("auth-status",data?.session?"Account created.":"Check your inbox for the email confirmation, then sign in.");show("sign-up-form",false);show("sign-in-form",true);await authRefresh()}
+  };
+  $("sign-out").onclick=async()=>{await api.auth.signOut();await authRefresh()};
+  $("new-topic-form").onsubmit=async e=>{
+    e.preventDefault();
+    if(!me||!profile||profile.is_suspended)return setStatus("topic-status","Sign in to post.",true);
+    const {error}=await api.from("ufs_topics").insert({author_id:me.id,author_name:profile.display_name,category:$("topic-category").value,title:$("topic-title").value.trim(),body:$("topic-body").value.trim()});
+    setStatus("topic-status",error?errorMessage(error):"Topic submitted for moderator approval.",Boolean(error));
+    if(!error){$("new-topic-form").reset();await loadTopics()}
+  };
+  api.auth.onAuthStateChange(()=>{setTimeout(()=>authRefresh(),0)});
+  authRefresh();
+}
+</script></body></html>

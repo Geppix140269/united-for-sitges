@@ -15,24 +15,24 @@
 <body>
 <div class="band"></div><header class="header"><div class="wrap"><a class="brand" href="/"><img src="/favicon.svg" width="55" height="55" alt=""><span>United for Sitges</span></a><a class="back" href="/">← Back to the information hub</a></div></header>
 <section class="hero"><div class="wrap"><span class="tag">Community / Residents' forum</span>
-<div id="not-ready" class="notice"><strong>Member registration remains closed</strong>Verified moderators can now test the community privately. Public registrations will open only after email and privacy checks pass. <a href="#auth-panel" style="color:#1F3864;font-weight:900;text-decoration:underline">Moderator? Sign in below →</a></div>
+<div id="not-ready" class="notice"><strong>Member registration is not available yet</strong>The forum is being prepared for public accounts. Existing members and moderators can sign in below. <a href="#auth-panel" style="color:#1F3864;font-weight:900;text-decoration:underline">Sign in below →</a></div>
 <h1>Conversations that make Sitges feel like home.</h1><p>Ask your neighbours, share practical information and discuss local life. An independent, moderated community space — not a campaigning platform.</p></div></section>
 <main class="main"><div class="wrap layout"><div>
 <div class="panel">
 <div class="entry-head"><h2 style="margin:0">Community discussions</h2><span class="badge" id="forum-badge">In preparation</span></div>
 <div class="cats" id="category-filters"><button class="active" data-filter="all">All topics</button><button data-filter="voting">Voting & registration</button><button data-filter="living">Life in Sitges</button><button data-filter="issues">Local issues</button><button data-filter="questions">Questions</button><button data-filter="official">Official information</button></div>
-<div id="topics" aria-live="polite"><p class="muted">No public discussions yet. After registration opens, members can start conversations here.</p></div>
+<div id="topics" aria-live="polite"><p class="muted">There are no approved discussions in this category yet.</p></div>
 <div class="buttons" style="margin-top:20px"><button id="new-topic-toggle" class="btn hidden" type="button">Start a discussion</button><button id="refresh" class="btn secondary hidden" type="button">Refresh</button></div>
 </div>
-<div class="panel hidden" id="new-topic-panel"><h2>Start a new discussion</h2><p class="muted">Your post will be reviewed before others can see it.</p><form id="new-topic-form"><div class="field"><label for="topic-category">Category</label><select id="topic-category" required><option value="voting">Voting & registration</option><option value="living">Life in Sitges</option><option value="issues">Local issues</option><option value="questions">Ask the community</option><option value="official">Official information</option></select></div><div class="field"><label for="topic-title">Title</label><input id="topic-title" required minlength="6" maxlength="140" placeholder="What would you like to discuss?"></div><div class="field"><label for="topic-body">Your message</label><textarea id="topic-body" required minlength="20" maxlength="4000" placeholder="Explain your question or experience."></textarea></div><div class="field"><label><input id="consent" type="checkbox" required style="width:auto"> I consent to my message and display name being published if approved. I understand that forum posts may reveal sensitive views and can be removed.</label></div><button type="submit" class="btn">Send for moderation</button><p class="status" id="topic-status" role="status"></p></form></div>
+<div class="panel hidden" id="new-topic-panel"><h2>Start a new discussion</h2><p class="muted">Your post will be reviewed before others can see it.</p><form id="new-topic-form"><div class="field"><label for="topic-category">Category</label><select id="topic-category" required><option value="voting">Voting & registration</option><option value="living">Life in Sitges</option><option value="issues">Local issues</option><option value="questions">Ask the community</option><option value="official">Official information</option></select></div><div class="field"><label for="topic-title">Title</label><input id="topic-title" required minlength="6" maxlength="140" placeholder="What would you like to discuss?"></div><div class="field"><label for="topic-body">Your message</label><textarea id="topic-body" required minlength="20" maxlength="4000" placeholder="Explain your question or experience."></textarea></div><div class="field"><label><input id="consent" type="checkbox" required style="width:auto"> I choose to submit my message and public display name for publication if a moderator approves. I have not shared private or sensitive details about myself or other people and understand I can request removal.</label></div><button type="submit" class="btn">Send for moderation</button><p class="status" id="topic-status" role="status"></p></form></div>
 <div class="panel hidden" id="moderation-panel"><h2>Moderator queue</h2><p class="muted">Pending topics and replies are visible only to moderators and their authors.</p><div id="moderation-list"></div></div>
 </div><aside class="side">
 <div class="panel" id="auth-panel"><h3>Member access</h3><p class="muted" id="auth-note">Member registration is currently closed.</p>
 <div id="auth-forms" class="hidden"><form id="sign-in-form"><div class="field"><label for="email">Email</label><input type="email" id="email" autocomplete="email" required></div><div class="field"><label for="password">Password</label><input type="password" minlength="8" id="password" autocomplete="current-password" required></div><div class="buttons"><button type="submit" class="btn navy">Sign in</button><button id="show-signup" type="button" class="btn secondary">Create an account</button><button id="show-recovery" type="button" class="btn secondary">Forgot password?</button></div></form>
-<form id="sign-up-form" class="hidden"><div class="field"><label for="nickname">Public display name</label><input id="nickname" minlength="2" maxlength="40" required></div><div class="field"><label for="signup-email">Email</label><input id="signup-email" type="email" required></div><div class="field"><label for="signup-pass">Password (8+ characters)</label><input id="signup-pass" type="password" minlength="8" required></div><div class="field"><label><input id="signup-consent" type="checkbox" required style="width:auto"> I accept the <a href="/privacy.html" target="_blank" rel="noopener">privacy information</a> and community rules.</label></div><div class="buttons"><button type="submit" class="btn navy">Sign up</button><button id="show-login" type="button" class="btn secondary">Back to login</button></div></form>
+<form id="sign-up-form" class="hidden"><div class="field"><label for="nickname">Public display name</label><input id="nickname" minlength="2" maxlength="40" required></div><div class="field"><label for="signup-email">Email</label><input id="signup-email" type="email" required></div><div class="field"><label for="signup-pass">Password (8+ characters)</label><input id="signup-pass" type="password" minlength="8" required></div><div class="field"><label><input id="signup-age" type="checkbox" required style="width:auto"> I confirm I am at least 18 years old.</label></div><div class="field"><label><input id="signup-consent" type="checkbox" required style="width:auto"> I have read the <a href="/privacy.html" target="_blank" rel="noopener">privacy policy</a> and accept the community rules. My public display name and approved posts will be visible to visitors.</label></div><div class="buttons"><button type="submit" class="btn navy">Sign up</button><button id="show-login" type="button" class="btn secondary">Back to login</button></div></form>
 <form id="recovery-form" class="hidden"><p class="muted">Enter your account email to receive a secure password reset link.</p><div class="field"><label for="recovery-email">Email</label><input id="recovery-email" type="email" autocomplete="email" required></div><div class="buttons"><button type="submit" class="btn navy">Send reset link</button><button id="recovery-back" class="btn secondary" type="button">Back to sign in</button></div></form></div>
 <form id="new-password-form" class="hidden"><p class="muted">Choose a new password for your account.</p><div class="field"><label for="new-password">New password (at least 8 characters)</label><input type="password" id="new-password" minlength="8" autocomplete="new-password" required></div><button type="submit" class="btn navy">Update password</button></form>
-<div class="hidden" id="signed-in"><p class="muted">Signed in as <strong id="signed-in-name"></strong></p><button class="btn secondary" id="sign-out">Sign out</button></div><p id="auth-status" class="status" role="status"></p></div>
+<div class="hidden" id="signed-in"><p class="muted">Signed in as <strong id="signed-in-name"></strong></p><button class="btn secondary" id="sign-out">Sign out</button><p><a href="mailto:hello@giuseppefunaro.com?subject=United%20for%20Sitges%20account%20deletion">Request account deletion or data access</a></p></div><p id="auth-status" class="status" role="status"></p></div>
 <div class="panel"><h3>Community rules</h3>
 <div class="rule"><strong>1. Respect neighbours.</strong><br>No insults, harassment, discrimination or threats.</div>
 <div class="rule"><strong>2. Cite official sources.</strong><br>Especially for election rights, registration and deadlines. Mark unverified claims clearly.</div>
@@ -46,9 +46,10 @@
 <script type="module">
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.75.0";
 const cfg=window.UFS_FORUM_CONFIG||{};
-const publicEnabled=Boolean(cfg.enabled&&cfg.url&&cfg.publishableKey);
-const betaEnabled=Boolean(!publicEnabled&&cfg.betaEnabled&&cfg.url&&cfg.publishableKey);
-const active=publicEnabled||betaEnabled;
+const publicLaunchRequested=Boolean(cfg.enabled&&cfg.url&&cfg.publishableKey);
+let publicEnabled=false;
+const betaEnabled=Boolean(cfg.betaEnabled&&cfg.url&&cfg.publishableKey);
+const active=publicLaunchRequested||betaEnabled;
 const $=id=>document.getElementById(id);
 const show=(id,yes)=>$(id).classList.toggle("hidden",!yes);
 const setStatus=(id,message,error=false)=>{const el=$(id);el.textContent=message;el.classList.toggle("error",error)};
@@ -80,10 +81,11 @@ async function authRefresh(){
     show("new-topic-toggle",Boolean(me&&profile&&!profile.is_suspended&&(publicEnabled||mayModerate())));
   show("refresh",true);
   show("moderation-panel",mayModerate());
-  if(betaEnabled)show("not-ready",!mayModerate());
+  if(betaEnabled&&!publicEnabled)show("not-ready",!mayModerate());
+  if(publicEnabled)show("not-ready",false);
   if(me)$("signed-in-name").textContent=profile?.display_name||me.email||"member";
   $("auth-note").textContent=betaEnabled
-    ?(mayModerate()?"Moderator access confirmed. Public registrations remain closed.":"Moderator sign-in only. Use your verified account to test the forum; public registrations remain closed.")
+    ?(!publicEnabled?(mayModerate()?"Moderator access confirmed. Public registrations remain closed.":"Members can sign in if they have an account. New registration is not yet available."):(me?"You are signed in. New contributions require moderator approval.":"Register or sign in to participate. Email verification is required."))
     :me?"You can join the discussion. All new posts require moderation.":"Sign in or create a free member account. Email verification may be required.";
   await loadTopics();
   if(mayModerate())await loadQueue();
@@ -171,7 +173,7 @@ document.querySelectorAll("#category-filters button").forEach(b=>b.onclick=()=>{
 if(active){
   api=createClient(cfg.url,cfg.publishableKey,{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}});
   show("not-ready",!publicEnabled);
-  $("forum-badge").textContent=publicEnabled?"Moderated forum":"Moderator preview · registrations closed";
+  $("forum-badge").textContent=publicEnabled?"Moderated forum":"Forum preview · registrations closed";
   show("show-signup",publicEnabled);
   $("refresh").onclick=()=>authRefresh();
   $("new-topic-toggle").onclick=()=>show("new-topic-panel",$("new-topic-panel").classList.contains("hidden"));
@@ -212,6 +214,35 @@ if(active){
     }else if(event==="SIGNED_OUT")recovering=false;
     setTimeout(()=>authRefresh(),0);
   });
+  async function updatePublicRegistrationAvailability(){
+    if(!publicLaunchRequested) return;
+    try{
+      // Public GoTrue settings endpoint: never expose admin tokens or other credentials.
+      const response=await fetch(cfg.url+"/auth/v1/settings",{
+        method:"GET", headers:{"apikey":cfg.publishableKey}
+      });
+      if(!response.ok)throw new Error("Signup status unavailable");
+      const settings=await response.json();
+      // Fail closed when signups are disabled or the email provider is unavailable.
+      // If email auto-confirm is on, do not offer registration until it is turned off.
+      publicEnabled=settings.disable_signup===false &&
+        settings.autoconfirm!==true &&
+        settings.external?.email!==false;
+    }catch(e){
+      publicEnabled=false;
+    }
+    show("show-signup",publicEnabled);
+    $("forum-badge").textContent=publicEnabled?"Moderated community · Join us":"Forum preview · registrations closed";
+    if(publicEnabled) {
+      show("not-ready",false);
+      $("not-ready").querySelector("strong").textContent="Community registrations are open";
+    } else{
+      show("not-ready",true);
+      $("not-ready").querySelector("strong").textContent="Registrations are not available yet";
+    }
+    await authRefresh();
+  }
   authRefresh();
+  updatePublicRegistrationAvailability();
 }
 </script></body></html>

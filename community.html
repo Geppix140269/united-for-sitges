@@ -100,7 +100,12 @@ function renderTopics(){
     block.append(el("p","",categories[topic.category]+" · "+topic.author_name+" · "+new Date(topic.created_at).toLocaleDateString()));
     const details=el("div","hidden");
     details.append(el("p","body",topic.body));
-    const replies=el("div","");details.append(replies);
+    if(me && profile && !profile.is_suspended && topic.status==="approved"){
+      const report=el("button","small-btn reject","Report discussion");
+      report.type="button";report.onclick=()=>reportContent(topic.id,null);
+      details.append(report);
+    }
+    const replies=el("div","");replies.dataset.replies="true";details.append(replies);
     const replyForm=el("form","hidden");replyForm.innerHTML='<div class="field"><label>Your reply</label><textarea minlength="3" maxlength="2500" required></textarea></div><button class="btn" type="submit">Send for review</button>';
     const note=el("div","status","");replyForm.append(note);
     replyForm.onsubmit=async e=>{e.preventDefault();const text=replyForm.querySelector("textarea").value;if(!profile)return;const {error}=await api.from("ufs_replies").insert({topic_id:topic.id,author_id:me.id,author_name:profile.display_name,body:text});note.textContent=error?errorMessage(error):"Reply submitted for moderator approval.";if(!error)replyForm.reset()};
@@ -111,29 +116,44 @@ function renderTopics(){
 async function toggleThread(topic,block){
   const details=block.lastElementChild;details.classList.toggle("hidden");
   if(details.classList.contains("hidden"))return;
-  const replies=details.children[1];replies.replaceChildren(el("p","muted","Loading replies…"));
+  const replies=details.querySelector("[data-replies]");replies.replaceChildren(el("p","muted","Loading replies…"));
   const {data,error}=await api.from("ufs_replies").select("id,body,author_name,status,created_at").eq("topic_id",topic.id).order("created_at",{ascending:true}).limit(200);
   replies.replaceChildren();
   if(error){replies.append(el("p","muted",errorMessage(error)));return}
   for(const reply of data||[]){
-    const item=el("div","reply");item.append(el("small","",reply.author_name+" · "+new Date(reply.created_at).toLocaleDateString()+(reply.status!=="approved"?" · "+reply.status:"")));item.append(el("p","",reply.body));replies.append(item)
+    const item=el("div","reply");item.append(el("small","",reply.author_name+" · "+new Date(reply.created_at).toLocaleDateString()+(reply.status!=="approved"?" · "+reply.status:"")));item.append(el("p","",reply.body));
+    if(me && profile && !profile.is_suspended && reply.status==="approved"){
+      const report=el("button","small-btn reject","Report reply");report.type="button";
+      report.onclick=()=>reportContent(topic.id,reply.id);item.append(report);
+    }
+    replies.append(item)
   }
   if(!(data||[]).length)replies.append(el("p","muted","No approved replies yet."));
 }
+async function reportContent(topicId,replyId){
+  if(!me || !profile || profile.is_suspended)return;
+  const reason=window.prompt("Why are you reporting this post? Please give details (10–750 characters). Do not include private information.");
+  if(reason===null)return;
+  const message=reason.trim();
+  if(message.length<10 || message.length>750){window.alert("Please enter between 10 and 750 characters.");return}
+  const {error}=await api.from("ufs_reports").insert({reporter_id:me.id,topic_id:topicId,reply_id:replyId,reason:message});
+  window.alert(error?(error.code==="23505"?"You have already reported this item.":errorMessage(error)):"Report submitted privately to the moderation queue.");
+}
 async function loadQueue(){
   if(!active||!mayModerate())return;
-  const [t,r]=await Promise.all([
+  const [t,r,reports]=await Promise.all([
     api.from("ufs_topics").select("id,title,body,author_name,status").eq("status","pending").order("created_at").limit(100),
-    api.from("ufs_replies").select("id,body,author_name,topic_id,status").eq("status","pending").order("created_at").limit(100)
+    api.from("ufs_replies").select("id,body,author_name,topic_id,status").eq("status","pending").order("created_at").limit(100),
+    api.from("ufs_reports").select("id,topic_id,reply_id,reason,status").eq("status","open").order("created_at").limit(100)
   ]);
   const root=$("moderation-list");root.replaceChildren();
-  if(t.error||r.error){root.append(el("p","muted",errorMessage(t.error||r.error)));return}
-  const pending=[...(t.data||[]).map(p=>({...p,table:"ufs_topics"})),...(r.data||[]).map(p=>({...p,table:"ufs_replies"}))];
+  if(t.error||r.error||reports.error){root.append(el("p","muted",errorMessage(t.error||r.error||reports.error)));return}
+  const pending=[...(t.data||[]).map(p=>({...p,table:"ufs_topics"})),...(r.data||[]).map(p=>({...p,table:"ufs_replies"})),...(reports.data||[]).map(p=>({...p,table:"ufs_reports",title:"Community report",body:p.reason,author_name:"Private report · topic "+p.topic_id}))];
   if(!pending.length){root.append(el("p","muted","Moderation queue is empty."));return}
   for(const item of pending){
     const box=el("div","entry");box.append(el("strong","",item.title||"Reply"));box.append(el("p","body",item.body));box.append(el("p","muted",item.author_name));
     const actions=el("div","admin-actions");
-    for(const [status,label] of [["approved","Approve"],["rejected","Reject"]]){
+    for(const [status,label] of (item.table==="ufs_reports"?[["reviewed","Mark reviewed"],["dismissed","Dismiss"]]:[["approved","Approve"],["rejected","Reject"]])){
       const btn=el("button","small-btn "+(status==="approved"?"approve":"reject"),label);
       btn.onclick=async()=>{if(!mayModerate())return;btn.disabled=true;const {error}=await api.from(item.table).update({status}).eq("id",item.id);if(error){alert(errorMessage(error));btn.disabled=false;return}await loadQueue();await loadTopics()};actions.append(btn)
     }

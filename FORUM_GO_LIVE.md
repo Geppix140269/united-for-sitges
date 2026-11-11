@@ -72,3 +72,12 @@ Before collecting accounts, publish a reviewed notice identifying the actual con
 ## 7. Enable only after all the above
 
 In `forum-config.js` set `enabled: true` when verified (only the publishable key is exposed to browser, not any secret). Commit and deploy through GitHub `main`. Recheck end-to-end on the production domain. **Do not enable until SMTP, URL redirects, privacy, moderator and end-to-end tests are verified.**
+
+## Database test evidence — 11 November 2026
+
+- Passed: simulated anonymous visitor sees approved discussions, not unapproved content; no personal profile rows were exposed.
+- Passed: a simulated authenticated member can create a profile and pending topic, but cannot approve their own topic.
+- Passed: a simulated verified moderator can approve a pending topic and mark a private member report as reviewed.
+- Tests ran inside SQL transactions ending with ROLLBACK. Confirmed all five forum tables and Auth still have zero user-generated records.
+- Passed: Supabase Security Advisor returned no findings following the reporting migration.
+- Passed: published GitHub site state on Vercel reported READY. End-to-end real email confirmation remains UNTESTED until DNS, Auth URL and SMTP are configured.

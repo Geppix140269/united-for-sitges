@@ -96,8 +96,27 @@ h2{font-weight:900}
 .chip-kicker{display:inline-flex;padding:7px 12px;background:#f6e8d5;color:#a34d1a;border-radius:99px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
 .sr-only{position:absolute!important;width:1px;height:1px;clip:rect(0,0,0,0);overflow:hidden;white-space:nowrap}
 @media(max-width:1100px){.menu{gap:9px}.menu a{font-size:11px}.header-inner{gap:12px}.brand-sub{max-width:124px}.brand-name{font-size:17px}}
-@media(max-width:980px){.menu{display:none}.mobile-menu{display:block;margin-left:auto;position:relative}.mobile-menu summary{background:#1F3864;color:#fff;font:900 13px/1 'Nunito Sans',sans-serif;padding:11px 15px;border-radius:8px;cursor:pointer;list-style:none}.mobile-menu summary::-webkit-details-marker{display:none}.mobile-menu .mini-nav{display:flex;position:absolute;right:0;top:48px;flex-direction:column;gap:3px;min-width:230px;padding:13px;background:white;border:1px solid #dae3e7;border-radius:14px;box-shadow:0 12px 30px #0002}.mini-nav a{padding:9px 10px;text-decoration:none;color:#1F3864;font-weight:800}.hero-grid,.forum-preview{grid-template-columns:1fr}.hero{padding:55px 0}.country-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:980px){
+  .menu{display:none}
+  .header-inner{position:relative}
+  .mobile-menu{display:block;margin-left:auto;flex:none}
+  .mobile-menu summary{display:flex;align-items:center;gap:5px;min-height:44px;padding:9px 11px;background:#1F3864;color:#fff;font:900 13px/1 'Nunito Sans',sans-serif;border-radius:8px;cursor:pointer;list-style:none;white-space:nowrap}
+  .mobile-menu summary::-webkit-details-marker{display:none}
+  .mobile-menu .mini-nav{display:none;position:absolute;inset-inline-end:18px;top:calc(100% + 4px);width:min(256px,calc(100% - 36px));max-height:calc(100vh - 135px);max-height:calc(100dvh - 135px);overflow-y:auto;flex-direction:column;gap:3px;padding:10px;background:white;border:1px solid #dae3e7;border-radius:14px;box-shadow:0 12px 30px #0002}
+  .mobile-menu[open] .mini-nav{display:flex}
+  .mini-nav a{flex:none;padding:9px 10px;text-decoration:none;color:#1F3864;font-weight:800}
+  .mini-nav a:hover,.mini-nav a:focus-visible{background:var(--sea)}
+  .hero-grid,.forum-preview{grid-template-columns:1fr}.hero{padding:55px 0}.country-grid{grid-template-columns:repeat(3,1fr)}
+}
 @media(max-width:680px){.country-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.topics,.forum-categories{grid-template-columns:1fr}.hero h1{font-size:clamp(2.8rem,13vw,4.2rem)}.event{padding:27px}.event .date{font-size:3rem}.mosaic-hero{max-width:140px}.forum-preview{padding:26px}.brand .mark{width:44px;height:44px}.brand-name{font-size:16px}.topbar:before{display:none}}
+@media(max-width:680px){
+  .header-inner{min-height:76px;gap:8px}
+  .brand{flex:1;min-width:0;gap:8px}
+  .brand .mark{flex:0 0 44px}
+  .brand-name{display:block}
+  .brand-sub{display:none}
+  .lang-box{width:clamp(86px,23vw,110px);min-width:0;min-height:44px;padding:8px 6px;font-size:14px}
+}
 </style>
 </head>
 <body>
@@ -106,7 +125,20 @@ h2{font-weight:900}
 <a class="brand" href="#top" aria-label="United for Sitges home"><span class="mark" aria-hidden="true"><img src="/favicon.svg" alt="" width="58" height="58"></span><span><span class="brand-name">United for Sitges</span><small class="brand-sub" data-t="home">Independent civic information</small></span></a>
 <nav class="menu" aria-label="Sections">
 <a href="#vote" data-t="navVote">Voting rights</a><a href="#dates" data-t="navDates">Deadlines</a><a href="#process" data-t="navProcess">How to register</a><a href="#numbers" data-t="navFacts">Sitges in numbers</a><a href="#comparison" data-t="navCompare">Party programmes</a><a href="#questions" data-t="navQuestions">Questions</a><a href="#community" class="community-nav" data-t="communityNav">Community</a>
-</nav><details class="mobile-menu"><summary>☰ Menu</summary><div class="mini-nav"><a href="#vote">Voting rights</a><a href="#dates">Deadlines</a><a href="#process">How to register</a><a href="#numbers">Sitges in numbers</a><a href="#comparison">Party programmes</a><a href="#questions">FAQ</a><a href="#community">Community</a></div></details><select class="lang-box" id="language" aria-label="Language"><option value="en">English</option><option value="es">Español</option><option value="ca">Català</option><option value="it">Italiano</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="nl">Nederlands</option></select>
+</nav>
+<details class="mobile-menu">
+  <summary><span aria-hidden="true">☰</span> Menu</summary>
+  <nav class="mini-nav" aria-label="Sections">
+    <a href="#vote" data-t="navVote">Voting rights</a>
+    <a href="#dates" data-t="navDates">Deadlines</a>
+    <a href="#process" data-t="navProcess">How to register</a>
+    <a href="#numbers" data-t="navFacts">Sitges in numbers</a>
+    <a href="#comparison" data-t="navCompare">Party programmes</a>
+    <a href="#questions" data-t="navQuestions">Questions</a>
+    <a href="#community" data-t="communityNav">Community</a>
+  </nav>
+</details>
+<select class="lang-box" id="language" aria-label="Language"><option value="en">English</option><option value="es">Español</option><option value="ca">Català</option><option value="it">Italiano</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="nl">Nederlands</option></select>
 </div></header>
 <main id="top">
 <section class="hero"><div class="wrap hero-grid"><div>
@@ -179,6 +211,18 @@ function applyLang(code){
   try{localStorage.setItem("ufs_portal_lang",lang);}catch(_){}
 }
 document.querySelectorAll("[data-citizenship]").forEach(button=>button.addEventListener("click",()=>{document.getElementById("citizenship").value=button.dataset.citizenship;document.getElementById("citizenship").dispatchEvent(new Event("change"));document.getElementById("citizenship").scrollIntoView({behavior:"smooth",block:"center"});}));
+const mobileMenu = document.querySelector(".mobile-menu");
+document.addEventListener("click", event => {
+  if (!mobileMenu.open) return;
+  if (!mobileMenu.contains(event.target) || event.target.closest(".mini-nav a")) {
+    mobileMenu.open = false;
+  }
+});
+document.addEventListener("keydown", event => {
+  if (event.key !== "Escape" || !mobileMenu.open) return;
+  mobileMenu.open = false;
+  mobileMenu.querySelector("summary").focus({preventScroll:true});
+});
 document.getElementById("language").addEventListener("change",event=>applyLang(event.target.value));
 document.getElementById("citizenship").addEventListener("change",()=>{
  const selected=document.getElementById("citizenship").value;

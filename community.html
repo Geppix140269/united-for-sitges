@@ -28,8 +28,10 @@
 <div class="panel hidden" id="moderation-panel"><h2>Moderator queue</h2><p class="muted">Pending topics and replies are visible only to moderators and their authors.</p><div id="moderation-list"></div></div>
 </div><aside class="side">
 <div class="panel" id="auth-panel"><h3>Member access</h3><p class="muted" id="auth-note">Member registration is currently closed.</p>
-<div id="auth-forms" class="hidden"><form id="sign-in-form"><div class="field"><label for="email">Email</label><input type="email" id="email" autocomplete="email" required></div><div class="field"><label for="password">Password</label><input type="password" minlength="8" id="password" autocomplete="current-password" required></div><div class="buttons"><button type="submit" class="btn navy">Sign in</button><button id="show-signup" type="button" class="btn secondary">Create an account</button></div></form>
-<form id="sign-up-form" class="hidden"><div class="field"><label for="nickname">Public display name</label><input id="nickname" minlength="2" maxlength="40" required></div><div class="field"><label for="signup-email">Email</label><input id="signup-email" type="email" required></div><div class="field"><label for="signup-pass">Password (8+ characters)</label><input id="signup-pass" type="password" minlength="8" required></div><div class="field"><label><input id="signup-consent" type="checkbox" required style="width:auto"> I accept the <a href="/privacy.html" target="_blank" rel="noopener">privacy information</a> and community rules.</label></div><div class="buttons"><button type="submit" class="btn navy">Sign up</button><button id="show-login" type="button" class="btn secondary">Back to login</button></div></form></div>
+<div id="auth-forms" class="hidden"><form id="sign-in-form"><div class="field"><label for="email">Email</label><input type="email" id="email" autocomplete="email" required></div><div class="field"><label for="password">Password</label><input type="password" minlength="8" id="password" autocomplete="current-password" required></div><div class="buttons"><button type="submit" class="btn navy">Sign in</button><button id="show-signup" type="button" class="btn secondary">Create an account</button><button id="show-recovery" type="button" class="btn secondary">Forgot password?</button></div></form>
+<form id="sign-up-form" class="hidden"><div class="field"><label for="nickname">Public display name</label><input id="nickname" minlength="2" maxlength="40" required></div><div class="field"><label for="signup-email">Email</label><input id="signup-email" type="email" required></div><div class="field"><label for="signup-pass">Password (8+ characters)</label><input id="signup-pass" type="password" minlength="8" required></div><div class="field"><label><input id="signup-consent" type="checkbox" required style="width:auto"> I accept the <a href="/privacy.html" target="_blank" rel="noopener">privacy information</a> and community rules.</label></div><div class="buttons"><button type="submit" class="btn navy">Sign up</button><button id="show-login" type="button" class="btn secondary">Back to login</button></div></form>
+<form id="recovery-form" class="hidden"><p class="muted">Enter your account email to receive a secure password reset link.</p><div class="field"><label for="recovery-email">Email</label><input id="recovery-email" type="email" autocomplete="email" required></div><div class="buttons"><button type="submit" class="btn navy">Send reset link</button><button id="recovery-back" class="btn secondary" type="button">Back to sign in</button></div></form></div>
+<form id="new-password-form" class="hidden"><p class="muted">Choose a new password for your account.</p><div class="field"><label for="new-password">New password (at least 8 characters)</label><input type="password" id="new-password" minlength="8" autocomplete="new-password" required></div><button type="submit" class="btn navy">Update password</button></form>
 <div class="hidden" id="signed-in"><p class="muted">Signed in as <strong id="signed-in-name"></strong></p><button class="btn secondary" id="sign-out">Sign out</button></div><p id="auth-status" class="status" role="status"></p></div>
 <div class="panel"><h3>Community rules</h3>
 <div class="rule"><strong>1. Respect neighbours.</strong><br>No insults, harassment, discrimination or threats.</div>
@@ -49,7 +51,7 @@ const $=id=>document.getElementById(id);
 const show=(id,yes)=>$(id).classList.toggle("hidden",!yes);
 const setStatus=(id,message,error=false)=>{const el=$(id);el.textContent=message;el.classList.toggle("error",error)};
 const categories={voting:"Voting & registration",living:"Life in Sitges",issues:"Local issues",questions:"Questions",official:"Official information"};
-let api=null,me=null,profile=null,allTopics=[],filter="all";
+let api=null,me=null,profile=null,allTopics=[],filter="all",recovering=false;
 function el(tag,cls,text){const node=document.createElement(tag);if(cls)node.className=cls;if(text!==undefined)node.textContent=text;return node}
 function mayModerate(){return Boolean(profile?.is_moderator && !profile?.is_suspended)}
 function errorMessage(e){return e?.message || "Something went wrong. Please try again."}
@@ -70,7 +72,7 @@ async function authRefresh(){
   const {data,error}=await api.auth.getUser();
   me=error?null:data.user;
   try{await loadProfile()}catch(e){setStatus("auth-status",errorMessage(e),true)}
-  show("auth-forms",!me);show("signed-in",Boolean(me));
+  show("auth-forms",!me && !recovering);show("signed-in",Boolean(me)&&!recovering);show("new-password-form",recovering);
   show("new-topic-toggle",Boolean(me&&profile&&!profile.is_suspended));
   show("refresh",true);
   show("moderation-panel",mayModerate());
@@ -146,7 +148,20 @@ if(active){
   $("refresh").onclick=()=>authRefresh();
   $("new-topic-toggle").onclick=()=>show("new-topic-panel",$("new-topic-panel").classList.contains("hidden"));
   $("show-signup").onclick=()=>{show("sign-in-form",false);show("sign-up-form",true);setStatus("auth-status","")};
-  $("show-login").onclick=()=>{show("sign-in-form",true);show("sign-up-form",false);setStatus("auth-status","")};
+  $("show-login").onclick=()=>{show("sign-in-form",true);show("sign-up-form",false);show("recovery-form",false);setStatus("auth-status","")};
+  $("show-recovery").onclick=()=>{show("sign-in-form",false);show("sign-up-form",false);show("recovery-form",true);setStatus("auth-status","")};
+  $("recovery-back").onclick=()=>{show("sign-in-form",true);show("recovery-form",false);setStatus("auth-status","")};
+  $("recovery-form").onsubmit=async e=>{
+    e.preventDefault();setStatus("auth-status","Requesting reset link…");
+    const {error}=await api.auth.resetPasswordForEmail($("recovery-email").value.trim(),{redirectTo:location.origin+"/community.html"});
+    setStatus("auth-status",error?errorMessage(error):"If this account exists, a password reset email will be sent.",Boolean(error));
+  };
+  $("new-password-form").onsubmit=async e=>{
+    e.preventDefault();setStatus("auth-status","Updating password…");
+    const {error}=await api.auth.updateUser({password:$("new-password").value});
+    setStatus("auth-status",error?errorMessage(error):"Password updated.",Boolean(error));
+    if(!error){recovering=false;$("new-password-form").reset();await authRefresh()}
+  };
   $("sign-in-form").onsubmit=async e=>{e.preventDefault();setStatus("auth-status","Signing in…");const {error}=await api.auth.signInWithPassword({email:$("email").value,password:$("password").value});if(error)setStatus("auth-status",errorMessage(error),true);else{setStatus("auth-status","");await authRefresh()}};
   $("sign-up-form").onsubmit=async e=>{
     e.preventDefault();setStatus("auth-status","Creating account…");
@@ -162,7 +177,13 @@ if(active){
     setStatus("topic-status",error?errorMessage(error):"Topic submitted for moderator approval.",Boolean(error));
     if(!error){$("new-topic-form").reset();await loadTopics()}
   };
-  api.auth.onAuthStateChange(()=>{setTimeout(()=>authRefresh(),0)});
+  api.auth.onAuthStateChange(event=>{
+    if(event==="PASSWORD_RECOVERY"){
+      recovering=true;
+      setStatus("auth-status","Recovery link verified. Choose your new password.");
+    }else if(event==="SIGNED_OUT")recovering=false;
+    setTimeout(()=>authRefresh(),0);
+  });
   authRefresh();
 }
 </script></body></html>

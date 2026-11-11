@@ -71,6 +71,9 @@ create policy "ufs member inserts pending topics" on public.ufs_topics
   for insert to authenticated
   with check (
     author_id=(select auth.uid()) and status='pending'
+    and author_name=(select p.display_name from public.ufs_profiles p where p.user_id=(select auth.uid()))
+    and (category <> 'official' or exists(select 1 from public.ufs_profiles p where p.user_id=(select auth.uid()) and p.is_moderator and not p.is_suspended))
+    and coalesce(((select auth.jwt())->>'is_anonymous')::boolean,false)=false
     and exists(select 1 from public.ufs_profiles p
       where p.user_id=(select auth.uid()) and p.is_suspended=false)
   );
@@ -94,6 +97,8 @@ create policy "ufs member inserts pending replies" on public.ufs_replies
   for insert to authenticated
   with check (
     author_id=(select auth.uid()) and status='pending'
+    and author_name=(select p.display_name from public.ufs_profiles p where p.user_id=(select auth.uid()))
+    and coalesce(((select auth.jwt())->>'is_anonymous')::boolean,false)=false
     and exists(select 1 from public.ufs_topics t where t.id=topic_id and t.status='approved')
     and exists(select 1 from public.ufs_profiles p
        where p.user_id=(select auth.uid()) and p.is_suspended=false)
@@ -110,3 +115,6 @@ create policy "ufs moderator sets reply status" on public.ufs_replies
 -- WHERE user_id = (SELECT id FROM auth.users WHERE email = '<verified-admin-email>');
 -- Never turn all authenticated users into moderators.
 -- Optional future: policy/reporting system and rate limiting before a wider launch.
+
+-- Application must continue to require email confirmation and moderation review.
+-- Member uploads, DMs, likes and unsolicited campaign tools are intentionally not enabled.

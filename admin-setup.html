@@ -26,9 +26,9 @@ label{display:block;margin:15px 0 6px;font-weight:900}input{display:block;width:
 
 <section class="card" id="request-panel">
 <h2>1. Confirm ownership of the email</h2>
-<p>Press the button below. Supabase will send a secure sign-in link to the designated administrator address.</p>
+<p>The administrator must first be invited using Supabase Dashboard → Authentication → Users → Invite user. Once invited, you can request a secure sign-in link below. Public signups remain disabled.</p>
 <button id="send-link" type="button">Send my secure sign-in link</button>
-<p class="fine">If no email arrives, inspect the spam folder and then check Supabase SMTP settings. You can request another email after the provider's rate limit allows it.</p>
+<p class="fine">If the account has not yet been invited, this cannot create it. Check the invitation and spam folders, and verify the Auth redirect settings.</p>
 </section>
 
 <section class="card hidden" id="setup-panel">
@@ -76,7 +76,7 @@ async function sendLink(){
   try{
     const {error}=await api.auth.signInWithOtp({
       email:ADMIN_EMAIL,
-      options:{shouldCreateUser:true,emailRedirectTo:location.origin+"/admin-setup.html"}
+      options:{shouldCreateUser:false,emailRedirectTo:location.origin+"/admin-setup.html"}
     });
     if(error)throw error;
     message("Check hello@giuseppefunaro.com for the sign-in link. Open it in this browser to complete verification.");

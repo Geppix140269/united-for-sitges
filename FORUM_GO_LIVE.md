@@ -1,15 +1,15 @@
 # United for Sitges — make the forum operational
 
-Status (11 November 2026): **frontend and database prepared; public signups remain OFF**.
+Status (11 November 2026): **Resend DNS verified, moderator onboarding published, database RLS tested, public signups remain OFF**.
 Project: `tlmkeofpeigkfxdydwqt`, region `eu-west-1`. Public site: https://unitedforsitges.com/community.html
 Moderator contact designated: `hello@giuseppefunaro.com` (must still register and verify email).
 
 ## 1. Authorize notification sender in GoDaddy DNS
 
 A Resend sender was created for `notify.unitedforsitges.com`, Resend domain id `1c4c06fb-e25f-427c-9016-8e2943d3408a`.
-It is currently NOT VERIFIED. GoDaddy manages the zone `unitedforsitges.com`.
+**VERIFIED** as of 11 November 2026: Resend reports DKIM, SPF (TXT/MX), CNAME all verified. GoDaddy manages the zone `unitedforsitges.com`.
 
-**Add** these records under the existing GoDaddy zone, using the labels in the Host column; do not replace unrelated records. In particular, the MX below is for **send.notify**, *not* the apex `@` record.
+**These records are already installed and verified. Do not add duplicates.** The MX below is for **send.notify**, *not* the apex `@` record.
 
 | Type | Host | Value | MX priority |
 |---|---|---|---|
@@ -19,7 +19,7 @@ It is currently NOT VERIFIED. GoDaddy manages the zone `unitedforsitges.com`.
 | CNAME | `rsend.notify` | `send.forge.rmta.net` | — |
 
 Do not modify apex MX, TXT, existing SPF, DKIM or DMARC, website A records or `www` CNAME.
-After saving, run Resend Verify domain and check all records. Sending must become `verified` before proceeding.
+Verification is complete, sender status is **verified**, sending enabled.
 
 ## 2. Auth URL configuration (Supabase Dashboard)
 
@@ -46,11 +46,11 @@ Project → Authentication → Email → SMTP Settings (wording can vary by dash
 
 ## 4. Confirm moderator
 
-- The owner creates their own email/password account on the **live** community page after the guarded config is switched on in controlled testing.
+- The owner may now open **https://unitedforsitges.com/admin-setup.html** and request an email magic link sent exclusively to the designated address. Public member registration remains closed (`enabled: false`).
 - The owner personally follows the verification link at `hello@giuseppefunaro.com`.
 - Confirm a matching verified account exists in `auth.users`.
-- Insert profile is handled by the frontend on first sign-in.
-- A privileged operator then assigns `is_moderator=true` to that verified user's `ufs_profiles` row. Details and SQL are in `COMMUNITY_LAUNCH_CHECKLIST.md`. Never set moderator based on user-controlled signup metadata.
+- The private moderator setup page handles profile creation, password choice and login after a verified email sign-in.
+- The private database trigger `ufs_internal.promote_verified_primary_moderator()` assigns moderation only after a verified matching email creates its profile; three simulated RLS tests passed and rolled back. Do not assign moderator using user-controlled signup metadata. If no privileges appear after successful verification, stop and investigate.
 
 ## 5. GDPR notice and moderation launch gate
 
@@ -81,3 +81,12 @@ In `forum-config.js` set `enabled: true` when verified (only the publishable key
 - Tests ran inside SQL transactions ending with ROLLBACK. Confirmed all five forum tables and Auth still have zero user-generated records.
 - Passed: Supabase Security Advisor returned no findings following the reporting migration.
 - Passed: published GitHub site state on Vercel reported READY. End-to-end real email confirmation remains UNTESTED until DNS, Auth URL and SMTP are configured.
+
+## Latest progress (11 November 2026)
+
+- Resend sender domain **verified**; dedicated `United for Sitges Supabase SMTP` credential has been created in Resend (secret value not inspected or copied to repository).
+- Supabase Auth logs show the email limit changed from 2 to 30 per hour, suggesting SMTP-related settings were altered, **not** conclusive evidence of delivery.
+- The administrator has a private onboarding page at `/admin-setup.html`. It sends a magic link to the designated email, verifies the returned session, lets the owner set a password and visible name, then creates the profile under strict RLS. Supabase Auth must allow `https://unitedforsitges.com/admin-setup.html` as an explicit redirect URL.
+- The `forum-config.js` flags are `enabled: false` and `betaEnabled: true`: anonymous users may view only approved topics, and a verified moderator may test topics, replies, reports and approvals. No public signup UI is displayed.
+- RLS promotion tests: confirmed administrator promoted; verified other address and unverified address not promoted. Rolled back.
+- Before the public forum opens, a full GDPR/terms review, real email test and at least one separate member test account remain necessary.

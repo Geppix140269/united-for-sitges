@@ -227,6 +227,8 @@ if(active){
       // If email auto-confirm is on, do not offer registration until it is turned off.
       publicEnabled=settings.disable_signup===false &&
         settings.autoconfirm!==true &&
+        settings.mailer_autoconfirm!==true &&
+        (!Array.isArray(settings.enabled) || settings.enabled.includes("email")) &&
         settings.external?.email!==false;
     }catch(e){
       publicEnabled=false;

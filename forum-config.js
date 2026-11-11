@@ -1,8 +1,9 @@
-// Public Supabase settings only. Never add a service_role or secret key here.
-// Forum remains read-only until an isolated United for Sitges Supabase project exists,
-// with the audited schema in supabase/forum-schema.sql and a reviewed privacy policy.
+// Supabase public credentials for the isolated United for Sitges community project.
+// This is a publishable (browser-safe) key, NEVER a service_role or secret key.
+// Forum remains CLOSED until a GDPR notice, admin moderation setup, email verification,
+// anti-abuse controls and an end-to-end signup test are complete.
 window.UFS_FORUM_CONFIG = Object.freeze({
-  url: "",
-  publishableKey: "",
+  url: "https://tlmkeofpeigkfxdydwqt.supabase.co",
+  publishableKey: "sb_publishable_STEFkmE2VB_fBTBoQoHbhA_Bjpcqqei",
   enabled: false
 });

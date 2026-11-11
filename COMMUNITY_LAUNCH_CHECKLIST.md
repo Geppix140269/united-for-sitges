@@ -1,6 +1,6 @@
 # United for Sitges — Community launch checklist
 
-**Status: Backend provisioned; verified sender ready; moderator beta available; public signups intentionally DISABLED.**
+**Status: Public launch code prepared and deployed; Supabase Auth signup switch still OFF. Public UI auto-opens only after Supabase confirms it accepts verified email signups.**
 Last checked: 2026-11-11.
 
 ## Infrastructure
@@ -14,19 +14,21 @@ Last checked: 2026-11-11.
 - [x] Deploy from GitHub `main` to Vercel automatically.
 
 ## Required before allowing public registrations
-- [ ] Name a designated community controller/contact for privacy and moderation; provide an actively monitored address (not an unverified domain mailbox).
-- [ ] Draft and review a privacy notice complying with GDPR including processing purpose, data categories, retention, international processors, member rights, contact details, lawful basis and special category political opinions risks.
-- [ ] Define member age policy, no candidate/party promotion rules and how to report harmful content.
+- [x] Contact and controller identified in the published policy (Giuseppe Funaro, hello@giuseppefunaro.com). The contact must continue to be monitored.
+- [x] Published expanded initial privacy notice with controller, contact, processing purposes/bases, hosting providers, rights, retention, age policy and sensitive-topic restrictions. Independent legal review remains advisable as the service scales.
+- [x] Adult-only (18+) registration consent, moderation and no-campaigning rules added. Existing member report feature remains available.
 - [ ] Configure and test secure registration, email verification and production SMTP/rate limits in Supabase Auth; set Site URL and approved redirect URLs for the correct production domain.
 - [x] Primary moderator email selected: `hello@giuseppefunaro.com` (reserved in Supabase's non-public `ufs_internal.admin_contact` table; this is NOT an Auth account yet).
 - [x] Private first-moderator grant trigger added and tested: matching verified email + recent OTP/magic-link sign-in only. Password-only or unverified signups cannot self-promote.
-- [ ] Administrator completes private onboarding at https://unitedforsitges.com/admin-setup.html and follows the email link; the website creates a moderator profile during that verified session. Keep all passwords out of chats.
+- [x] Administrator invited, email confirmed and account logged in, verified moderator profile created and real welcome post submitted and approved.
 - [ ] Ensure guests and members can only read approved topics/replies; authors can see their own pending posts; moderators can see and approve pending content; non-moderators cannot approve/alter post status. Confirm with actual test accounts.
-- [ ] Add/report a post and suspend a member; test moderator controls and response workflow before promoting the forum publicly.
-- [ ] Add anti-abuse protections, moderation queue alerts and a backup/recovery policy; post approval alone does not stop spam from filling a queue.
-- [ ] Provide a member deletion/withdrawal request process, retention schedule and moderation removal policy.
+- [x] Member reporting and moderator report review queue implemented and tested in rollback-only SQL. Manual suspension by privileged operator is available; no user-facing suspension controls yet.
+- [x] Moderation queue and per-member posting limits (3 topics, 12 replies, 5 reports per hour) applied and tested. Further CAPTCHA and operational monitoring are advised for scale; automatic alerts/backups need review.
+- [x] Privacy policy and signed-in forum UI explain email-based deletion/data-access requests, retention review, moderation report and removal procedures.
 - [ ] Verify mobile and desktop behavior, browser accessibility, and the site on the final domain.
-- [ ] Only then change `window.UFS_FORUM_CONFIG.enabled` from `false` to `true`, publish via GitHub and test again.
+- [x] Deployed `enabled: true` with client-side fail-closed GET /auth/v1/settings gate: public signup UI remains hidden until Auth reports `disable_signup:false` and email auto-confirm disabled.
+- [ ] **REQUIRES DASHBOARD ACTION**: Supabase → Authentication → Sign In / Providers → enable **Allow new users to sign up**, keep **Confirm Email** on, and turn on leaked-password protection if available. The current connected Supabase tools cannot modify hosted Auth general settings.
+- [ ] Test one brand-new non-admin account with actual email confirmation, message submission, and moderator approval before broad promotion.
 
 ## Notes
 - The current `community.html` UI loads public topics and supports registration, sign-in, topic creation, replies and moderation *when* the config is enabled. It is **not yet an operational forum**.
@@ -62,3 +64,11 @@ Stop without changing roles if no verified matching account exists. Review email
 - [ ] Verify explicit Supabase Auth redirect allowlist includes `https://unitedforsitges.com/admin-setup.html`.
 - [ ] Verify a real magic-link email arrives and that administrator can log in, create profile and set password.
 - [ ] Verify live forum UI with the real moderator and a separate resident account.
+
+## Public opening preparation — 11 November 2026 (latest)
+
+- GitHub frontend and privacy were deployed to production Vercel; public signup only renders after querying GoTrue's public settings endpoint. If backend continues disabling signups, the public UI stays closed and verified moderators can still log in.
+- One verified owner account, one public welcome topic, no pending topics at latest DB check.
+- Rate-limit / impersonation RLS tests passed in rolled-back transactions.
+- Supabase Security Advisor still warns that **leaked-password protection is disabled**. This is an Auth dashboard setting, not a database policy.
+- Public launch has not been validated with a resident user; the site must not be represented as fully open until the Auth toggle and live email-confirmation test pass.

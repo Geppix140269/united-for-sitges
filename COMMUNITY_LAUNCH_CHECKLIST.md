@@ -1,6 +1,6 @@
 # United for Sitges — Community launch checklist
 
-**Status: Backend provisioned; public signups intentionally DISABLED.**
+**Status: Backend provisioned; verified sender ready; moderator beta available; public signups intentionally DISABLED.**
 Last checked: 2026-11-11.
 
 ## Infrastructure
@@ -19,7 +19,8 @@ Last checked: 2026-11-11.
 - [ ] Define member age policy, no candidate/party promotion rules and how to report harmful content.
 - [ ] Configure and test secure registration, email verification and production SMTP/rate limits in Supabase Auth; set Site URL and approved redirect URLs for the correct production domain.
 - [x] Primary moderator email selected: `hello@giuseppefunaro.com` (reserved in Supabase's non-public `ufs_internal.admin_contact` table; this is NOT an Auth account yet).
-- [ ] Have the designated administrator sign up using `hello@giuseppefunaro.com`, confirm mailbox ownership, then assign `is_moderator=true` to that verified Supabase user via a privileged database operation. Never infer admin access solely from editable user metadata, and never use a shared password.
+- [x] Private first-moderator grant trigger added and tested: matching verified email + recent OTP/magic-link sign-in only. Password-only or unverified signups cannot self-promote.
+- [ ] Administrator completes private onboarding at https://unitedforsitges.com/admin-setup.html and follows the email link; the website creates a moderator profile during that verified session. Keep all passwords out of chats.
 - [ ] Ensure guests and members can only read approved topics/replies; authors can see their own pending posts; moderators can see and approve pending content; non-moderators cannot approve/alter post status. Confirm with actual test accounts.
 - [ ] Add/report a post and suspend a member; test moderator controls and response workflow before promoting the forum publicly.
 - [ ] Add anti-abuse protections, moderation queue alerts and a backup/recovery policy; post approval alone does not stop spam from filling a queue.
@@ -31,7 +32,7 @@ Last checked: 2026-11-11.
 - The current `community.html` UI loads public topics and supports registration, sign-in, topic creation, replies and moderation *when* the config is enabled. It is **not yet an operational forum**.
 - The `privacy.html` page explicitly states this is pre-launch; replace it with a reviewed final notice before any data collection.
 - Existing political-party comparison is intended to remain neutral: equal methodology and source links, no endorsements.
-- GoDaddy `unitedforsitges.com` requires DNS updates for the Vercel deployment; Vercel project association alone does not point the domain.
+- GoDaddy website DNS now points correctly to Vercel. Resend's notification subdomain passed DKIM and SPF verification. Do not modify existing website or apex mail records.
 
 ## Primary administrator provisioned contact
 
@@ -50,3 +51,14 @@ RETURNING p.user_id, p.display_name, p.is_moderator;
 ```
 
 Stop without changing roles if no verified matching account exists. Review email-confirmation settings first.
+
+## Added after verification (11 November 2026)
+
+- [x] Resend domain `notify.unitedforsitges.com` verified for email sending; dedicated Resend SMTP API key exists.
+- [x] Supabase logs show email send limit changed from 2 to 30/hour; actual SMTP delivery from Supabase still requires a live test.
+- [x] Site config `betaEnabled: true` and `enabled: false`: visitors can read approved topics, verified moderators can test forum, no public signup.
+- [x] Private administrator onboarding page `admin-setup.html` implemented. First moderator privilege promotion now checks a recent (<=1 hour) email OTP/magic-link authentication method in the Supabase-issued JWT in addition to reserved email ownership.
+- [x] User permissions and moderator status changes tested in simulated rolled-back SQL transactions. Supabase Security Advisor returned no findings.
+- [ ] Verify explicit Supabase Auth redirect allowlist includes `https://unitedforsitges.com/admin-setup.html`.
+- [ ] Verify a real magic-link email arrives and that administrator can log in, create profile and set password.
+- [ ] Verify live forum UI with the real moderator and a separate resident account.

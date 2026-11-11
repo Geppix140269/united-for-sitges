@@ -117,8 +117,7 @@ async function completeSetup(event){
   try{
     const display=$("display").value.trim();
     if(display.length<2||display.length>40)throw new Error("Choose a display name between 2 and 40 characters.");
-    const {error:passError}=await api.auth.updateUser({password:$("password").value});
-    if(passError)throw passError;
+    // Create the profile while this session still proves a recent email magic-link login.
     const {data:existing,error:readError}=await api.from("ufs_profiles")
       .select("user_id,is_moderator").eq("user_id",verifiedUser.id).maybeSingle();
     if(readError)throw readError;
@@ -130,7 +129,9 @@ async function completeSetup(event){
     const {data:profile,error:verifyError}=await api.from("ufs_profiles")
       .select("is_moderator").eq("user_id",verifiedUser.id).single();
     if(verifyError)throw verifyError;
-    if(!profile.is_moderator)throw new Error("Email verified, but moderator permission is not yet assigned. Stop and review the admin bootstrap policy.");
+    if(!profile.is_moderator)throw new Error("A recent email magic-link login is required before moderator privileges can be granted. Request a new secure link and retry.");
+    const {error:passError}=await api.auth.updateUser({password:$("password").value});
+    if(passError)throw passError;
     $("password").value="";
     show("setup-panel",false);show("success-panel",true);
     message("Administrator setup complete. Public member registrations are still closed.");

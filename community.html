@@ -74,15 +74,16 @@ async function authRefresh(){
   const {data,error}=await api.auth.getUser();
   me=error?null:data.user;
   try{await loadProfile()}catch(e){setStatus("auth-status",errorMessage(e),true)}
-  show("auth-forms",publicEnabled&&!me&&!recovering);
-  show("signed-in",Boolean(me)&&(publicEnabled||mayModerate())&&!recovering);
-  show("new-password-form",recovering&&publicEnabled);
+  show("auth-forms",!me&&!recovering);
+  show("signed-in",Boolean(me)&&!recovering);
+  show("new-password-form",recovering);
     show("new-topic-toggle",Boolean(me&&profile&&!profile.is_suspended&&(publicEnabled||mayModerate())));
   show("refresh",true);
   show("moderation-panel",mayModerate());
+  if(betaEnabled)show("not-ready",!mayModerate());
   if(me)$("signed-in-name").textContent=profile?.display_name||me.email||"member";
   $("auth-note").textContent=betaEnabled
-    ?"Moderator-only preview is available after email verification. Public registrations remain closed."
+    ?(mayModerate()?"Moderator access confirmed. Public registrations remain closed.":"Moderator sign-in only. Use your verified account to test the forum; public registrations remain closed.")
     :me?"You can join the discussion. All new posts require moderation.":"Sign in or create a free member account. Email verification may be required.";
   await loadTopics();
   if(mayModerate())await loadQueue();
@@ -106,7 +107,7 @@ function renderTopics(){
     block.append(el("p","",categories[topic.category]+" · "+topic.author_name+" · "+new Date(topic.created_at).toLocaleDateString()));
     const details=el("div","hidden");
     details.append(el("p","body",topic.body));
-    if(me && profile && !profile.is_suspended && topic.status==="approved"){
+    if(me && profile && !profile.is_suspended && topic.status==="approved" && (publicEnabled||mayModerate())){
       const report=el("button","small-btn reject","Report discussion");
       report.type="button";report.onclick=()=>reportContent(topic.id,null);
       details.append(report);
@@ -115,7 +116,7 @@ function renderTopics(){
     const replyForm=el("form","hidden");replyForm.innerHTML='<div class="field"><label>Your reply</label><textarea minlength="3" maxlength="2500" required></textarea></div><button class="btn" type="submit">Send for review</button>';
     const note=el("div","status","");replyForm.append(note);
     replyForm.onsubmit=async e=>{e.preventDefault();const text=replyForm.querySelector("textarea").value;if(!profile)return;const {error}=await api.from("ufs_replies").insert({topic_id:topic.id,author_id:me.id,author_name:profile.display_name,body:text});note.textContent=error?errorMessage(error):"Reply submitted for moderator approval.";if(!error)replyForm.reset()};
-    if(me&&profile&&!profile.is_suspended&&topic.status==="approved")replyForm.classList.remove("hidden");
+    if(me&&profile&&!profile.is_suspended&&topic.status==="approved"&&(publicEnabled||mayModerate()))replyForm.classList.remove("hidden");
     details.append(replyForm);block.append(details);root.append(block);
   }
 }
@@ -128,7 +129,7 @@ async function toggleThread(topic,block){
   if(error){replies.append(el("p","muted",errorMessage(error)));return}
   for(const reply of data||[]){
     const item=el("div","reply");item.append(el("small","",reply.author_name+" · "+new Date(reply.created_at).toLocaleDateString()+(reply.status!=="approved"?" · "+reply.status:"")));item.append(el("p","",reply.body));
-    if(me && profile && !profile.is_suspended && reply.status==="approved"){
+    if(me && profile && !profile.is_suspended && reply.status==="approved" && (publicEnabled||mayModerate())){
       const report=el("button","small-btn reject","Report reply");report.type="button";
       report.onclick=()=>reportContent(topic.id,reply.id);item.append(report);
     }
@@ -137,7 +138,7 @@ async function toggleThread(topic,block){
   if(!(data||[]).length)replies.append(el("p","muted","No approved replies yet."));
 }
 async function reportContent(topicId,replyId){
-  if(!me || !profile || profile.is_suspended)return;
+  if(!me || !profile || profile.is_suspended || (!publicEnabled && !mayModerate()))return;
   const reason=window.prompt("Why are you reporting this post? Please give details (10–750 characters). Do not include private information.");
   if(reason===null)return;
   const message=reason.trim();
@@ -171,9 +172,10 @@ if(active){
   api=createClient(cfg.url,cfg.publishableKey,{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}});
   show("not-ready",!publicEnabled);
   $("forum-badge").textContent=publicEnabled?"Moderated forum":"Moderator preview · registrations closed";
+  show("show-signup",publicEnabled);
   $("refresh").onclick=()=>authRefresh();
   $("new-topic-toggle").onclick=()=>show("new-topic-panel",$("new-topic-panel").classList.contains("hidden"));
-  $("show-signup").onclick=()=>{show("sign-in-form",false);show("sign-up-form",true);setStatus("auth-status","")};
+  $("show-signup").onclick=()=>{if(!publicEnabled)return;show("sign-in-form",false);show("sign-up-form",true);setStatus("auth-status","")};
   $("show-login").onclick=()=>{show("sign-in-form",true);show("sign-up-form",false);show("recovery-form",false);setStatus("auth-status","")};
   $("show-recovery").onclick=()=>{show("sign-in-form",false);show("sign-up-form",false);show("recovery-form",true);setStatus("auth-status","")};
   $("recovery-back").onclick=()=>{show("sign-in-form",true);show("recovery-form",false);setStatus("auth-status","")};
@@ -190,7 +192,7 @@ if(active){
   };
   $("sign-in-form").onsubmit=async e=>{e.preventDefault();setStatus("auth-status","Signing in…");const {error}=await api.auth.signInWithPassword({email:$("email").value,password:$("password").value});if(error)setStatus("auth-status",errorMessage(error),true);else{setStatus("auth-status","");await authRefresh()}};
   $("sign-up-form").onsubmit=async e=>{
-    e.preventDefault();setStatus("auth-status","Creating account…");
+    e.preventDefault();if(!publicEnabled)return setStatus("auth-status","Public registration is not open.",true);setStatus("auth-status","Creating account…");
     const {data,error}=await api.auth.signUp({email:$("signup-email").value,password:$("signup-pass").value,options:{data:{display_name:$("nickname").value},emailRedirectTo:location.origin+"/community.html"}});
     if(error)setStatus("auth-status",errorMessage(error),true);
     else {setStatus("auth-status",data?.session?"Account created.":"Check your inbox for the email confirmation, then sign in.");show("sign-up-form",false);show("sign-in-form",true);await authRefresh()}
@@ -198,7 +200,7 @@ if(active){
   $("sign-out").onclick=async()=>{await api.auth.signOut();await authRefresh()};
   $("new-topic-form").onsubmit=async e=>{
     e.preventDefault();
-    if(!me||!profile||profile.is_suspended)return setStatus("topic-status","Sign in to post.",true);
+    if(!me||!profile||profile.is_suspended||(!publicEnabled&&!mayModerate()))return setStatus("topic-status","Moderator preview: sign in as the verified moderator.",true);
     const {error}=await api.from("ufs_topics").insert({author_id:me.id,author_name:profile.display_name,category:$("topic-category").value,title:$("topic-title").value.trim(),body:$("topic-body").value.trim()});
     setStatus("topic-status",error?errorMessage(error):"Topic submitted for moderator approval.",Boolean(error));
     if(!error){$("new-topic-form").reset();await loadTopics()}

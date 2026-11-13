@@ -61,6 +61,8 @@ Programmes are long. The dataset records a representative selection of concrete,
 
 The same selection rules apply to every party. Parties with longer programmes may have more items recorded; this reflects the length of their documents, not editorial preference.
 
+In the first release only one party (Sitges Grup Independent) had a 2023 programme document that could be located and verified online, so it has more recorded items than parties covered only by media reports. The page states this next to the comparison. The imbalance should shrink as more programme documents are added; it must never be corrected by removing verified evidence.
+
 ## 6. Neutral presentation
 
 - Default order is alphabetical. An optional order by 2023 votes is labelled as a historical fact.

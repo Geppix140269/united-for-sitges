@@ -1,0 +1,416 @@
+{
+  "schema_version": 1,
+  "meta": {
+    "last_reviewed": "2026-11-13",
+    "election_2023_date": "2023-05-28",
+    "election_2027_date": "2027-05-23",
+    "results_source": "Junta Electoral Central, Resolution of 5 July 2023 (BOE-A-2023-18101), BOE no. 187, 7 August 2023, p. 116996",
+    "results_source_url": "https://www.boe.es/boe/dias/2023/08/07/pdfs/BOE-A-2023-18101.pdf",
+    "electorate_2023": 20925,
+    "voters_2023": 11092,
+    "valid_votes_2023": 10943,
+    "blank_votes_2023": 159,
+    "null_votes_2023": 149,
+    "seats_total": 21,
+    "pct_basis": "Percentages are votes divided by valid votes (10,943, including blank votes), rounded to two decimals.",
+    "council_status_sources": [
+      "https://www.sitges.cat/ajuntament/organitzacio/regidors-res-del-ple",
+      "https://www.sitges.cat/ajuntament/organitzacio/equip-de-govern"
+    ],
+    "council_status_checked": "2026-11-13"
+  },
+  "parties": [
+    {
+      "id": "junts",
+      "short_name": "Junts per Sitges",
+      "sort_name": "Junts per Sitges",
+      "monogram": "JxS",
+      "name_2023_official": "JUNTS PER SITGES - COMPROMÍS MUNICIPAL",
+      "abbreviation_2023": "CM",
+      "results_2023": {
+        "votes": 1875,
+        "pct": 17.13,
+        "seats": 4
+      },
+      "council_status_2026": {
+        "en": "4 councillor(s). Not part of the current governing team.",
+        "ca": "4 regidor(s). No forma part de l'equip de govern actual.",
+        "es": "4 concejal(es). No forma parte del equipo de gobierno actual.",
+        "it": "4 consigliere/i. Non fa parte dell'attuale giunta.",
+        "fr": "4 conseiller(s). Ne fait pas partie de l'équipe de gouvernement actuelle.",
+        "de": "4 Ratsmitglied(er). Nicht Teil des aktuellen Regierungsteams.",
+        "nl": "4 raadslid/raadsleden. Geen deel van het huidige bestuur."
+      },
+      "programme_2023_status": "not_located",
+      "programme_2027_status": "not_verified",
+      "status_2027_items": [
+        {
+          "evidence_label": "SECONDARY_REPORTING",
+          "text": {
+            "en": "Mònica Gallardo was ratified unanimously by the Junts x Sitges local assembly as its candidate for the 2027 municipal elections (Ràdio Maricel).",
+            "ca": "L'assemblea local de Junts x Sitges va ratificar per unanimitat Mònica Gallardo com a candidata a les municipals del 2027 (Ràdio Maricel).",
+            "es": "La asamblea local de Junts x Sitges ratificó por unanimidad a Mònica Gallardo como candidata a las municipales de 2027 (Ràdio Maricel)."
+          },
+          "source_url": "https://www.radiomaricel.cat/lassemblea-de-junts-x-sitges-ratifica-per-unanimitat-monica-gallardo-com-a-candidata-a-les-municipals-del-2027/",
+          "source_date": "2026-02-03"
+        }
+      ]
+    },
+    {
+      "id": "erc",
+      "short_name": "ERC Sitges",
+      "sort_name": "Esquerra Republicana",
+      "monogram": "ERC",
+      "name_2023_official": "ESQUERRA REPUBLICANA DE CATALUNYA - ACORD MUNICIPAL",
+      "abbreviation_2023": "ERC - AM",
+      "results_2023": {
+        "votes": 1666,
+        "pct": 15.22,
+        "seats": 4
+      },
+      "council_status_2026": {
+        "en": "4 councillors. Part of the current governing team (ERC and Sitges GI, decree of 13 July 2026).",
+        "ca": "4 regidors. Forma part de l'equip de govern actual (ERC i Sitges GI, decret de 13 de juliol de 2026).",
+        "es": "4 concejales. Forma parte del equipo de gobierno actual (ERC y Sitges GI, decreto de 13 de julio de 2026).",
+        "it": "4 consiglieri. Fa parte dell'attuale giunta (ERC e Sitges GI, decreto del 13 luglio 2026).",
+        "fr": "4 conseillers. Membre de l'équipe de gouvernement actuelle (ERC et Sitges GI, décret du 13 juillet 2026).",
+        "de": "4 Ratsmitglieder. Teil des aktuellen Regierungsteams (ERC und Sitges GI, Dekret vom 13. Juli 2026).",
+        "nl": "4 raadsleden. Onderdeel van het huidige bestuur (ERC en Sitges GI, decreet van 13 juli 2026)."
+      },
+      "programme_2023_status": "located_unverified",
+      "programme_2027_status": "not_verified",
+      "history_note": {
+        "en": "Signed the June 2023 government agreement with Sitges GI, Verds en Comú Podem and Fets per Sitges. Holds the mayoralty.",
+        "ca": "Va signar l'acord de govern de juny de 2023 amb Sitges GI, Verds en Comú Podem i Fets per Sitges. Té l'alcaldia.",
+        "es": "Firmó el acuerdo de gobierno de junio de 2023 con Sitges GI, Verds en Comú Podem y Fets per Sitges. Ostenta la alcaldía."
+      },
+      "history_source_url": "https://www.radiomaricel.cat/erc-sitgesgi-verds-en-comu-podem-i-fets-per-sitges-signen-el-pacte-de-govern-a-la-torreta-en-espera-del-posicionament-de-guanyem-a-la-investidura/",
+      "unverified_leads": [
+        {
+          "url": "https://locals.esquerra.cat/documents/programa-erc-sitges-2023-27_textrefos_v2.pdf",
+          "note": "A file with this name appears in search engine results as ERC's Sitges 2023-2027 programme, but the site blocked automated access when checked on 13 November 2026, so its content has not been verified."
+        }
+      ]
+    },
+    {
+      "id": "psc",
+      "short_name": "PSC - El Margalló x Sitges",
+      "sort_name": "PSC",
+      "monogram": "PSC",
+      "name_2023_official": "PARTIT DELS SOCIALISTES DE CATALUNYA - MARGALLÓ X SITGES - CANDIDATURA DE PROGRÉS",
+      "abbreviation_2023": "PSC-MARGALLÓ X SITGES-CP",
+      "results_2023": {
+        "votes": 1616,
+        "pct": 14.77,
+        "seats": 4
+      },
+      "council_status_2026": {
+        "en": "3 councillor(s). Not part of the current governing team.",
+        "ca": "3 regidor(s). No forma part de l'equip de govern actual.",
+        "es": "3 concejal(es). No forma parte del equipo de gobierno actual.",
+        "it": "3 consigliere/i. Non fa parte dell'attuale giunta.",
+        "fr": "3 conseiller(s). Ne fait pas partie de l'équipe de gouvernement actuelle.",
+        "de": "3 Ratsmitglied(er). Nicht Teil des aktuellen Regierungsteams.",
+        "nl": "3 raadslid/raadsleden. Geen deel van het huidige bestuur."
+      },
+      "programme_2023_status": "not_located",
+      "programme_2027_status": "not_verified",
+      "history_note": {
+        "en": "Elected 4 councillors on a joint PSC and El Margalló list. In August 2025 the joint group ended by mutual agreement: the group became the Grup Municipal Socialista (3 councillors) and the El Margalló councillor became non-attached.",
+        "ca": "Va obtenir 4 regidors en una llista conjunta del PSC i El Margalló. L'agost de 2025 el grup conjunt es va dissoldre de mutu acord: el grup va passar a ser el Grup Municipal Socialista (3 regidors) i la regidora del Margalló va passar a no adscrita.",
+        "es": "Obtuvo 4 concejales en una lista conjunta del PSC y El Margalló. En agosto de 2025 el grupo conjunto se disolvió de mutuo acuerdo: pasó a ser el Grup Municipal Socialista (3 concejales) y la concejala del Margalló pasó a no adscrita."
+      },
+      "history_source_url": "https://www.eixdiari.cat/opinio/doc/117641/el-psc-i-el-margallo-donen-per-finalitzada-la-seva-relacio-com-a-grup-municipal.html",
+      "status_2027_items": [
+        {
+          "evidence_label": "SECONDARY_REPORTING",
+          "text": {
+            "en": "The PSC's Sitges local assembly chose Manu Rodríguez as its mayoral candidate for 2027 on 15 May 2026 (Eix Diari).",
+            "ca": "L'assemblea local del PSC de Sitges va escollir Manu Rodríguez com a candidat a l'alcaldia per al 2027 el 15 de maig de 2026 (Eix Diari).",
+            "es": "La asamblea local del PSC de Sitges eligió a Manu Rodríguez como candidato a la alcaldía para 2027 el 15 de mayo de 2026 (Eix Diari)."
+          },
+          "source_url": "https://www.eixdiari.cat/politica/doc/121865/el-psc-de-sitges-escull-manu-rodriguez-com-a-candidat-a-lalcaldia-per-al-2027.html",
+          "source_date": "2026-05"
+        }
+      ]
+    },
+    {
+      "id": "sgi",
+      "short_name": "Sitges Grup Independent",
+      "sort_name": "Sitges Grup Independent",
+      "monogram": "SGI",
+      "name_2023_official": "SITGES GRUP INDEPENDENT(SITGES GI)",
+      "abbreviation_2023": "SITGES-GI",
+      "results_2023": {
+        "votes": 1212,
+        "pct": 11.08,
+        "seats": 3
+      },
+      "council_status_2026": {
+        "en": "3 councillors. Part of the current governing team (ERC and Sitges GI, decree of 13 July 2026).",
+        "ca": "3 regidors. Forma part de l'equip de govern actual (ERC i Sitges GI, decret de 13 de juliol de 2026).",
+        "es": "3 concejales. Forma parte del equipo de gobierno actual (ERC y Sitges GI, decreto de 13 de julio de 2026).",
+        "it": "3 consiglieri. Fa parte dell'attuale giunta (ERC e Sitges GI, decreto del 13 luglio 2026).",
+        "fr": "3 conseillers. Membre de l'équipe de gouvernement actuelle (ERC et Sitges GI, décret du 13 juillet 2026).",
+        "de": "3 Ratsmitglieder. Teil des aktuellen Regierungsteams (ERC und Sitges GI, Dekret vom 13. Juli 2026).",
+        "nl": "3 raadsleden. Onderdeel van het huidige bestuur (ERC en Sitges GI, decreet van 13 juli 2026)."
+      },
+      "programme_2023_status": "verified",
+      "programme_2027_status": "not_verified",
+      "website": "https://www.sitgesgi.com/",
+      "history_note": {
+        "en": "Signed the June 2023 government agreement with ERC, Verds en Comú Podem and Fets per Sitges.",
+        "ca": "Va signar l'acord de govern de juny de 2023 amb ERC, Verds en Comú Podem i Fets per Sitges.",
+        "es": "Firmó el acuerdo de gobierno de junio de 2023 con ERC, Verds en Comú Podem y Fets per Sitges."
+      },
+      "history_source_url": "https://www.radiomaricel.cat/erc-sitgesgi-verds-en-comu-podem-i-fets-per-sitges-signen-el-pacte-de-govern-a-la-torreta-en-espera-del-posicionament-de-guanyem-a-la-investidura/"
+    },
+    {
+      "id": "vecps",
+      "short_name": "Verds en Comú Podem Sitges",
+      "sort_name": "Verds en Comu Podem Sitges",
+      "monogram": "VeC",
+      "name_2023_official": "VERDS EN COMÚ PODEM SITGES - CONFLUÈNCIA",
+      "abbreviation_2023": "VECPS - C",
+      "results_2023": {
+        "votes": 930,
+        "pct": 8.5,
+        "seats": 2
+      },
+      "council_status_2026": {
+        "en": "2 councillor(s). Not part of the current governing team.",
+        "ca": "2 regidor(s). No forma part de l'equip de govern actual.",
+        "es": "2 concejal(es). No forma parte del equipo de gobierno actual.",
+        "it": "2 consigliere/i. Non fa parte dell'attuale giunta.",
+        "fr": "2 conseiller(s). Ne fait pas partie de l'équipe de gouvernement actuelle.",
+        "de": "2 Ratsmitglied(er). Nicht Teil des aktuellen Regierungsteams.",
+        "nl": "2 raadslid/raadsleden. Geen deel van het huidige bestuur."
+      },
+      "programme_2023_status": "not_located",
+      "programme_2027_status": "not_verified",
+      "history_note": {
+        "en": "Signed the June 2023 government agreement and was part of the governing team until July 2026, when it announced it was leaving the government.",
+        "ca": "Va signar l'acord de govern de juny de 2023 i va formar part de l'equip de govern fins al juliol de 2026, quan va anunciar que en sortia.",
+        "es": "Firmó el acuerdo de gobierno de junio de 2023 y formó parte del equipo de gobierno hasta julio de 2026, cuando anunció su salida."
+      },
+      "history_source_url": "https://www.eixdiari.cat/politica/doc/122869/verds-en-comu-podem-surt-del-govern-de-sitges-despres-de-no-tenir-prou-suport-per-assumir-el-relleu-.html"
+    },
+    {
+      "id": "guanyem",
+      "short_name": "Guanyem Sitges",
+      "sort_name": "Guanyem Sitges",
+      "monogram": "GS",
+      "name_2023_official": "GUANYEM SITGES - ALTERNATIVA MUNICIPALISTA",
+      "abbreviation_2023": "GS-AMUNT",
+      "results_2023": {
+        "votes": 722,
+        "pct": 6.6,
+        "seats": 1
+      },
+      "council_status_2026": {
+        "en": "1 councillor(s). Not part of the current governing team.",
+        "ca": "1 regidor(s). No forma part de l'equip de govern actual.",
+        "es": "1 concejal(es). No forma parte del equipo de gobierno actual.",
+        "it": "1 consigliere/i. Non fa parte dell'attuale giunta.",
+        "fr": "1 conseiller(s). Ne fait pas partie de l'équipe de gouvernement actuelle.",
+        "de": "1 Ratsmitglied(er). Nicht Teil des aktuellen Regierungsteams.",
+        "nl": "1 raadslid/raadsleden. Geen deel van het huidige bestuur."
+      },
+      "programme_2023_status": "not_located",
+      "programme_2027_status": "not_verified"
+    },
+    {
+      "id": "vox",
+      "short_name": "VOX",
+      "sort_name": "VOX",
+      "monogram": "VOX",
+      "name_2023_official": "VOX",
+      "abbreviation_2023": "VOX",
+      "results_2023": {
+        "votes": 713,
+        "pct": 6.52,
+        "seats": 1
+      },
+      "council_status_2026": {
+        "en": "1 councillor(s). Not part of the current governing team.",
+        "ca": "1 regidor(s). No forma part de l'equip de govern actual.",
+        "es": "1 concejal(es). No forma parte del equipo de gobierno actual.",
+        "it": "1 consigliere/i. Non fa parte dell'attuale giunta.",
+        "fr": "1 conseiller(s). Ne fait pas partie de l'équipe de gouvernement actuelle.",
+        "de": "1 Ratsmitglied(er). Nicht Teil des aktuellen Regierungsteams.",
+        "nl": "1 raadslid/raadsleden. Geen deel van het huidige bestuur."
+      },
+      "programme_2023_status": "not_located",
+      "programme_2027_status": "not_verified"
+    },
+    {
+      "id": "fets",
+      "short_name": "Fets per Sitges",
+      "sort_name": "Fets per Sitges",
+      "monogram": "FxS",
+      "name_2023_official": "FETS PER SITGES",
+      "abbreviation_2023": "FETS PER SITGES",
+      "results_2023": {
+        "votes": 666,
+        "pct": 6.09,
+        "seats": 1
+      },
+      "council_status_2026": {
+        "en": "1 councillor(s). Not part of the current governing team.",
+        "ca": "1 regidor(s). No forma part de l'equip de govern actual.",
+        "es": "1 concejal(es). No forma parte del equipo de gobierno actual.",
+        "it": "1 consigliere/i. Non fa parte dell'attuale giunta.",
+        "fr": "1 conseiller(s). Ne fait pas partie de l'équipe de gouvernement actuelle.",
+        "de": "1 Ratsmitglied(er). Nicht Teil des aktuellen Regierungsteams.",
+        "nl": "1 raadslid/raadsleden. Geen deel van het huidige bestuur."
+      },
+      "programme_2023_status": "not_located",
+      "programme_2027_status": "not_verified",
+      "website": "https://fetspersitges.cat/",
+      "history_note": {
+        "en": "Signed the June 2023 government agreement. Its councillor left the governing team with effect from 30 November 2023.",
+        "ca": "Va signar l'acord de govern de juny de 2023. El seu regidor va deixar l'equip de govern amb efectes del 30 de novembre de 2023.",
+        "es": "Firmó el acuerdo de gobierno de junio de 2023. Su concejal dejó el equipo de gobierno con efectos del 30 de noviembre de 2023."
+      },
+      "history_source_url": "https://canalblau.tv/2023/11/28/la-dimissio-de-nacho-rubi-deixa-el-govern-de-sitges-amb-3-partits/"
+    },
+    {
+      "id": "pp",
+      "short_name": "Partit Popular",
+      "sort_name": "Partit Popular",
+      "monogram": "PP",
+      "name_2023_official": "PARTIDO POPULAR/PARTIT POPULAR",
+      "abbreviation_2023": "PP",
+      "results_2023": {
+        "votes": 649,
+        "pct": 5.93,
+        "seats": 1
+      },
+      "council_status_2026": {
+        "en": "1 councillor(s). Not part of the current governing team.",
+        "ca": "1 regidor(s). No forma part de l'equip de govern actual.",
+        "es": "1 concejal(es). No forma parte del equipo de gobierno actual.",
+        "it": "1 consigliere/i. Non fa parte dell'attuale giunta.",
+        "fr": "1 conseiller(s). Ne fait pas partie de l'équipe de gouvernement actuelle.",
+        "de": "1 Ratsmitglied(er). Nicht Teil des aktuellen Regierungsteams.",
+        "nl": "1 raadslid/raadsleden. Geen deel van het huidige bestuur."
+      },
+      "programme_2023_status": "not_located",
+      "programme_2027_status": "not_verified",
+      "status_2027_items": [
+        {
+          "evidence_label": "SECONDARY_REPORTING",
+          "text": {
+            "en": "Ràdio Maricel reported that Eva Garcia will stand again in the 2027 municipal elections.",
+            "ca": "Ràdio Maricel va informar que Eva Garcia es tornarà a presentar a les municipals del 2027.",
+            "es": "Ràdio Maricel informó de que Eva Garcia volverá a presentarse a las municipales de 2027."
+          },
+          "source_url": "https://www.radiomaricel.cat/eva-garcia-pp-a-erc-sitges-li-interessa-ben-poc/",
+          "source_date": "2026-04-13"
+        }
+      ]
+    },
+    {
+      "id": "valents",
+      "short_name": "Valents",
+      "sort_name": "Valents",
+      "monogram": "VAL",
+      "name_2023_official": "VALENTS",
+      "abbreviation_2023": "VALENTS",
+      "results_2023": {
+        "votes": 332,
+        "pct": 3.03,
+        "seats": 0
+      },
+      "council_status_2026": {
+        "en": "No seats on the 2023-2027 council.",
+        "ca": "Sense representació al Ple 2023-2027.",
+        "es": "Sin representación en el Pleno 2023-2027.",
+        "it": "Nessun seggio nel consiglio 2023-2027.",
+        "fr": "Aucun siège au conseil 2023-2027.",
+        "de": "Keine Sitze im Gemeinderat 2023-2027.",
+        "nl": "Geen zetels in de raad 2023-2027."
+      },
+      "programme_2023_status": "not_located",
+      "programme_2027_status": "not_verified",
+      "history_note": {
+        "en": "The Valents party filed for insolvency in July 2023 and, according to the report, ceased to operate as a party. Its 2023 Sitges head of list was later chosen as the PSC's 2027 mayoral candidate (see PSC).",
+        "ca": "El partit Valents va presentar concurs de creditors el juliol de 2023 i, segons la informació publicada, va deixar d'existir com a partit. El seu cap de llista a Sitges el 2023 va ser escollit després candidat del PSC per al 2027 (vegeu PSC).",
+        "es": "El partido Valents presentó concurso de acreedores en julio de 2023 y, según la información publicada, dejó de existir como partido. Su cabeza de lista en Sitges en 2023 fue elegido después candidato del PSC para 2027 (ver PSC)."
+      },
+      "history_source_url": "https://www.vilaweb.cat/noticies/valents-concurs-creditors-desapareix-partit/"
+    },
+    {
+      "id": "solucions",
+      "short_name": "Solucions - El Partit de Tots",
+      "sort_name": "Solucions",
+      "monogram": "SOL",
+      "name_2023_official": "SOLUCIONS-EL PARTIT DE TOTS",
+      "abbreviation_2023": "SOLUCIONS-PDETOTS",
+      "results_2023": {
+        "votes": 258,
+        "pct": 2.36,
+        "seats": 0
+      },
+      "council_status_2026": {
+        "en": "No seats on the 2023-2027 council.",
+        "ca": "Sense representació al Ple 2023-2027.",
+        "es": "Sin representación en el Pleno 2023-2027.",
+        "it": "Nessun seggio nel consiglio 2023-2027.",
+        "fr": "Aucun siège au conseil 2023-2027.",
+        "de": "Keine Sitze im Gemeinderat 2023-2027.",
+        "nl": "Geen zetels in de raad 2023-2027."
+      },
+      "programme_2023_status": "not_located",
+      "programme_2027_status": "not_verified"
+    },
+    {
+      "id": "cs",
+      "short_name": "Ciutadans",
+      "sort_name": "Ciutadans",
+      "monogram": "Cs",
+      "name_2023_official": "CIUTADANS PARTIDO DE LA CIUDADANIA",
+      "abbreviation_2023": "CS",
+      "results_2023": {
+        "votes": 114,
+        "pct": 1.04,
+        "seats": 0
+      },
+      "council_status_2026": {
+        "en": "No seats on the 2023-2027 council.",
+        "ca": "Sense representació al Ple 2023-2027.",
+        "es": "Sin representación en el Pleno 2023-2027.",
+        "it": "Nessun seggio nel consiglio 2023-2027.",
+        "fr": "Aucun siège au conseil 2023-2027.",
+        "de": "Keine Sitze im Gemeinderat 2023-2027.",
+        "nl": "Geen zetels in de raad 2023-2027."
+      },
+      "programme_2023_status": "not_located",
+      "programme_2027_status": "not_verified"
+    },
+    {
+      "id": "cnv",
+      "short_name": "Convergents per Sitges - Ara Pacte Local",
+      "sort_name": "Convergents per Sitges",
+      "monogram": "CNV",
+      "name_2023_official": "CONVERGENTS PER SITGES - ARA PACTE LOCAL",
+      "abbreviation_2023": "CNV - ARA PL",
+      "results_2023": {
+        "votes": 31,
+        "pct": 0.28,
+        "seats": 0
+      },
+      "council_status_2026": {
+        "en": "No seats on the 2023-2027 council.",
+        "ca": "Sense representació al Ple 2023-2027.",
+        "es": "Sin representación en el Pleno 2023-2027.",
+        "it": "Nessun seggio nel consiglio 2023-2027.",
+        "fr": "Aucun siège au conseil 2023-2027.",
+        "de": "Keine Sitze im Gemeinderat 2023-2027.",
+        "nl": "Geen zetels in de raad 2023-2027."
+      },
+      "programme_2023_status": "not_located",
+      "programme_2027_status": "not_verified"
+    }
+  ]
+}

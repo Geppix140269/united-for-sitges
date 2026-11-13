@@ -3,6 +3,9 @@
    summaries and are never machine-translated; the original-language excerpt is shown instead. */
 window.UFS_PROGRAMME_I18N = {
 en: {
+  imbalanceTitle: "Why some parties have more entries:", imbalance: "Only one 2023 programme document (Sitges Grup Independent) could be located online and verified, so more of its proposals are recorded. For the other parties we use local media reports of their 2023 programme presentations and candidate interviews, clearly labelled as secondary reporting. The difference reflects which documents are publicly available, not any editorial preference. Parties can send their 2023 or 2027 programmes using the corrections link below.",
+  competenceLabel: "Who decides:",
+  d_history: "Changes since 2023", ps_located_unverified: "Located online but not verified", unverifiedLead: "A file presented as this party's 2023 programme appears in search results, but the website blocked automated access, so its content has not been checked or used:",
   badge2023media: "2023 campaign · historical reference", mediaOnly: "media reports only", mediaElsewhere: "Media reports of its 2023 positions on other subjects are listed where available.",
   topbar: "Independent civic information", navHome: "Home", navVote: "Voting rights", navDates: "Deadlines", navExplore: "Programmes", navCoverage: "Coverage", navMethod: "How this works", navCommunity: "Community", navCorrections: "Corrections", menu: "Menu",
   eyebrow: "Sitges municipal elections · Party programmes",
@@ -15,7 +18,7 @@ en: {
   y2027Title: "2027 election", y2027Sub: "Programmes for 23 May 2027: status", y2023Title: "2023 archive", y2023Sub: "Historical programmes, 28 May 2023",
   v2027Title: "2027 programmes: verification status",
   v2027Lede: "Listing a party here does not mean it will stand in 2027. Official candidatures are only confirmed when the electoral authorities publish them in spring 2027.",
-  v2023Lede: "These proposals come from the 2023 programmes we could locate and verify. Summaries are our own short, independent descriptions; open the source for the full wording.",
+  v2023Lede: "These entries come from 2023 programme documents and, where no document could be found, from local media reports of the 2023 campaign. Each entry shows its source type. Summaries are our own short, independent descriptions; open the source for the full wording.",
   tabSubject: "By subject", tabParty: "By party", tabCompare: "Side by side",
   orderLabel: "Order parties", orderAlpha: "Alphabetical", orderVotes: "By 2023 votes (historical fact)",
   pickSubject: "Pick a subject", pickParty: "Choose a party or movement", pickParties: "Choose up to 4 parties",
@@ -60,6 +63,9 @@ en: {
   lang_ca: "Catalan", lang_es: "Spanish", lang_en: "English"
 },
 ca: {
+  imbalanceTitle: "Per què alguns partits tenen més entrades:", imbalance: "Només s'ha pogut localitzar en línia i verificar un programa del 2023 (Sitges Grup Independent), i per això se'n registren més propostes. Per als altres partits fem servir notícies de mitjans locals sobre la presentació dels seus programes i entrevistes als candidats del 2023, clarament etiquetades com a font secundària. La diferència reflecteix quins documents són públics, no cap preferència editorial. Els partits poden enviar els seus programes del 2023 o del 2027 amb l'enllaç de correccions.",
+  competenceLabel: "Qui decideix:",
+  d_history: "Canvis des del 2023", ps_located_unverified: "Localitzat en línia però no verificat", unverifiedLead: "Als resultats de cerca apareix un fitxer presentat com el programa 2023 d'aquest partit, però el web en va bloquejar l'accés automatitzat; per tant, no se n'ha comprovat ni utilitzat el contingut:",
   badge2023media: "Campanya 2023 · referència històrica", mediaOnly: "només mitjans", mediaElsewhere: "Quan n'hi ha, es mostren notícies de premsa sobre les seves posicions del 2023 en altres temes.",
   topbar: "Informació cívica independent", navHome: "Inici", navVote: "Dret de vot", navDates: "Terminis", navExplore: "Programes", navCoverage: "Cobertura", navMethod: "Com funciona", navCommunity: "Comunitat", navCorrections: "Correccions", menu: "Menú",
   eyebrow: "Eleccions municipals de Sitges · Programes dels partits",
@@ -72,7 +78,7 @@ ca: {
   y2027Title: "Eleccions 2027", y2027Sub: "Programes per al 23 de maig de 2027: estat", y2023Title: "Arxiu 2023", y2023Sub: "Programes històrics, 28 de maig de 2023",
   v2027Title: "Programes 2027: estat de verificació",
   v2027Lede: "Que un partit aparegui aquí no vol dir que es presenti el 2027. Les candidatures oficials només es confirmen quan les autoritats electorals les publiquen a la primavera del 2027.",
-  v2023Lede: "Aquestes propostes provenen dels programes del 2023 que hem pogut localitzar i verificar. Els resums són descripcions breus i independents nostres; obre la font per llegir-ne el text complet.",
+  v2023Lede: "Aquestes entrades provenen dels documents de programa del 2023 i, quan no se n'ha trobat cap, de notícies de mitjans locals sobre la campanya del 2023. Cada entrada indica el tipus de font. Els resums són descripcions breus i independents nostres; obre la font per llegir-ne el text complet.",
   tabSubject: "Per tema", tabParty: "Per partit", tabCompare: "Comparació",
   orderLabel: "Ordre dels partits", orderAlpha: "Alfabètic", orderVotes: "Per vots del 2023 (fet històric)",
   pickSubject: "Tria un tema", pickParty: "Tria un partit o moviment", pickParties: "Tria fins a 4 partits",
@@ -117,6 +123,9 @@ ca: {
   lang_ca: "català", lang_es: "castellà", lang_en: "anglès"
 },
 es: {
+  imbalanceTitle: "Por qué algunos partidos tienen más entradas:", imbalance: "Solo se ha podido localizar en línea y verificar un programa de 2023 (Sitges Grup Independent), por eso se registran más propuestas suyas. Para los demás partidos usamos noticias de medios locales sobre la presentación de sus programas y entrevistas a los candidatos de 2023, claramente etiquetadas como fuente secundaria. La diferencia refleja qué documentos son públicos, no ninguna preferencia editorial. Los partidos pueden enviar sus programas de 2023 o 2027 mediante el enlace de correcciones.",
+  competenceLabel: "Quién decide:",
+  d_history: "Cambios desde 2023", ps_located_unverified: "Localizado en línea pero no verificado", unverifiedLead: "En los resultados de búsqueda aparece un archivo presentado como el programa 2023 de este partido, pero la web bloqueó el acceso automatizado; por tanto, su contenido no se ha comprobado ni utilizado:",
   badge2023media: "Campaña 2023 · referencia histórica", mediaOnly: "solo medios", mediaElsewhere: "Cuando existen, se muestran noticias de prensa sobre sus posiciones de 2023 en otros temas.",
   topbar: "Información cívica independiente", navHome: "Inicio", navVote: "Derecho a voto", navDates: "Plazos", navExplore: "Programas", navCoverage: "Cobertura", navMethod: "Cómo funciona", navCommunity: "Comunidad", navCorrections: "Correcciones", menu: "Menú",
   eyebrow: "Elecciones municipales de Sitges · Programas de los partidos",
@@ -129,7 +138,7 @@ es: {
   y2027Title: "Elecciones 2027", y2027Sub: "Programas para el 23 de mayo de 2027: estado", y2023Title: "Archivo 2023", y2023Sub: "Programas históricos, 28 de mayo de 2023",
   v2027Title: "Programas 2027: estado de verificación",
   v2027Lede: "Que un partido aparezca aquí no significa que se presente en 2027. Las candidaturas oficiales solo se confirman cuando las autoridades electorales las publican en la primavera de 2027.",
-  v2023Lede: "Estas propuestas proceden de los programas de 2023 que hemos podido localizar y verificar. Los resúmenes son descripciones breves e independientes nuestras; abre la fuente para leer el texto completo.",
+  v2023Lede: "Estas entradas proceden de documentos de programa de 2023 y, cuando no se ha encontrado ninguno, de noticias de medios locales sobre la campaña de 2023. Cada entrada indica el tipo de fuente. Los resúmenes son descripciones breves e independientes nuestras; abre la fuente para leer el texto completo.",
   tabSubject: "Por tema", tabParty: "Por partido", tabCompare: "Comparación",
   orderLabel: "Orden de los partidos", orderAlpha: "Alfabético", orderVotes: "Por votos de 2023 (dato histórico)",
   pickSubject: "Elige un tema", pickParty: "Elige un partido o movimiento", pickParties: "Elige hasta 4 partidos",
@@ -174,6 +183,9 @@ es: {
   lang_ca: "catalán", lang_es: "castellano", lang_en: "inglés"
 },
 it: {
+  imbalanceTitle: "Perché alcuni partiti hanno più voci:", imbalance: "È stato possibile trovare online e verificare un solo programma del 2023 (Sitges Grup Independent), quindi ne sono registrate più proposte. Per gli altri partiti usiamo articoli dei media locali sulla presentazione dei programmi e interviste ai candidati del 2023, chiaramente indicati come fonte secondaria. La differenza riflette quali documenti sono pubblici, non una preferenza editoriale. I partiti possono inviare i loro programmi 2023 o 2027 tramite il link per le correzioni.",
+  competenceLabel: "Chi decide:",
+  d_history: "Cambiamenti dal 2023", ps_located_unverified: "Trovato online ma non verificato", unverifiedLead: "Nei risultati di ricerca compare un file presentato come programma 2023 di questo partito, ma il sito ha bloccato l'accesso automatico; il contenuto non è stato verificato né utilizzato:",
   badge2023media: "Campagna 2023 · riferimento storico", mediaOnly: "solo media", mediaElsewhere: "Quando disponibili, sono riportati articoli di stampa sulle sue posizioni del 2023 su altri temi.",
   topbar: "Informazione civica indipendente", navHome: "Home", navVote: "Diritto di voto", navDates: "Scadenze", navExplore: "Programmi", navCoverage: "Copertura", navMethod: "Come funziona", navCommunity: "Community", navCorrections: "Correzioni", menu: "Menu",
   eyebrow: "Elezioni comunali di Sitges · Programmi dei partiti",
@@ -186,7 +198,7 @@ it: {
   y2027Title: "Elezioni 2027", y2027Sub: "Programmi per il 23 maggio 2027: stato", y2023Title: "Archivio 2023", y2023Sub: "Programmi storici, 28 maggio 2023",
   v2027Title: "Programmi 2027: stato della verifica",
   v2027Lede: "La presenza di un partito in questo elenco non significa che si candiderà nel 2027. Le liste ufficiali sono confermate solo quando le autorità elettorali le pubblicano nella primavera 2027.",
-  v2023Lede: "Queste proposte provengono dai programmi del 2023 che abbiamo potuto trovare e verificare. I riassunti sono nostre brevi descrizioni indipendenti; apri la fonte per il testo completo.",
+  v2023Lede: "Queste voci provengono dai programmi del 2023 e, se nessun documento è stato trovato, da articoli dei media locali sulla campagna del 2023. Ogni voce indica il tipo di fonte. I riassunti sono nostre brevi descrizioni indipendenti; apri la fonte per il testo completo.",
   tabSubject: "Per tema", tabParty: "Per partito", tabCompare: "Confronto",
   orderLabel: "Ordine dei partiti", orderAlpha: "Alfabetico", orderVotes: "Per voti 2023 (dato storico)",
   pickSubject: "Scegli un tema", pickParty: "Scegli un partito o movimento", pickParties: "Scegli fino a 4 partiti",
@@ -231,6 +243,9 @@ it: {
   lang_ca: "catalano", lang_es: "spagnolo", lang_en: "inglese"
 },
 fr: {
+  imbalanceTitle: "Pourquoi certains partis ont plus d'entrées :", imbalance: "Un seul programme de 2023 (Sitges Grup Independent) a pu être trouvé en ligne et vérifié ; davantage de ses propositions sont donc relevées. Pour les autres partis, nous utilisons des articles de médias locaux sur la présentation de leurs programmes et des entretiens avec les candidats de 2023, clairement signalés comme sources secondaires. L'écart reflète les documents disponibles publiquement, pas une préférence éditoriale. Les partis peuvent envoyer leurs programmes 2023 ou 2027 via le lien de correction.",
+  competenceLabel: "Qui décide :",
+  d_history: "Changements depuis 2023", ps_located_unverified: "Repéré en ligne mais non vérifié", unverifiedLead: "Un fichier présenté comme le programme 2023 de ce parti apparaît dans les résultats de recherche, mais le site a bloqué l'accès automatisé ; son contenu n'a donc été ni vérifié ni utilisé :",
   badge2023media: "Campagne 2023 · référence historique", mediaOnly: "médias uniquement", mediaElsewhere: "Lorsqu'ils existent, des articles de presse sur ses positions de 2023 sur d'autres thèmes sont indiqués.",
   topbar: "Information civique indépendante", navHome: "Accueil", navVote: "Droit de vote", navDates: "Échéances", navExplore: "Programmes", navCoverage: "Couverture", navMethod: "Méthode", navCommunity: "Communauté", navCorrections: "Corrections", menu: "Menu",
   eyebrow: "Élections municipales de Sitges · Programmes des partis",
@@ -243,7 +258,7 @@ fr: {
   y2027Title: "Élections 2027", y2027Sub: "Programmes pour le 23 mai 2027 : état", y2023Title: "Archives 2023", y2023Sub: "Programmes historiques, 28 mai 2023",
   v2027Title: "Programmes 2027 : état de la vérification",
   v2027Lede: "La présence d'un parti dans cette liste ne signifie pas qu'il se présentera en 2027. Les listes officielles ne sont confirmées qu'à leur publication par les autorités électorales au printemps 2027.",
-  v2023Lede: "Ces propositions proviennent des programmes de 2023 que nous avons pu trouver et vérifier. Les résumés sont nos propres descriptions courtes et indépendantes ; ouvrez la source pour le texte complet.",
+  v2023Lede: "Ces entrées proviennent des programmes de 2023 et, lorsqu'aucun document n'a été trouvé, d'articles de médias locaux sur la campagne de 2023. Chaque entrée indique son type de source. Les résumés sont nos propres descriptions courtes et indépendantes ; ouvrez la source pour le texte complet.",
   tabSubject: "Par thème", tabParty: "Par parti", tabCompare: "Comparaison",
   orderLabel: "Ordre des partis", orderAlpha: "Alphabétique", orderVotes: "Par voix en 2023 (fait historique)",
   pickSubject: "Choisissez un thème", pickParty: "Choisissez un parti ou mouvement", pickParties: "Choisissez jusqu'à 4 partis",
@@ -288,6 +303,9 @@ fr: {
   lang_ca: "catalan", lang_es: "espagnol", lang_en: "anglais"
 },
 de: {
+  imbalanceTitle: "Warum manche Parteien mehr Einträge haben:", imbalance: "Nur ein Programm von 2023 (Sitges Grup Independent) konnte online gefunden und geprüft werden, daher sind mehr seiner Vorschläge erfasst. Für die anderen Parteien nutzen wir Berichte lokaler Medien über die Vorstellung ihrer Programme und Interviews mit den Kandidierenden von 2023, klar als Sekundärquellen gekennzeichnet. Der Unterschied spiegelt wider, welche Dokumente öffentlich verfügbar sind, keine redaktionelle Vorliebe. Parteien können ihre Programme 2023 oder 2027 über den Korrekturlink senden.",
+  competenceLabel: "Wer entscheidet:",
+  d_history: "Änderungen seit 2023", ps_located_unverified: "Online gefunden, aber nicht geprüft", unverifiedLead: "In Suchergebnissen erscheint eine Datei, die als Programm 2023 dieser Partei bezeichnet wird, doch die Website blockierte den automatisierten Zugriff; der Inhalt wurde daher weder geprüft noch verwendet:",
   badge2023media: "Wahlkampf 2023 · historische Referenz", mediaOnly: "nur Medienberichte", mediaElsewhere: "Soweit vorhanden, sind Medienberichte über ihre Positionen von 2023 zu anderen Themen aufgeführt.",
   topbar: "Unabhängige Bürgerinformation", navHome: "Start", navVote: "Wahlrecht", navDates: "Fristen", navExplore: "Programme", navCoverage: "Abdeckung", navMethod: "Methode", navCommunity: "Gemeinschaft", navCorrections: "Korrekturen", menu: "Menü",
   eyebrow: "Kommunalwahlen in Sitges · Parteiprogramme",
@@ -300,7 +318,7 @@ de: {
   y2027Title: "Wahl 2027", y2027Sub: "Programme für den 23. Mai 2027: Stand", y2023Title: "Archiv 2023", y2023Sub: "Historische Programme, 28. Mai 2023",
   v2027Title: "Programme 2027: Prüfstand",
   v2027Lede: "Die Nennung einer Partei bedeutet nicht, dass sie 2027 antritt. Offizielle Kandidaturen stehen erst fest, wenn die Wahlbehörden sie im Frühjahr 2027 veröffentlichen.",
-  v2023Lede: "Diese Vorschläge stammen aus den Programmen von 2023, die wir finden und prüfen konnten. Die Zusammenfassungen sind unsere eigenen kurzen, unabhängigen Beschreibungen; den vollständigen Wortlaut finden Sie in der Quelle.",
+  v2023Lede: "Diese Einträge stammen aus Programmdokumenten von 2023 und, wo kein Dokument gefunden wurde, aus Berichten lokaler Medien über den Wahlkampf 2023. Jeder Eintrag nennt den Quellentyp. Die Zusammenfassungen sind unsere eigenen kurzen, unabhängigen Beschreibungen; den vollständigen Wortlaut finden Sie in der Quelle.",
   tabSubject: "Nach Thema", tabParty: "Nach Partei", tabCompare: "Vergleich",
   orderLabel: "Reihenfolge der Parteien", orderAlpha: "Alphabetisch", orderVotes: "Nach Stimmen 2023 (historische Tatsache)",
   pickSubject: "Thema wählen", pickParty: "Partei oder Bewegung wählen", pickParties: "Bis zu 4 Parteien wählen",
@@ -345,6 +363,9 @@ de: {
   lang_ca: "Katalanisch", lang_es: "Spanisch", lang_en: "Englisch"
 },
 nl: {
+  imbalanceTitle: "Waarom sommige partijen meer vermeldingen hebben:", imbalance: "Slechts één programma uit 2023 (Sitges Grup Independent) kon online worden gevonden en gecontroleerd, daarom zijn er meer voorstellen van vastgelegd. Voor de andere partijen gebruiken we lokale mediaberichten over de presentatie van hun programma's en interviews met kandidaten uit 2023, duidelijk gelabeld als secundaire bron. Het verschil weerspiegelt welke documenten openbaar zijn, geen redactionele voorkeur. Partijen kunnen hun programma's van 2023 of 2027 sturen via de correctielink.",
+  competenceLabel: "Wie beslist:",
+  d_history: "Wijzigingen sinds 2023", ps_located_unverified: "Online gevonden maar niet gecontroleerd", unverifiedLead: "In zoekresultaten verschijnt een bestand dat wordt gepresenteerd als het programma 2023 van deze partij, maar de website blokkeerde geautomatiseerde toegang; de inhoud is dus niet gecontroleerd of gebruikt:",
   badge2023media: "Campagne 2023 · historische referentie", mediaOnly: "alleen media", mediaElsewhere: "Waar beschikbaar staan mediaberichten over haar standpunten uit 2023 over andere onderwerpen vermeld.",
   topbar: "Onafhankelijke burgerinformatie", navHome: "Home", navVote: "Stemrecht", navDates: "Termijnen", navExplore: "Programma's", navCoverage: "Dekking", navMethod: "Werkwijze", navCommunity: "Gemeenschap", navCorrections: "Correcties", menu: "Menu",
   eyebrow: "Gemeenteraadsverkiezingen Sitges · Partijprogramma's",
@@ -357,7 +378,7 @@ nl: {
   y2027Title: "Verkiezingen 2027", y2027Sub: "Programma's voor 23 mei 2027: status", y2023Title: "Archief 2023", y2023Sub: "Historische programma's, 28 mei 2023",
   v2027Title: "Programma's 2027: verificatiestatus",
   v2027Lede: "Dat een partij hier staat, betekent niet dat zij in 2027 meedoet. Officiële kandidaturen staan pas vast wanneer de verkiezingsautoriteiten ze in het voorjaar van 2027 publiceren.",
-  v2023Lede: "Deze voorstellen komen uit de programma's van 2023 die we konden vinden en controleren. De samenvattingen zijn onze eigen korte, onafhankelijke beschrijvingen; open de bron voor de volledige tekst.",
+  v2023Lede: "Deze vermeldingen komen uit programmadocumenten van 2023 en, waar geen document is gevonden, uit lokale mediaberichten over de campagne van 2023. Elke vermelding toont het brontype. De samenvattingen zijn onze eigen korte, onafhankelijke beschrijvingen; open de bron voor de volledige tekst.",
   tabSubject: "Per onderwerp", tabParty: "Per partij", tabCompare: "Naast elkaar",
   orderLabel: "Volgorde partijen", orderAlpha: "Alfabetisch", orderVotes: "Op stemmen 2023 (historisch feit)",
   pickSubject: "Kies een onderwerp", pickParty: "Kies een partij of beweging", pickParties: "Kies maximaal 4 partijen",

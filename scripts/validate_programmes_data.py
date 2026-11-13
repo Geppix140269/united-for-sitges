@@ -27,7 +27,7 @@ EVIDENCE = {
 COMMIT = {"commitment", "study", "aspiration"}
 COMPETENCE = {"municipal", "shared", "external"}
 DOC_TYPES = {"election_programme", "web_programme", "government_agreement", "official_record", "party_statement", "media_report"}
-PROG_2023 = {"verified", "partial", "not_located"}
+PROG_2023 = {"verified", "partial", "located_unverified", "not_located"}
 PROG_2027 = {"verified", "not_verified"}
 DATE = re.compile(r"^\d{4}(-\d{2}(-\d{2})?)?$")
 SHA = re.compile(r"^[0-9a-f]{64}$")
@@ -51,7 +51,7 @@ def need(obj, fields, where):
 
 
 def no_em_dash(text, where):
-    if "—" in text:
+    if "\u2014" in text:
         err(f"{where}: contains an em dash; use a comma, colon or full stop instead")
 
 
@@ -137,9 +137,11 @@ def main():
     for p in pmap.values():
         has = [s for s in smap.values() if s["party_id"] == p["id"] and s["election_year"] == 2023
                and s["document_type"] in ("election_programme", "web_programme")]
-        if p["programme_2023_status"] == "not_located" and has:
+        if p["programme_2023_status"] == "located_unverified" and not p.get("unverified_leads"):
+            err(f"party {p['id']}: located_unverified needs unverified_leads")
+        if p["programme_2023_status"] in ("not_located", "located_unverified") and has:
             err(f"party {p['id']}: marked not_located but a 2023 programme source exists")
-        if p["programme_2023_status"] != "not_located" and not has:
+        if p["programme_2023_status"] in ("verified", "partial") and not has:
             err(f"party {p['id']}: marked {p['programme_2023_status']} but no 2023 programme source is catalogued")
         has27 = [s for s in smap.values() if s["party_id"] == p["id"] and s["election_year"] == 2027
                  and s["document_type"] in ("election_programme", "web_programme")]
@@ -198,7 +200,7 @@ def main():
 
     # every party with a catalogued programme should have at least one proposal or a review note
     for p in pmap.values():
-        if p["programme_2023_status"] != "not_located":
+        if p["programme_2023_status"] in ("verified", "partial"):
             n = sum(1 for x in props["proposals"] if x["party_id"] == p["id"])
             if n == 0 and not p.get("extraction_note"):
                 err(f"party {p['id']}: programme located but no proposals and no extraction_note")
@@ -208,7 +210,7 @@ def main():
     blocks = re.split(r"\n(en|ca|es|it|fr|de|nl): \{", text)
     keys = {}
     for i in range(1, len(blocks), 2):
-        keys[blocks[i]] = set(re.findall(r"(?:^|[\s,{])([A-Za-z0-9_]+):\s", blocks[i + 1]))
+        keys[blocks[i]] = set(re.findall(r'(?:^[ \t]*|",[ \t]*)([A-Za-z0-9_]+): "', blocks[i + 1], re.M))
     if set(keys) != set(LANGS):
         err(f"i18n: languages found {sorted(keys)}")
     else:

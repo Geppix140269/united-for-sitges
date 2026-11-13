@@ -99,7 +99,7 @@
     var kind = p.evidence_label !== 'HISTORICAL_PROPOSAL' ? '<span class="badge kind">' + esc(t('ev_' + p.evidence_label)) + '</span>' : '';
     var commit = p.commitment_type ? '<span class="badge kind">' + esc(t('ct_' + p.commitment_type)) + '</span>' : '';
     var comp = (p.competence && p.competence !== 'municipal')
-      ? '<span class="badge warn" title="' + esc(p.competence_note || '') + '">' + esc(t('comp_' + p.competence)) + '</span>' : '';
+      ? '<span class="badge kind" title="' + esc(p.competence_note || '') + '">' + esc(t('comp_' + p.competence)) + '</span>' : '';
     var party = opts.showParty ? '<div class="meta" style="font-size:12.5px;font-weight:800;color:#556776">' + esc(partyById(p.party_id).short_name) + '</div>' : '';
     var where = [src.title ? esc(src.title) : '', p.source_page ? esc(t('pageAbbr')) + ' ' + esc(p.source_page) : '', p.source_section ? '“' + esc(p.source_section) + '”' : '']
       .filter(Boolean).join(', ');
@@ -114,7 +114,9 @@
     return '<li class="proposal" id="' + esc(p.id) + '">' + party +
       '<h4>' + esc(p.title_en) + '</h4>' +
       '<div class="badges">' + yearBadge + kind + commit + comp + '</div>' +
-      '<p>' + esc(p.summary_en) + '</p>' + srcLine + exc + dates + '</li>';
+      '<p>' + esc(p.summary_en) + '</p>' +
+      (comp && p.competence_note ? '<p class="small-note" style="margin:-4px 0 8px">' + esc(t('competenceLabel')) + ' ' + esc(p.competence_note) + '</p>' : '') +
+      srcLine + exc + dates + '</li>';
   }
 
   function missingHtml(party, year, catId) {
@@ -184,11 +186,14 @@
       '<dt>' + esc(t('d_ballotName')) + '</dt><dd>' + esc(p.name_2023_official) + ' (' + esc(p.abbreviation_2023) + ')</dd>' +
       '<dt>' + esc(t('d_result2023')) + '</dt><dd>' + esc(resultLine(p)) + ' · <a href="' + esc(DATA.meta.results_source_url) + '" target="_blank" rel="noopener">BOE</a></dd>' +
       '<dt>' + esc(t('d_council')) + '</dt><dd>' + esc(p.council_status_2026[state.lang] || p.council_status_2026.en) + '</dd>' +
-      (p.affiliation_note ? '<dt>' + esc(t('d_affiliation')) + '</dt><dd>' + esc(p.affiliation_note[state.lang] || p.affiliation_note.en) + '</dd>' : '') +
+      (p.history_note ? '<dt>' + esc(t('d_history')) + '</dt><dd>' + esc(p.history_note[state.lang] || p.history_note.en) + ' <a href="' + esc(p.history_source_url) + '" target="_blank" rel="noopener">' + esc(t('source')) + '</a></dd>' : '') +
       '<dt>' + esc(t('d_prog2023')) + '</dt><dd>' + esc(t('ps_' + p.programme_2023_status)) + '</dd>' +
       '<dt>' + esc(t('d_prog2027')) + '</dt><dd>' + esc(t('ps_' + p.programme_2027_status)) + '</dd>' +
       (p.website ? '<dt>' + esc(t('d_website')) + '</dt><dd><a href="' + esc(p.website) + '" target="_blank" rel="noopener">' + esc(p.website.replace(/^https?:\/\//, '').replace(/\/$/, '')) + '</a></dd>' : '') +
       '</dl>';
+    (p.unverified_leads || []).forEach(function (u) {
+      html += '<div class="missing" style="margin-top:14px"><span class="badge warn">' + esc(t('ev_NOT_YET_VERIFIED')) + '</span> ' + esc(t('unverifiedLead')) + ' <code style="word-break:break-all">' + esc(u.url) + '</code></div>';
+    });
     html += '<h4 style="margin:22px 0 4px;color:#1F3864">' + esc(t('documents')) + '</h4>';
     html += docs.length ? '<ul class="doc-list">' + docs.map(docItem).join('') + '</ul>' : '<div class="missing">' + esc(t('noDocs')) + '</div>';
     html += '</div>';

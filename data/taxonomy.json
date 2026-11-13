@@ -1,0 +1,246 @@
+{
+  "schema_version": 1,
+  "description": "Common policy taxonomy applied equally to every party. A proposal may carry several categories; the first is its primary category.",
+  "categories": [
+    {
+      "id": "01",
+      "name": {
+        "en": "Economic development",
+        "ca": "Desenvolupament econòmic",
+        "es": "Desarrollo económico",
+        "it": "Sviluppo economico",
+        "fr": "Développement économique",
+        "de": "Wirtschaftsentwicklung",
+        "nl": "Economische ontwikkeling"
+      },
+      "scope": {
+        "en": "Local business, employment, entrepreneurship, investment attraction, commercial areas, economic diversification, support for SMEs."
+      }
+    },
+    {
+      "id": "02",
+      "name": {
+        "en": "Urban planning and territory",
+        "ca": "Urbanisme i territori",
+        "es": "Urbanismo y territorio",
+        "it": "Urbanistica e territorio",
+        "fr": "Urbanisme et territoire",
+        "de": "Stadtplanung und Gebiet",
+        "nl": "Ruimtelijke ordening"
+      },
+      "scope": {
+        "en": "Municipal planning (POUM and other instruments), zoning and land use, new development, regeneration, local character, infrastructure, public land and municipal assets."
+      }
+    },
+    {
+      "id": "03",
+      "name": {
+        "en": "Housing",
+        "ca": "Habitatge",
+        "es": "Vivienda",
+        "it": "Casa",
+        "fr": "Logement",
+        "de": "Wohnen",
+        "nl": "Wonen"
+      },
+      "scope": {
+        "en": "Affordable, public and social housing, rental affordability, availability, holiday rentals (HUT), renovation, access for young people."
+      }
+    },
+    {
+      "id": "04",
+      "name": {
+        "en": "Tourism",
+        "ca": "Turisme",
+        "es": "Turismo",
+        "it": "Turismo",
+        "fr": "Tourisme",
+        "de": "Tourismus",
+        "nl": "Toerisme"
+      },
+      "scope": {
+        "en": "Tourism strategy, quality versus volume, sustainability, seasonality, tourist accommodation, events and conferences, visitor management, impact on residents."
+      }
+    },
+    {
+      "id": "05",
+      "name": {
+        "en": "Public safety and local police",
+        "ca": "Seguretat i policia local",
+        "es": "Seguridad y policía local",
+        "it": "Sicurezza e polizia locale",
+        "fr": "Sécurité et police locale",
+        "de": "Sicherheit und Ortspolizei",
+        "nl": "Veiligheid en lokale politie"
+      },
+      "scope": {
+        "en": "Policia Local, community policing, crime prevention, night-time disturbances, enforcement of by-laws, emergency planning, civil protection."
+      }
+    },
+    {
+      "id": "06",
+      "name": {
+        "en": "Mobility and transport",
+        "ca": "Mobilitat i transport",
+        "es": "Movilidad y transporte",
+        "it": "Mobilità e trasporti",
+        "fr": "Mobilité et transports",
+        "de": "Mobilität und Verkehr",
+        "nl": "Mobiliteit en vervoer"
+      },
+      "scope": {
+        "en": "Public transport, rail, parking, traffic, pedestrians, cycling, accessibility, links with neighbouring towns."
+      }
+    },
+    {
+      "id": "07",
+      "name": {
+        "en": "Environment and sustainability",
+        "ca": "Medi ambient i sostenibilitat",
+        "es": "Medio ambiente y sostenibilidad",
+        "it": "Ambiente e sostenibilità",
+        "fr": "Environnement et durabilité",
+        "de": "Umwelt und Nachhaltigkeit",
+        "nl": "Milieu en duurzaamheid"
+      },
+      "scope": {
+        "en": "Waste and recycling, water, energy, climate adaptation, biodiversity, green spaces, coastal erosion and beaches."
+      }
+    },
+    {
+      "id": "08",
+      "name": {
+        "en": "Public services",
+        "ca": "Serveis públics",
+        "es": "Servicios públicos",
+        "it": "Servizi pubblici",
+        "fr": "Services publics",
+        "de": "Öffentliche Dienste",
+        "nl": "Openbare diensten"
+      },
+      "scope": {
+        "en": "Municipal administration, citizen services, street cleaning, maintenance, public facilities, digitalisation, accessibility of services."
+      }
+    },
+    {
+      "id": "09",
+      "name": {
+        "en": "Municipal finances",
+        "ca": "Finances municipals",
+        "es": "Finanzas municipales",
+        "it": "Finanze comunali",
+        "fr": "Finances municipales",
+        "de": "Gemeindefinanzen",
+        "nl": "Gemeentefinanciën"
+      },
+      "scope": {
+        "en": "Budget, local taxes, spending priorities, public investment, debt, financial transparency, procurement."
+      }
+    },
+    {
+      "id": "10",
+      "name": {
+        "en": "Governance and participation",
+        "ca": "Governança i participació",
+        "es": "Gobernanza y participación",
+        "it": "Governance e partecipazione",
+        "fr": "Gouvernance et participation",
+        "de": "Verwaltung und Bürgerbeteiligung",
+        "nl": "Bestuur en participatie"
+      },
+      "scope": {
+        "en": "Transparency, accountability, citizen participation, neighbourhood councils, consultations, relations with associations, communication, anti-corruption."
+      }
+    },
+    {
+      "id": "11",
+      "name": {
+        "en": "International community and inclusion",
+        "ca": "Comunitat internacional i inclusió",
+        "es": "Comunidad internacional e inclusión",
+        "it": "Comunità internazionale e inclusione",
+        "fr": "Communauté internationale et inclusion",
+        "de": "Internationale Gemeinschaft und Inklusion",
+        "nl": "Internationale gemeenschap en inclusie"
+      },
+      "scope": {
+        "en": "Foreign residents, multilingual services, access to information, civic participation, integration, equality, diversity, anti-discrimination."
+      }
+    },
+    {
+      "id": "12",
+      "name": {
+        "en": "Culture, heritage and identity",
+        "ca": "Cultura, patrimoni i identitat",
+        "es": "Cultura, patrimonio e identidad",
+        "it": "Cultura, patrimonio e identità",
+        "fr": "Culture, patrimoine et identité",
+        "de": "Kultur, Erbe und Identität",
+        "nl": "Cultuur, erfgoed en identiteit"
+      },
+      "scope": {
+        "en": "Festivals and traditions, cultural institutions, heritage, museums, arts, Catalan language and local culture, Sitges identity."
+      }
+    },
+    {
+      "id": "13",
+      "name": {
+        "en": "Education, youth and families",
+        "ca": "Educació, joventut i famílies",
+        "es": "Educación, juventud y familias",
+        "it": "Istruzione, giovani e famiglie",
+        "fr": "Éducation, jeunesse et familles",
+        "de": "Bildung, Jugend und Familien",
+        "nl": "Onderwijs, jeugd en gezinnen"
+      },
+      "scope": {
+        "en": "Schools and buildings, youth activities, childcare, family services, opportunities for young people."
+      }
+    },
+    {
+      "id": "14",
+      "name": {
+        "en": "Health, social welfare and ageing",
+        "ca": "Salut, benestar social i gent gran",
+        "es": "Salud, bienestar social y mayores",
+        "it": "Salute, welfare e anziani",
+        "fr": "Santé, action sociale et personnes âgées",
+        "de": "Gesundheit, Soziales und Alter",
+        "nl": "Gezondheid, welzijn en ouderen"
+      },
+      "scope": {
+        "en": "Social services, older people, disability inclusion, access to healthcare, vulnerability, community wellbeing."
+      }
+    },
+    {
+      "id": "15",
+      "name": {
+        "en": "Sports and recreation",
+        "ca": "Esports i lleure",
+        "es": "Deportes y ocio",
+        "it": "Sport e tempo libero",
+        "fr": "Sports et loisirs",
+        "de": "Sport und Freizeit",
+        "nl": "Sport en recreatie"
+      },
+      "scope": {
+        "en": "Sports facilities, municipal sports programmes, recreational areas, support for sports clubs."
+      }
+    },
+    {
+      "id": "16",
+      "name": {
+        "en": "Other local priorities",
+        "ca": "Altres prioritats locals",
+        "es": "Otras prioridades locales",
+        "it": "Altre priorità locali",
+        "fr": "Autres priorités locales",
+        "de": "Weitere lokale Prioritäten",
+        "nl": "Andere lokale prioriteiten"
+      },
+      "scope": {
+        "en": "Documented programme areas not covered above (for example animal welfare)."
+      }
+    }
+  ]
+}

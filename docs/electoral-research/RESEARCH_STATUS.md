@@ -98,3 +98,4 @@ None found in the recorded entries. Party statements about the 2026 breakdown of
 | Date | Change |
 |---|---|
 | 2026-11-13 | First release: 13 organisations, 17 sources, 91 entries (33 programme, 58 media). 2027 programmes: none verified. |
+| 2026-11-13 | Corrections contact on the programme page changed to hello@unitedforsitges.com (project alias). |

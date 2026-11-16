@@ -468,21 +468,23 @@ create table ufs_agent.external_notes (
 -- Returns no email. author_id is returned only so the application can store a
 -- one-way HMAC reference; the raw id is never persisted in ufs_agent tables.
 -- ---------------------------------------------------------------------------
-create function ufs_agent.forum_items_since(since timestamptz, max_rows integer default 100)
+-- Stable composite cursor prevents rows sharing a timestamp from being
+-- permanently skipped when the result is paginated in batches of 100.
+create function ufs_agent.forum_items_since(since timestamptz, since_id uuid, max_rows integer default 100)
 returns table(kind text, id uuid, topic_id uuid, author_id uuid, title text, body text, status text, created_at timestamptz)
-language sql stable security definer set search_path='' as $$
+language sql stable security definer set search_path='' as $
   (select 'topic'::text, t.id, t.id, t.author_id, t.title, t.body, t.status, t.created_at
-     from public.ufs_topics t where t.created_at > since)
+     from public.ufs_topics t where (t.created_at, t.id) > (since, since_id))
   union all
   (select 'reply'::text, r.id, r.topic_id, r.author_id, null::text, r.body, r.status, r.created_at
-     from public.ufs_replies r where r.created_at > since)
+     from public.ufs_replies r where (r.created_at, r.id) > (since, since_id))
   union all
   (select 'report'::text, rp.id, rp.topic_id, rp.reporter_id, null::text, rp.reason, rp.status, rp.created_at
-     from public.ufs_reports rp where rp.created_at > since)
-  order by 8 asc
+     from public.ufs_reports rp where (rp.created_at, rp.id) > (since, since_id))
+  order by 8 asc, 2 asc
   limit least(greatest(max_rows,1),500);
-$$;
-revoke all on function ufs_agent.forum_items_since(timestamptz,integer) from public;
+$;
+revoke all on function ufs_agent.forum_items_since(timestamptz,uuid,integer) from public;
 
 -- Moderator check used by the admin API (identity comes from a verified
 -- Supabase Auth access token; never from user_metadata).
@@ -519,5 +521,5 @@ to ufs_agent_worker;
 grant select, insert on ufs_agent.audit_log, ufs_agent.publication_metrics, ufs_agent.external_notes to ufs_agent_worker;
 -- Retention purge of old audit rows and metrics (trigger still enforces the floor).
 grant delete on ufs_agent.audit_log, ufs_agent.publication_metrics to ufs_agent_worker;
-grant execute on function ufs_agent.forum_items_since(timestamptz,integer), ufs_agent.is_active_moderator(uuid) to ufs_agent_worker;
+grant execute on function ufs_agent.forum_items_since(timestamptz,uuid,integer), ufs_agent.is_active_moderator(uuid) to ufs_agent_worker;
 -- No DELETE on events/cases/drafts/actions/publications: retention redacts content in place.

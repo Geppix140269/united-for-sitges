@@ -1,0 +1,79 @@
+# Community Agent CI: static checks, unit tests and PostgreSQL integration
+# tests against a disposable PostgreSQL 17 service (production runs 17).
+# Uses no secrets, never contacts Supabase, Meta, Instagram, Resend or
+# Anthropic, and deploys nothing.
+name: Agent CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agent-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Checks, unit and database tests (PostgreSQL 17)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      AGENT_TESTDB_ADMIN_URL: postgresql://postgres:postgres@localhost:5432
+      AGENT_TEST_DATABASE_URL: postgresql://ufs_agent_worker:agent_test_only@localhost:5432/agent_test
+      AGENT_TEST_SUPER_URL: postgresql://postgres:postgres@localhost:5432/agent_test
+      AGENT_REQUIRE_DB: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Static checks
+        run: npm run check
+      - name: Programme dataset validator
+        run: python3 scripts/validate_programmes_data.py
+      - name: PostgreSQL client and server versions
+        run: |
+          psql --version
+          psql "$AGENT_TESTDB_ADMIN_URL/postgres" -tAc 'select version()'
+      - name: Build test schema (forum schema, existing migrations, agent migration)
+        run: bash scripts/agent-test-db.sh apply
+      - name: Unit and database tests
+        run: npm test
+
+  site-smoke:
+    name: Public pages and console smoke test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies and Playwright Chromium
+        run: |
+          npm ci
+          npm install --no-save playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Smoke test
+        run: node scripts/agent-site-smoke.js

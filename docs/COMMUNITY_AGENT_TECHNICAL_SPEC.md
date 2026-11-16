@@ -1,7 +1,12 @@
 # United for Sitges Community Agent: Technical Specification
 
 Version 1.1 (brief 1.0 plus Addendum 1.1, autonomous editorial publishing). Date: 16 November 2026.
-Status: implemented on branch `feat/u4s-community-agent-mvp`, all outbound behaviour OFF. Nothing deployed, no migration applied.
+Status: implemented on branch `feat/u4s-community-agent-mvp`, all outbound behaviour OFF.
+
+Deployment status (verified 16 November 2026):
+- **Preview deployments exist.** Vercel and Netlify build every push to this pull request automatically. The Vercel preview is behind Vercel SSO protection; the Netlify preview is public and serves files statically only (Netlify does not run the `api/` functions). The Vercel project has no environment variables in any environment, so preview functions fail closed (503 `not_configured`). Previews are not test evidence; automated testing is the `Agent CI` GitHub Actions workflow.
+- **No production deployment of this branch.** Production is `main` (`f845176`).
+- **No activation.** No migration applied to live Supabase (no `ufs_agent` schema, no `ufs_agent_worker` role, no `pg_cron`/`pg_net`), no credentials, no scheduler, no outbound calls.
 
 ## 1. Phase 0 audit (verified facts, 16 November 2026)
 
@@ -145,9 +150,10 @@ Admin authorisation never reads `user_metadata` or client flags.
 - Webhook: raw-body HMAC, constant-time comparison, size and shape limits, prompt acknowledgement, durable queue.
 - Admin: verified Supabase session, server-side moderator check, Origin check, fingerprint-bound approvals, full audit with actor and exact text.
 - Model: no tools, closed schemas, untrusted boundaries, deterministic overrides.
+- Outbound retrieval (`lib/agent/net/safe-get.js`, used for source pages and card images): HTTPS on port 443 only, no credentials or IP literals in URLs, exact host allowlist (active registry hosts; `unitedforsitges.com` for images), redirects followed manually (max 3) and fully re-validated, every DNS answer must be public unicast (private, loopback, link-local, metadata, CGNAT, multicast, reserved, NAT64/6to4/Teredo and mapped ranges refused), the same guarded lookup is used by the socket at connect time so a rebinding answer is refused, no connection reuse, identity encoding, 2 MB (8 MB for images) streamed limit, 12 s timeout. Provider API clients (Graph, Supabase Auth, Resend, Anthropic) only call fixed hosts built in code.
 - Database: private schema, forced RLS, least-privilege worker, append-only audit, no deletes of operational records.
 - Browser: console renders all public content with `textContent`; no service keys in the browser.
 
 ## 10. Testing
 
-`npm test` with `AGENT_TEST_DATABASE_URL` from `bash scripts/agent-test-db.sh start` (throwaway local PostgreSQL with Supabase stubs, real forum schema, existing migrations and the agent migration). Mocked Meta, Claude, sources and Resend. `node scripts/agent-site-smoke.js` checks the public pages and console. Results are listed in the pull request.
+`npm run check` (static checks, default-off assertions, secret scan), `npm test` with `AGENT_TEST_DATABASE_URL` from `bash scripts/agent-test-db.sh start` (throwaway local PostgreSQL with Supabase stubs, real forum schema, existing migrations and the agent migration), and `node scripts/agent-site-smoke.js`. Mocked Meta, Claude, sources and Resend; no real provider call is made by any test. GitHub Actions workflow `.github/workflows/agent-ci.yml` runs the same checks against a PostgreSQL 17 service (the production major version) plus the smoke test. Results are listed in the pull request.

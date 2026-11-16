@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Throwaway local PostgreSQL for Community Agent tests. Never touches Supabase.
 # Usage: bash scripts/agent-test-db.sh start|stop|reset
-# Prints the connection URL to export as AGENT_TEST_DATABASE_URL.
+#        AGENT_TESTDB_ADMIN_URL=postgresql://postgres:pw@host:5432 bash scripts/agent-test-db.sh apply
+# "apply" targets an existing disposable server (CI service container) instead
+# of a local cluster. Prints the connection URL to export as AGENT_TEST_DATABASE_URL.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DATA="${AGENT_TESTDB_DIR:-$ROOT/.agent-testdb}"
@@ -11,7 +13,15 @@ RUNAS=()
 if [ "$(id -u)" = "0" ]; then RUNAS=(runuser -u postgres --); fi
 run() { "${RUNAS[@]}" "$@"; }
 SOCK="$DATA/sock"
-psqlc() { run "$PGBIN/psql" -h "$SOCK" -p "$PORT" -U postgres -v ON_ERROR_STOP=1 -q "$@"; }
+if [ -n "${AGENT_TESTDB_ADMIN_URL:-}" ]; then
+  ADMIN="${AGENT_TESTDB_ADMIN_URL%/}"
+  psqlc() {
+    local db="$2"; shift 2
+    psql "$ADMIN/$db" -v ON_ERROR_STOP=1 -q "$@"
+  }
+else
+  psqlc() { run "$PGBIN/psql" -h "$SOCK" -p "$PORT" -U postgres -v ON_ERROR_STOP=1 -q "$@"; }
+fi
 
 apply_schema() {
   psqlc -d postgres -c "drop database if exists agent_test" -c "create database agent_test"
@@ -38,6 +48,12 @@ case "${1:-start}" in
     echo "postgresql://ufs_agent_worker:agent_test_only@127.0.0.1:$PORT/agent_test"
     ;;
   reset) apply_schema; echo "postgresql://ufs_agent_worker:agent_test_only@127.0.0.1:$PORT/agent_test" ;;
+  apply)
+    [ -n "${AGENT_TESTDB_ADMIN_URL:-}" ] || { echo "AGENT_TESTDB_ADMIN_URL is required for apply" >&2; exit 2; }
+    apply_schema
+    HOSTPART="${ADMIN#*@}"
+    echo "postgresql://ufs_agent_worker:agent_test_only@${HOSTPART}/agent_test"
+    ;;
   stop) run "$PGBIN/pg_ctl" -D "$DATA/pg" -w stop >/dev/null && echo stopped ;;
-  *) echo "usage: $0 start|stop|reset" >&2; exit 2 ;;
+  *) echo "usage: $0 start|stop|reset|apply" >&2; exit 2 ;;
 esac

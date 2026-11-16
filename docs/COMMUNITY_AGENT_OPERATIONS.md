@@ -1,6 +1,6 @@
 # Community Agent: Operations guide
 
-Everything below is preparation. As of 16 November 2026 nothing is deployed, no migration is applied, no credential exists and every outbound path is off.
+Everything below is preparation. As of 16 November 2026: preview deployments of the pull request exist (Vercel, SSO protected; Netlify, static only), but there is no production deployment of the agent, no migration applied, no credential and every outbound path is off.
 
 ## 1. Configuration (Vercel environment variables, server side only)
 
@@ -115,5 +115,11 @@ npm test
 ```bash
 node scripts/agent-site-smoke.js
 ```
+
+```bash
+npm run check
+```
+
+CI: `.github/workflows/agent-ci.yml` runs `npm run check`, the programme data validator, the schema build and `npm test` against a PostgreSQL 17 service container with `AGENT_REQUIRE_DB=1` (database tests may not silently skip), plus the site smoke test in a separate job. It uses no secrets and deploys nothing. Against a disposable server, `AGENT_TESTDB_ADMIN_URL=postgresql://postgres:pw@host:5432 bash scripts/agent-test-db.sh apply` builds the test schema.
 
 The test database is a throwaway local PostgreSQL with Supabase stand-ins (`tests/agent/fixtures/supabase-stubs.sql`). It never connects to Supabase.

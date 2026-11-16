@@ -31,6 +31,25 @@ describe('Database security boundary', { skip: dbSkip }, () => {
     }
   });
 
+  test('fresh installation ships every outbound path OFF (moderation SHADOW, publishing SHADOW, no email, no channel enabled)', async () => {
+    const rows = Object.fromEntries((await superDb().query('select key, value from ufs_agent.settings')).map((r) => [r.key, r.value]));
+    assert.equal(rows.moderation.mode, 'SHADOW');
+    assert.equal(rows.moderation.auto_reply_enabled, false);
+    assert.equal(rows.publishing.mode, 'SHADOW');
+    assert.equal(rows.publishing.autonomous_publishing_enabled, false);
+    assert.equal(rows.publishing.forum_publishing_enabled, false);
+    assert.equal(rows.emergency_stop.active, false);
+    assert.equal(rows.digest.send_enabled, false);
+    const ch = await superDb().one("insert into ufs_agent.channels(provider, external_account_id, account_label) values ('facebook_page','5555','Defaults check') returning *");
+    assert.equal(ch.ingest_enabled, false);
+    assert.equal(ch.auto_reply_enabled, false);
+    assert.equal(ch.publishing_enabled, false);
+    assert.equal(ch.connection_status, 'unverified');
+    assert.equal(ch.token_status, 'unknown');
+    assert.deepEqual(ch.capabilities, {});
+    await assert.rejects(superDb().query("update ufs_agent.settings set value = jsonb_set(value, '{mode}', '\"FULLY_AUTONOMOUS\"') where key='moderation'"), /check constraint/);
+  });
+
   test('RLS is enabled and forced on every agent table', async () => {
     const rows = await superDb().query("select c.relname, c.relrowsecurity, c.relforcerowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='ufs_agent' and c.relkind='r'");
     for (const r of rows) {

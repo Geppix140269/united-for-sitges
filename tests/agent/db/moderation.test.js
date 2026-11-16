@@ -261,6 +261,36 @@ describe('Human approval workflow', { skip: dbSkip }, () => {
     assert.equal(deps.adapterFor.map.get(channel.id)?.calls.filter((c) => c.op === 'replyToComment').length ?? 0, 0);
   });
 
+  test('dismissing an approved case blocks its queued reply', async () => {
+    const d = (await superDb().query('select * from ufs_agent.drafts'))[0];
+    await call({ action: 'draft_approve', draft_id: d.id, fingerprint: d.content_fingerprint });
+    await patchSetting('moderation', { mode: 'SUPERVISED' });
+    const response = await call({ action: 'case_update', id: d.case_id, status: 'dismissed' });
+    assert.equal(response.status, 200);
+    const res = await executePendingActions(workerDb(), { adapterFor: deps.adapterFor }, { workerId: 'review-worker' });
+    assert.equal(res[0].status, 'blocked');
+    assert.equal(res[0].reasons[0], 'case_no_longer_replyable');
+    assert.equal(deps.adapterFor.map.get(channel.id)?.replies.size || 0, 0);
+  });
+
+  test('a newer edit event cancels a queued reply to the earlier comment version', async () => {
+    const d = (await superDb().query('select * from ufs_agent.drafts'))[0];
+    await call({ action: 'draft_approve', draft_id: d.id, fingerprint: d.content_fingerprint });
+    await patchSetting('moderation', { mode: 'SUPERVISED' });
+    const original = (await superDb().query('select * from ufs_agent.events'))[0];
+    await superDb().query(
+      `insert into ufs_agent.events(channel_id, idempotency_key, external_object_id, event_type,
+         content_excerpt, payload_checksum, received_at)
+       values ($1,$2,$3,'comment_edited',$4,$5,$6)`,
+      [channel.id, 'edit-review-unique-key', original.external_object_id, 'The question has changed after approval.',
+        'b'.repeat(64), new Date(new Date(original.received_at).getTime() + 1000)],
+    );
+    const res = await executePendingActions(workerDb(), { adapterFor: deps.adapterFor }, { workerId: 'review-worker' });
+    assert.equal(res[0].status, 'cancelled');
+    assert.equal(res[0].reasons[0], 'target_text_changed_or_unverifiable');
+    assert.equal(deps.adapterFor.map.get(channel.id)?.replies.size || 0, 0);
+  });
+
   test('invalid token and rate limits from the provider are handled (tests 6 and 7)', async () => {
     const d = (await superDb().query('select * from ufs_agent.drafts'))[0];
     await call({ action: 'draft_approve', draft_id: d.id, fingerprint: d.content_fingerprint });

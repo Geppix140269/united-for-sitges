@@ -10,21 +10,26 @@ describe('Security regression: forum keyset pagination', { skip: dbSkip }, () =>
   after(() => closeDbs());
 
   test('never loses forum posts sharing the same created_at across 100-item pages', async () => {
-    const member = await addUser();
+    const member = await addUser({ moderator: true });
     const channel = await addChannel({
       provider: 'forum', external_account_id: 'forum-main', account_label: 'U4S forum',
       capabilities: {}, publishing_enabled: false, auto_reply_enabled: false,
     });
     const postedAt = new Date(Date.now() - 60000);
-    await superDb().query(
-      `insert into public.ufs_topics(id, author_id, author_name, category, title, body, status, created_at)
-       select md5('forum-cursor:' || n::text)::uuid, $1::uuid, 'Review User', 'questions',
-              'Test topic number ' || n::text,
-              'A test community message for reliable agent ingestion.',
-              'pending', $2::timestamptz
-       from generate_series(1,205) as n`,
-      [member.id, postedAt],
-    );
+    // The production forum trigger requires actor=auth.uid(). Use a test JWT
+    // within the transaction, and an authorised moderator to bypass rate limits.
+    await superDb().tx(async (tx) => {
+      await tx.query("select set_config('request.jwt.claim.sub', $1, true)", [member.id]);
+      await tx.query(
+        `insert into public.ufs_topics(id, author_id, author_name, category, title, body, status, created_at)
+         select md5('forum-cursor:' || n::text)::uuid, $1::uuid, 'Review User', 'questions',
+                'Test topic number ' || n::text,
+                'A test community message for reliable agent ingestion.',
+                'pending', $2::timestamptz
+         from generate_series(1,205) as n`,
+        [member.id, postedAt],
+      );
+    });
     const settings = await getSettings(workerDb());
     const deps = { settings, now: new Date() };
     const batches = [];

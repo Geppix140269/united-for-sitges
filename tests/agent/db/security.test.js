@@ -63,7 +63,7 @@ describe('Database security boundary', { skip: dbSkip }, () => {
     await assert.rejects(workerDb().query("update public.ufs_topics set status='approved'"), /permission denied/);
     await assert.rejects(workerDb().query('select * from auth.users'), /permission denied/);
     await assert.rejects(workerDb().query('select * from ufs_internal.admin_contact'), /permission denied/);
-    const rows = await workerDb().query("select * from ufs_agent.forum_items_since(now() - interval '1 day', 10)");
+    const rows = await workerDb().query("select * from ufs_agent.forum_items_since(now() - interval '1 day', '00000000-0000-0000-0000-000000000000'::uuid, 10)");
     assert.ok(Array.isArray(rows));
   });
 
@@ -94,7 +94,7 @@ describe('Database security boundary', { skip: dbSkip }, () => {
     await asRole('authenticated', mod.id, "update public.ufs_topics set status='approved'");
     assert.equal((await asRole('anon', null, 'select id from public.ufs_topics')).length, 1);
     // Agent can see it through the bridge for triage, without changing it.
-    const items = await workerDb().query("select kind, status from ufs_agent.forum_items_since(now() - interval '1 hour', 10)");
+    const items = await workerDb().query("select kind, status from ufs_agent.forum_items_since(now() - interval '1 hour', '00000000-0000-0000-0000-000000000000'::uuid, 10)");
     assert.equal(items[0].kind, 'topic');
   });
 });

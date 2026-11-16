@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#1F3864">
+<title>Agent console | United for Sitges</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+:root{--navy:#1F3864;--terra:#C55A11;--teal:#119C94;--amber:#DDA02A;--red:#B42318;--cream:#FBF8F2;--ink:#24384c;--muted:#617281;--line:#d5e0e5;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--cream);color:var(--ink)}
+header{background:var(--navy);color:#fff;padding:12px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+header a{color:#fff;text-decoration:none;font-weight:800;display:flex;gap:10px;align-items:center}
+header img{width:32px;height:32px}
+main{max-width:1180px;margin:0 auto;padding:16px}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+nav.tabs button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;cursor:pointer;font-weight:600;color:var(--navy)}
+nav.tabs button[aria-selected="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 14px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.stat b{display:block;font-size:1.6rem;color:var(--navy)}
+.pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:700;background:#eef5f5;color:#136b6a;margin-right:4px}
+.pill.warn{background:#fff3df;color:#8a5a00}.pill.bad{background:#fde8e6;color:var(--red)}.pill.ok{background:#e6f6ee;color:#11633b}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--navy);background:#f3f7f8}
+.table-wrap{overflow-x:auto}
+button.act{border:0;border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer;background:var(--navy);color:#fff;margin:2px 4px 2px 0}
+button.act.secondary{background:#e8eef3;color:var(--navy)}button.act.danger{background:var(--red)}
+button.act:disabled{opacity:.5;cursor:not-allowed}
+textarea,input,select{font:inherit;border:1px solid var(--line);border-radius:8px;padding:7px 9px;width:100%;background:#fff;color:var(--ink)}
+textarea{min-height:110px}
+label{display:block;font-weight:600;margin:8px 0 4px}
+pre{white-space:pre-wrap;word-break:break-word;background:#f6f8f9;border-radius:8px;padding:10px;font-size:13px}
+.muted{color:var(--muted)}.error{color:var(--red);font-weight:700}
+.stop{border:2px solid var(--red)}
+.hidden{display:none!important}
+#login{max-width:420px;margin:40px auto}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.excerpt{border-left:4px solid var(--amber);background:#fffaf0;padding:8px 10px;border-radius:0 8px 8px 0;white-space:pre-wrap}
+@media (max-width:600px){main{padding:12px}th,td{padding:6px 4px}}
+</style>
+</head>
+<body>
+<header>
+  <a href="/"><img src="/favicon.svg" alt="" width="32" height="32">United for Sitges agent console</a>
+  <div class="row"><span id="who" class="muted"></span><button id="logout" class="act secondary hidden" type="button">Sign out</button></div>
+</header>
+<main>
+  <section id="login" class="card">
+    <h1 style="margin-top:0;color:var(--navy);font-size:1.4rem">Moderator sign in</h1>
+    <p class="muted">Access requires an active moderator account. Signing in does not grant moderator rights; the server checks them on every request.</p>
+    <form id="loginForm">
+      <label for="email">Email</label><input id="email" type="email" autocomplete="username" required>
+      <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required>
+      <p><button class="act" type="submit">Sign in</button></p>
+      <p id="loginStatus" role="status"></p>
+    </form>
+  </section>
+  <section id="app" class="hidden">
+    <nav class="tabs" id="tabs" aria-label="Sections"></nav>
+    <p id="status" role="status" class="muted"></p>
+    <div id="view"></div>
+  </section>
+</main>
+<script src="/forum-config.js"></script>
+<script type="module" src="/js/agent-console.js"></script>
+</body>
+</html>

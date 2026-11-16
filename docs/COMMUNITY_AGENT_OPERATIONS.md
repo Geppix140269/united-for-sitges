@@ -56,6 +56,8 @@ FAQ library: create or edit (saved inactive), set expiry and channels, approve. 
 
 Sources: open each URL yourself, then "Verify". Verification lasts 90 days by default; expired verification blocks factual posts.
 
+Factual editorial posts require an additional source-attestation approval in the calendar slot's Review panel. Read the full post and both social captions, compare each factual statement with the linked original source, then click **Approve factual content**. This approval is fingerprint-bound to the exact content. Until approval, publication stays in NEEDS_REVIEW, including in AUTONOMOUS mode. Manual replacement of factual topics without evidence-backed claim mapping is disabled.
+
 ## 5. Kill switch
 
 Overview tab, "STOP all outbound actions", with a reason. It is checked by the policy layer and again immediately before every provider call. Scheduled posts held by the stop stay scheduled and expire if their window passes; nothing posts late. Release the stop from the same card. Other levers: pause one channel, disable a category, set a mode to DISABLED, unset the live env switches and redeploy, or unschedule the cron job.

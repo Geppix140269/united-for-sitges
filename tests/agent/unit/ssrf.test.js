@@ -104,17 +104,22 @@ describe('DNS rebinding protection on the real HTTPS transport', () => {
   test('guarded lookup refuses a private answer at connect time even after a public pre-check', async () => {
     let calls = 0;
     const rebinding = async () => { calls += 1; return [{ address: calls === 1 ? PUBLIC_IP : '127.0.0.1', family: 4 }]; };
-    // A listener on 127.0.0.1 proves no connection reaches the private address.
+    // Where port 443 can be bound (root), a listener on 127.0.0.1 also proves
+    // no connection reaches the private address. Unprivileged CI runners
+    // cannot bind 443; the connect-time refusal is asserted either way.
     let connections = 0;
     const server = createServer((s) => { connections += 1; s.destroy(); });
-    await new Promise((r) => server.listen(443, '127.0.0.1', r)).catch(() => {});
+    const listening = await new Promise((resolve) => {
+      server.once('error', () => resolve(false));
+      server.listen(443, '127.0.0.1', () => resolve(true));
+    });
     try {
       await assert.rejects(safeGet('https://www.sitges.cat/', { allowedHosts: ALLOWED, resolver: rebinding, transport: httpsTransport, timeoutMs: 3000 }),
-        (e) => e.code === 'unsafe_destination');
+        (e) => e.code === 'unsafe_destination' && e.reason === 'non_public_address');
       assert.equal(calls >= 2, true, 'socket performed its own guarded lookup');
-      assert.equal(connections, 0);
+      if (listening) assert.equal(connections, 0);
     } finally {
-      server.close();
+      if (listening) server.close();
     }
   });
   test('guardedLookup supports the all:true form used by Node happy eyeballs', async () => {

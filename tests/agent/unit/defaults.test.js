@@ -31,7 +31,7 @@ test('even fully authorised settings only simulate while the env live switches a
   const reply = authorizeReply({ settings: { moderation: { mode: 'SUPERVISED', auto_reply_enabled: true }, emergency_stop: { active: false } }, channel: fb, action, draft, caseRow: { risk_level: 'low', category: 'approved_faq' }, now });
   assert.equal(reply.mode, 'simulate');
   const settings = { publishing: { mode: 'AUTONOMOUS', autonomous_publishing_enabled: true, daily_post_limit: 2, permitted_content_categories: ['civic_information'] }, emergency_stop: { active: false } };
-  const content = { publishability: 'publishable', factual_verification_status: 'passed', neutrality_validation_status: 'passed', duplication_status: 'unique' };
+  const content = { publishability: 'publishable', factual_verification_status: 'passed', neutrality_validation_status: 'passed', duplication_status: 'unique', approved_by: 'reviewer', approved_at: now.toISOString() };
   for (const channel of [fb, ig]) {
     const pub = { scheduled_at: '2026-11-16T08:00:00Z', platform_text: 't', text_fingerprint: textFingerprint('t'), media_reference: 'https://unitedforsitges.com/assets/agent/cards/mobility.jpg' };
     const d = authorizePublication({ settings, channel, publication: pub, content, calendar: { category: 'civic_information' }, now, publishedToday: 0, mediaCheck: { ok: true } });

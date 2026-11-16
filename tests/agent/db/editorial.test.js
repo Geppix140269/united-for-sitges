@@ -46,6 +46,13 @@ async function verifySource() {
     values ('sitges-equip-govern','Equip de govern',$1,'Ajuntament de Sitges','official_municipal','{local_government}','moderator', $2::timestamptz - interval '1 day', true)`, [SRC_URL, NOW]);
 }
 
+// Existing publication tests explicitly model the moderator sign-off required
+// before a factual post may leave the system. A separate API test exercises
+// the actual fingerprint-bound approval operation.
+async function approveGeneratedFactual() {
+  await superDb().query("update ufs_agent.content set approved_by=gen_random_uuid(), approved_at=now() where factual_verification_status='passed'");
+}
+
 async function pinCalendar(date, morningKey = 'how-local-government-is-organised', eveningKey = 'q-civic-services') {
   await superDb().query(`insert into ufs_agent.editorial_calendar(planned_date, planned_slot, category, topic, topic_key, source_requirements)
     values ($1,'morning','local_government','Government organisation',$2,'{"factual":true,"sources":["sitges-equip-govern"]}'),
@@ -122,6 +129,7 @@ describe('Generation, validation and scheduling', { skip: dbSkip }, () => {
     const d = await deps();
     await Promise.all([generateUpcoming(workerDb(), d, { workerId: 'a' }), generateUpcoming(workerDb(), d, { workerId: 'b' })]);
     await generateUpcoming(workerDb(), d, { workerId: 'c' });
+    await approveGeneratedFactual();
     assert.equal((await superDb().query('select count(*)::int as n from ufs_agent.content'))[0].n, 2);
     assert.equal((await superDb().query('select count(*)::int as n from ufs_agent.publications'))[0].n, 4);
     const at = new Date('2026-11-16T08:01:00Z');
@@ -135,6 +143,7 @@ describe('Generation, validation and scheduling', { skip: dbSkip }, () => {
     await patchSetting('publishing', { mode: 'AUTONOMOUS', autonomous_publishing_enabled: true });
     const d = await deps();
     await generateUpcoming(workerDb(), d, { workerId: 'g' });
+    await approveGeneratedFactual();
     const fbMock = d.adapterFor({ id: fb.id, external_account_id: fb.external_account_id });
     fbMock.failNext('publishPost', { code: 'rate_limited', retryable: true, httpStatus: 400, retryAfterSeconds: 60 });
     const t1 = new Date('2026-11-16T08:00:30Z');
@@ -198,6 +207,7 @@ describe('Generation, validation and scheduling', { skip: dbSkip }, () => {
     const expired = await addChannel({ provider: 'facebook_page', external_account_id: '434343', token_status: 'expired', permissions_verified: ['pages_manage_posts', 'pages_read_engagement', 'pages_show_list'] });
     const d = await deps();
     await generateUpcoming(workerDb(), d, { workerId: 'g' });
+    await approveGeneratedFactual();
     await superDb().query('update ufs_agent.channels set paused=true where id=$1', [ig.id]);
     await publishDue(workerDb(), { ...d, now: new Date('2026-11-16T08:01:00Z') }, { workerId: 'p' });
     const status = async (id) => (await superDb().query("select publication_status, status_reason from ufs_agent.publications where channel_id=$1 and scheduled_slot='morning'", [id]))[0];

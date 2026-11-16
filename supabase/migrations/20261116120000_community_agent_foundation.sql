@@ -190,10 +190,17 @@ alter table ufs_agent.cases add constraint cases_faq_fk foreign key (faq_id) ref
 create function ufs_agent.faq_revoke_on_change() returns trigger
 language plpgsql set search_path='' as $$
 begin
+  -- Every field affecting who may receive a response, its factual basis,
+  -- the approved wording or its validity period requires fresh approval.
   if (new.approved_answer is distinct from old.approved_answer
+      or new.canonical_question is distinct from old.canonical_question
       or new.match_phrases is distinct from old.match_phrases
       or new.language is distinct from old.language
-      or new.source_url is distinct from old.source_url)
+      or new.source_url is distinct from old.source_url
+      or new.source_verified_at is distinct from old.source_verified_at
+      or new.is_factual is distinct from old.is_factual
+      or new.allowed_channels is distinct from old.allowed_channels
+      or new.expires_at is distinct from old.expires_at)
      and new.approved_at is not distinct from old.approved_at then
     new.active := false;
     new.approved_by := null;

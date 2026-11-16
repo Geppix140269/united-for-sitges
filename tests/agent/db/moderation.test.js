@@ -1,6 +1,6 @@
 import { test, describe, before, beforeEach, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { dbSkip, setTestEnv, workerDb, superDb, closeDbs, resetDb, addChannel, addApprovedFaq, patchSetting, mockRegistry, FakeModel, fbCommentPayload, webhookRequest, addUser, adminRequest } from '../helpers.js';
+import { dbSkip, setTestEnv, workerDb, superDb, closeDbs, resetDb, addChannel, addApprovedFaq, patchSetting, mockRegistry, FakeModel, fbCommentPayload, webhookRequest, addUser, adminRequest, fakeNet } from '../helpers.js';
 import { handleEvent } from '../../../lib/agent/handlers/webhook.js';
 import { handleAdmin } from '../../../lib/agent/handlers/admin.js';
 import { processEventQueue } from '../../../lib/agent/moderation.js';
@@ -299,7 +299,7 @@ describe('Scheduler tick end to end (shadow)', { skip: dbSkip }, () => {
     const channel = await fbChannel(3000);
     await deliver(channel, 'What is United for Sitges?');
     const adapterFor = mockRegistry();
-    const summary = await runTick(workerDb(), { model: new FakeModel(() => classifyOk()), adapterFor, fetchImpl: async () => new Response('', { status: 404 }) });
+    const summary = await runTick(workerDb(), { model: new FakeModel(() => classifyOk()), adapterFor, net: fakeNet({}) });
     assert.equal(summary.mode.moderation, 'SHADOW');
     for (const job of Object.values(summary.jobs)) assert.ok(!job.error, JSON.stringify(summary.jobs));
     const mock = adapterFor.map.get(channel.id);

@@ -1,6 +1,6 @@
 import { test, describe, before, beforeEach, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { dbSkip, setTestEnv, workerDb, superDb, closeDbs, resetDb, addChannel, patchSetting, mockRegistry, FakeModel, fakeFetch } from '../helpers.js';
+import { dbSkip, setTestEnv, workerDb, superDb, closeDbs, resetDb, addChannel, patchSetting, mockRegistry, FakeModel, fakeNet } from '../helpers.js';
 import { planCalendar } from '../../../lib/agent/editorial/calendar.js';
 import { generateUpcoming } from '../../../lib/agent/editorial/generate.js';
 import { publishDue } from '../../../lib/agent/editorial/publisher.js';
@@ -53,7 +53,7 @@ async function pinCalendar(date, morningKey = 'how-local-government-is-organised
 }
 
 async function deps(extra = {}) {
-  return { settings: await getSettings(workerDb()), now: NOW, adapterFor: mockRegistry(), fetchImpl: fakeFetch({ [SRC_URL]: { body: SRC_HTML, contentType: 'text/html' } }), model: editorialModel(), ...extra };
+  return { settings: await getSettings(workerDb()), now: NOW, adapterFor: mockRegistry(), net: fakeNet({ [SRC_URL]: { body: SRC_HTML, contentType: 'text/html' } }), model: editorialModel(), ...extra };
 }
 
 describe('Editorial calendar', { skip: dbSkip }, () => {
@@ -177,7 +177,7 @@ describe('Generation, validation and scheduling', { skip: dbSkip }, () => {
   });
 
   test('unretrievable source blocks publication', async () => {
-    await generateUpcoming(workerDb(), await deps({ fetchImpl: fakeFetch({}) }), { workerId: 'g' });
+    await generateUpcoming(workerDb(), await deps({ net: fakeNet({}) }), { workerId: 'g' });
     assert.match((await superDb().query("select status_reason from ufs_agent.editorial_calendar where planned_slot='morning'"))[0].status_reason, /source_retrieval_failed/);
   });
 
@@ -241,7 +241,7 @@ describe('Generation, validation and scheduling', { skip: dbSkip }, () => {
 
   test('full tick in default SHADOW mode simulates and never calls a provider', async () => {
     const adapterFor = mockRegistry();
-    const summary = await runTick(workerDb(), { now: new Date('2026-11-16T08:01:00Z'), adapterFor, model: editorialModel(), fetchImpl: fakeFetch({ [SRC_URL]: { body: SRC_HTML, contentType: 'text/html' } }), jobs: undefined });
+    const summary = await runTick(workerDb(), { now: new Date('2026-11-16T08:01:00Z'), adapterFor, model: editorialModel(), net: fakeNet({ [SRC_URL]: { body: SRC_HTML, contentType: 'text/html' } }), jobs: undefined });
     assert.equal(summary.mode.publishing, 'SHADOW');
     for (const a of adapterFor.map.values()) assert.equal(a.posts.length, 0);
   });

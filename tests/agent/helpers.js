@@ -9,7 +9,10 @@ import { MockAdapter } from '../../lib/agent/adapters/mock.js';
 import { validate } from '../../lib/agent/schema.js';
 
 export const TEST_DB_URL = process.env.AGENT_TEST_DATABASE_URL;
-export const SUPER_URL = TEST_DB_URL ? TEST_DB_URL.replace(/ufs_agent_worker:[^@]+@/, 'postgres@') : null;
+export const SUPER_URL = process.env.AGENT_TEST_SUPER_URL || (TEST_DB_URL ? TEST_DB_URL.replace(/ufs_agent_worker:[^@]+@/, 'postgres@') : null);
+if (process.env.AGENT_REQUIRE_DB === '1' && !TEST_DB_URL) {
+  throw new Error('AGENT_REQUIRE_DB=1 but AGENT_TEST_DATABASE_URL is not set: database tests would be skipped');
+}
 export const dbSkip = TEST_DB_URL ? false : 'AGENT_TEST_DATABASE_URL not set (run: bash scripts/agent-test-db.sh start)';
 
 export const APP_SECRET = 'test-app-secret-not-real';
@@ -83,6 +86,23 @@ export function fakeFetch(routes) {
   };
   fn.calls = calls;
   return fn;
+}
+
+// Network double for safeGet: a resolver returning a public address and a
+// transport serving canned responses. safeGet's checks still run in full.
+export const PUBLIC_IP = '93.184.216.34';
+export function fakeNet(routes, { address = PUBLIC_IP } = {}) {
+  const calls = [];
+  const resolver = async () => [{ address, family: 4 }];
+  const transport = async (url) => {
+    calls.push(url.toString());
+    const route = typeof routes === 'function' ? routes(url.toString()) : routes[url.toString()];
+    if (!route) return { status: 404, headers: { 'content-type': 'text/plain' }, body: Buffer.from('not found') };
+    if (route instanceof Error) throw route;
+    const body = Buffer.isBuffer(route.body) ? route.body : Buffer.from(typeof route.body === 'string' ? route.body : JSON.stringify(route.body ?? ''));
+    return { status: route.status || 200, headers: { 'content-type': route.contentType || 'text/html', ...(route.headers || {}) }, body };
+  };
+  return { resolver, transport, calls };
 }
 
 let pool = null;

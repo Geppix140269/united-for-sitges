@@ -472,7 +472,7 @@ create table ufs_agent.external_notes (
 -- permanently skipped when the result is paginated in batches of 100.
 create function ufs_agent.forum_items_since(since timestamptz, since_id uuid, max_rows integer default 100)
 returns table(kind text, id uuid, topic_id uuid, author_id uuid, title text, body text, status text, created_at timestamptz)
-language sql stable security definer set search_path='' as $
+language sql stable security definer set search_path='' as $forum_body$
   (select 'topic'::text, t.id, t.id, t.author_id, t.title, t.body, t.status, t.created_at
      from public.ufs_topics t where (t.created_at, t.id) > (since, since_id))
   union all
@@ -483,7 +483,7 @@ language sql stable security definer set search_path='' as $
      from public.ufs_reports rp where (rp.created_at, rp.id) > (since, since_id))
   order by 8 asc, 2 asc
   limit least(greatest(max_rows,1),500);
-$;
+$forum_body$;
 revoke all on function ufs_agent.forum_items_since(timestamptz,uuid,integer) from public;
 
 -- Moderator check used by the admin API (identity comes from a verified

@@ -23,6 +23,8 @@ Two distinct topics per local calendar day: morning (default 09:00 Europe/Madrid
 - Only sources in the approved registry, verified by a person within the configured window (default 90 days) and retrievable at generation time.
 - Priority: Ajuntament de Sitges, Generalitat de Catalunya, Spanish Government and electoral authorities (INE, Junta Electoral, BOE), then first-party United for Sitges pages.
 - Every factual statement is recorded as a claim with its source and an excerpt found word for word in the retrieved page; numbers must appear in those excerpts.
+- Excerpt presence does not prove the meaning of a claim. **All factual posts require explicit moderator approval against the full source** before any real outbound publication. A source-matched draft alone is not eligible for autonomous posting.
+- The moderator console requires a confirmation bound to the exact content hash. Edited/replaced content requires fresh review.
 - Retrieval timestamp, HTTP status, Last-Modified and a content hash are stored with each post.
 - Missing, stale, unreachable or contradictory sources mean the slot is skipped or held for review.
 
@@ -32,7 +34,7 @@ Never: endorse or criticise a party or candidate; mention parties or candidates 
 
 ## 6. Conditions for autonomous publication
 
-A post publishes without per-post approval only if all of these hold: channel authorised, verified, not paused, publishing enabled, permissions verified, token valid; category enabled; sources verified and supporting every claim; neutrality gates passed; no personal data; no fabricated voices or human-identity claims; links only from the registry or unitedforsitges.com; not a duplicate of recent content; platform requirements met (Instagram: valid first-party JPEG card); daily and channel limits respected; emergency stop off; the slot not already published; publishing mode AUTONOMOUS with deployment authorisation.
+A non-factual discussion post can publish without per-post approval only if all of these hold: channel authorised, verified, not paused, publishing enabled, permissions verified, token valid; category enabled; sources verified and supporting every claim; neutrality gates passed; no personal data; no fabricated voices or human-identity claims; links only from the registry or unitedforsitges.com; not a duplicate of recent content; platform requirements met (Instagram: valid first-party JPEG card); daily and channel limits respected; emergency stop off; the slot not already published; publishing mode AUTONOMOUS with deployment authorisation.
 
 ## 7. Exceptional manual review
 

@@ -288,8 +288,18 @@ function openSlot(c) {
     el('div', { class: 'card' }, el('h2', { text: `${String(c.planned_date).slice(0, 10)} ${c.planned_slot}: ${c.topic}` }),
       c.content ? [el('h3', { text: 'Quality gates' }), table(['Gate', 'Result', 'Detail'], (c.content.gate_results || []).map((g) => el('tr', {}, el('td', { text: g.name }), el('td', {}, pill(g.result, g.result === 'pass' ? 'ok' : 'bad')), el('td', { text: g.detail ? JSON.stringify(g.detail) : '' })))),
         el('h3', { text: 'Sources' }), (c.content.source_references || []).map((s) => el('p', {}, el('a', { href: s.url, target: '_blank', rel: 'noopener', text: s.title || s.url }), ` retrieved ${fmt(s.retrieved_at)}`)),
-        el('h3', { text: 'Claims' }), el('pre', { text: JSON.stringify(content.claims || [], null, 1) })] : el('p', { class: 'muted', text: 'No content generated yet.' })),
-    el('div', { class: 'card' }, el('h2', { text: 'Replace with human-written content' }),
+        el('h3', { text: 'Claims' }), el('pre', { text: JSON.stringify(content.claims || [], null, 1) }),
+        c.content.factual_verification_status === 'passed' && !c.content.approved_by
+          ? el('div', {}, el('p', { class: 'muted', text: 'Factual content needs manual source review before publishing. Compare EVERY factual claim in the full text and both platform captions with the original links above.' }),
+            el('button', { class: 'act', onclick: () => {
+              if (confirm('Have you checked every factual statement in the post and both captions against the original sources?')) {
+                act({ action: 'content_approve', content_id: c.content.id, content_hash: c.content.content_hash,
+                  confirm: 'I VERIFIED ALL FACTUAL CLAIMS AGAINST THE SOURCES' }, 'Factual content approved. Publication controls remain in force.');
+              }
+            } }, 'Approve factual content')) : ''] : el('p', { class: 'muted', text: 'No content generated yet.' })),
+    c.source_requirements?.factual === true
+      ? el('div', { class: 'card' }, el('p', { class: 'muted', text: 'Manual replacement is disabled for factual topics: source-backed editing needs a new verified draft.' }))
+      : el('div', { class: 'card' }, el('h2', { text: 'Replace with human-written content' }),
       el('p', { class: 'muted', text: 'Human content runs through the same gates. Factual claims in manual posts are not source-checked automatically, so keep them to platform information or questions.' }),
       Object.entries(fields).map(([f, n]) => [el('label', { text: f.replace(/_/g, ' ') }), n]),
       el('p', {}, el('button', { class: 'act', onclick: () => act({ action: 'content_replace', calendar_id: c.id, approve: true, ...Object.fromEntries(Object.entries(fields).map(([f, n]) => [f, n.value])) }, 'Content saved and validated.') }, 'Validate, approve and schedule'))),

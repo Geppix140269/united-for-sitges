@@ -1,7 +1,7 @@
 import { describe, test, before, beforeEach, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { dbSkip, setTestEnv, resetDb, superDb, workerDb, closeDbs, addUser, addChannel, adminRequest } from '../helpers.js';
-import { sha256Hex, textFingerprint } from '../../../lib/agent/crypto.js';
+import { contentFingerprint, textFingerprint } from '../../../lib/agent/crypto.js';
 import { handleAdmin } from '../../../lib/agent/handlers/admin.js';
 import { authorizePublication } from '../../../lib/agent/policy.js';
 import { getSettings } from '../../../lib/agent/db.js';
@@ -44,7 +44,7 @@ describe('Security regression: review of factual editorial content', { skip: dbS
        values ($1,1,$2::jsonb,$3::jsonb,'passed','passed','unique','publishable',$4::jsonb,$5,'ai')
        returning *`,
       [calendar.id, JSON.stringify(canonical), JSON.stringify([{ slug: sourceSlug, url: 'https://www.sitges.cat/' }]),
-        JSON.stringify([{ name: 'source_excerpt', severity: 'hard', result: 'pass' }]), sha256Hex(JSON.stringify(canonical))],
+        JSON.stringify([{ name: 'source_excerpt', severity: 'hard', result: 'pass' }]), contentFingerprint(canonical)],
     );
     publication = await superDb().one(
       `insert into ufs_agent.publications(content_id, channel_id, scheduled_at, scheduled_local_date,

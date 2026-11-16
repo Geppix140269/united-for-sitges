@@ -1,9 +1,12 @@
 -- Minimal stand-ins for Supabase-managed objects so the real forum schema,
 -- existing migrations and the agent migration can be applied to a local,
 -- throwaway PostgreSQL for testing. NEVER apply this file to Supabase.
-create role anon nologin;
-create role authenticated nologin;
-create role service_role nologin bypassrls;
+-- Roles are cluster-wide, so create them only once (supports reset).
+do $$ begin
+  if not exists (select 1 from pg_roles where rolname='anon') then create role anon nologin; end if;
+  if not exists (select 1 from pg_roles where rolname='authenticated') then create role authenticated nologin; end if;
+  if not exists (select 1 from pg_roles where rolname='service_role') then create role service_role nologin bypassrls; end if;
+end $$;
 create schema auth;
 create table auth.users (
   id uuid primary key,

@@ -4,6 +4,7 @@
 docs
 scripts
 supabase
+neon
 node_modules
 *.md
 netlify.toml

@@ -21,31 +21,24 @@ label{display:block;margin:15px 0 6px;font-weight:900}input{display:block;width:
 <main>
 <div class="eyebrow">Private launch preparation · Moderator verification</div>
 <h1>Set up the community administrator.</h1>
-<p class="intro">This page verifies the designated moderator through their email address. It does <strong>not</strong> open registration to the public.</p>
+<p class="intro">The community administrator is the verified owner of the reserved address below. Moderator rights are granted by the database only after that address is confirmed with an email code. This page does <strong>not</strong> change who can register.</p>
 <div class="notice"><strong>Administrator email:</strong> hello@giuseppefunaro.com<br>The email account must be accessible to its owner. No passwords or verification codes are shared in chat.</div>
 
 <section class="card" id="request-panel">
-<h2>1. Confirm ownership of the email</h2>
-<p>The administrator must first be invited using Supabase Dashboard → Authentication → Users → Invite user. Once invited, you can request a secure sign-in link below. Public signups remain disabled.</p>
-<button id="send-link" type="button">Send my secure sign-in link</button>
-<p class="fine">If the account has not yet been invited, this cannot create it. Check the invitation and spam folders, and verify the Auth redirect settings.</p>
-</section>
-
-<section class="card hidden" id="setup-panel">
-<h2>2. Activate the moderator profile</h2>
-<p>Your email is verified. Choose the name visible to community members and set a password to use for future logins.</p>
-<form id="setup-form">
-<label for="display">Public display name</label><input id="display" minlength="2" maxlength="40" value="United for Sitges" autocomplete="nickname" required>
-<label for="password">Account password</label><input id="password" type="password" minlength="8" autocomplete="new-password" required>
-<button id="activate" type="submit">Finish administrator setup</button>
-</form>
-<p class="fine">Moderator permissions are granted by the database only after Supabase confirms that the administrator owns the reserved email address.</p>
+<h2>How to activate the administrator</h2>
+<ol>
+<li>Open the community page and choose <strong>Create an account</strong>.</li>
+<li>Use the administrator email above, the public display name <strong>United for Sitges</strong> and a password of your choice.</li>
+<li>Enter the 6-digit code sent to the administrator mailbox.</li>
+<li>Come back to this page: it confirms the moderator status.</li>
+</ol>
+<a class="btn secondary" href="/community.html">Open the community page</a>
 </section>
 
 <section class="card hidden" id="success-panel">
 <h2>Moderator verified</h2>
-<p>The verified administrator account has its moderation privileges. You can now access the private forum testing area. Public member registration remains closed until the launch checks pass.</p>
-<a class="btn secondary" href="/community.html">Open moderator preview</a>
+<p>The verified administrator account has its moderation privileges.</p>
+<a class="btn secondary" href="/community.html">Open the moderator queue</a>
 <button type="button" id="logout" style="background:transparent;color:var(--navy);border:1px solid #b8cdd7;margin-left:9px">Sign out</button>
 </section>
 <p id="message" role="status" aria-live="polite" class="status"></p>
@@ -53,90 +46,32 @@ label{display:block;margin:15px 0 6px;font-weight:900}input{display:block;width:
 <div class="footer">Independent local information project · <a href="/privacy.html">Privacy and community status</a></div>
 <script src="/forum-config.js"></script>
 <script type="module">
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.75.0";
-
+import { createClient } from "/js/vendor/neon-js-0.10.2.min.js";
 const cfg=window.UFS_FORUM_CONFIG||{};
 const ADMIN_EMAIL="hello@giuseppefunaro.com";
 const $=id=>document.getElementById(id);
 const show=(id,on)=>$(id).classList.toggle("hidden",!on);
 const message=(str,error=false)=>{const el=$("message");el.textContent=str;el.classList.toggle("error",error)};
-let api,verifiedUser;
-if(!cfg.url||!cfg.publishableKey){
+async function safe(fn){try{const r=await fn();return {data:r?.data??null,error:r?.error??null}}catch(e){return {data:null,error:e}}}
+if(!cfg.authUrl||!cfg.dataApiUrl){
   show("request-panel",false);message("The community backend is not configured yet.",true);
 }else{
-  api=createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-  $("send-link").addEventListener("click",sendLink);
-  $("setup-form").addEventListener("submit",completeSetup);
-  $("logout").addEventListener("click",async()=>{await api.auth.signOut();verifiedUser=null;show("success-panel",false);show("request-panel",true);message("You are signed out.")});
-  api.auth.onAuthStateChange(()=>setTimeout(refresh,0));
-  refresh();
-}
-async function sendLink(){
-  $("send-link").disabled=true;message("Requesting your secure sign-in email…");
-  try{
-    const {error}=await api.auth.signInWithOtp({
-      email:ADMIN_EMAIL,
-      options:{shouldCreateUser:false,emailRedirectTo:location.origin+"/admin-setup.html"}
-    });
-    if(error)throw error;
-    message("Check hello@giuseppefunaro.com for the sign-in link. Open it in this browser to complete verification.");
-  }catch(e){message(e?.message||"Could not send the email. Verify the site's Auth redirect URL and SMTP setup.",true)}
-  finally{$("send-link").disabled=false}
-}
-async function refresh(){
-  const {data,error}=await api.auth.getUser();
-  if(error||!data?.user)return;
-  const user=data.user;
-  if(user.email?.toLowerCase()!==ADMIN_EMAIL){
-    show("request-panel",false);show("setup-panel",false);
-    message("This account is not the designated administrator. Sign out and use the reserved address.",true);
-    return;
-  }
-  if(!user.email_confirmed_at){
-    message("This administrator email has not been verified yet. Follow the link in your inbox.",true);
-    return;
-  }
-  verifiedUser=user;
-  show("request-panel",false);
-  try{
-    const {data:profile,error:profileError}=await api.from("ufs_profiles")
-     .select("user_id,display_name,is_moderator").eq("user_id",user.id).maybeSingle();
-    if(profileError)throw profileError;
-    if(profile?.is_moderator){
-      show("setup-panel",false);show("success-panel",true);
-      message("Verified administrator account is active.");
+  const api=createClient({auth:{url:cfg.authUrl,allowAnonymous:true},dataApi:{url:cfg.dataApiUrl}});
+  $("logout").addEventListener("click",async()=>{await safe(()=>api.auth.signOut());show("success-panel",false);show("request-panel",true);message("You are signed out.")});
+  const {data}=await safe(()=>api.auth.getSession());
+  const user=data?.user;
+  if(user){
+    if(user.email?.toLowerCase()!==ADMIN_EMAIL){
+      message("You are signed in with an account that is not the designated administrator.",true);
+    }else if(!user.emailVerified){
+      message("The administrator email has not been confirmed yet. Enter the code from your inbox on the community page.",true);
     }else{
-      show("setup-panel",true);show("success-panel",false);
-      message("Email confirmed. Complete your profile below.");
+      const {data:profile,error}=await api.from("ufs_profiles").select("is_moderator").eq("user_id",user.id).maybeSingle();
+      if(error)message(error.message||"Could not check moderator status.",true);
+      else if(profile?.is_moderator){show("request-panel",false);show("success-panel",true);message("Verified administrator account is active.")}
+      else message("Signed in as the administrator, but the moderator profile is not active yet. Open the community page once to create it, then reload this page.",true);
     }
-  }catch(e){message(e?.message||"Could not check moderator status.",true)}
-}
-async function completeSetup(event){
-  event.preventDefault();if(!verifiedUser)return message("Verify your email before continuing.",true);
-  const btn=$("activate");btn.disabled=true;message("Creating your moderator profile…");
-  try{
-    const display=$("display").value.trim();
-    if(display.length<2||display.length>40)throw new Error("Choose a display name between 2 and 40 characters.");
-    // Create the profile while this session still proves a recent email magic-link login.
-    const {data:existing,error:readError}=await api.from("ufs_profiles")
-      .select("user_id,is_moderator").eq("user_id",verifiedUser.id).maybeSingle();
-    if(readError)throw readError;
-    if(!existing){
-      const {error:insertError}=await api.from("ufs_profiles")
-      .insert({user_id:verifiedUser.id,display_name:display});
-      if(insertError)throw insertError;
-    }
-    const {data:profile,error:verifyError}=await api.from("ufs_profiles")
-      .select("is_moderator").eq("user_id",verifiedUser.id).single();
-    if(verifyError)throw verifyError;
-    if(!profile.is_moderator)throw new Error("A recent email magic-link login is required before moderator privileges can be granted. Request a new secure link and retry.");
-    const {error:passError}=await api.auth.updateUser({password:$("password").value});
-    if(passError)throw passError;
-    $("password").value="";
-    show("setup-panel",false);show("success-panel",true);
-    message("Administrator setup complete. Public member registrations are still closed.");
-  }catch(e){message(e?.message||"Administrator setup failed.",true)}
-  finally{btn.disabled=false}
+  }
 }
 </script>
 </body></html>

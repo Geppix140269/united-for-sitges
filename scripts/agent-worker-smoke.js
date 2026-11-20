@@ -125,10 +125,15 @@ try {
   const before = w.getLog().length;
   const sched = await fetch(`${BASE}/__scheduled?cron=*/5+*+*+*+*`);
   check(sched.status === 200, 'scheduled() handler invoked');
-  await new Promise((r) => setTimeout(r, 1000));
+  // Logs are flushed asynchronously by wrangler; wait for the handler's line.
+  // A late log line from the earlier manual tick may also land here, so only
+  // a scheduled run (its log line carries "cron") counts as the scheduler running.
+  for (let i = 0; i < 16 && !/agent_tick_skipped|"event":"agent_tick","cron"/.test(w.getLog().slice(before)); i += 1) {
+    await new Promise((r) => setTimeout(r, 500));
+  }
   const after = w.getLog().slice(before);
-  const idle = /agent_tick_skipped/.test(after) && !/"event":"agent_tick"/.test(after);
-  if (!idle) console.log(after.split('\n').filter((l) => /scheduled|agent_tick|error/i.test(l)).slice(-10).join('\n'));
+  const idle = /agent_tick_skipped/.test(after) && !/"event":"agent_tick","cron"/.test(after);
+  if (!idle) console.log(`--- log after /__scheduled ---\n${after.slice(-1500)}\n---`);
   check(idle, 'scheduled() stays idle while AGENT_SCHEDULER_ENABLED is unset');
 } finally {
   await stop(w);

@@ -1,0 +1,25 @@
+{
+  "name": "united-for-sitges",
+  "private": true,
+  "description": "United for Sitges static site plus the Community Agent Cloudflare Worker (/api/agent/*).",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test --test-concurrency=1 tests/agent/unit/*.test.js tests/agent/db/*.test.js",
+    "test:agent:unit": "node --test tests/agent/unit/*.test.js",
+    "test:agent:db": "node --test --test-concurrency=1 tests/agent/db/*.test.js",
+    "agent:testdb": "bash scripts/agent-test-db.sh",
+    "check": "node scripts/agent-check.js",
+    "worker:build": "wrangler deploy --dry-run --outdir .wrangler/dry-run",
+    "worker:smoke": "node scripts/agent-worker-smoke.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "1.8.0",
+    "pg": "8.16.3"
+  },
+  "devDependencies": {
+    "wrangler": "^4.158.0"
+  }
+}

@@ -1,0 +1,84 @@
+# Community Agent CI: static checks, unit and database tests against a
+# disposable PostgreSQL 18 service (production Neon runs 18), a Worker bundle
+# check and an end-to-end Worker run in workerd (wrangler dev, local mode).
+# Uses no secrets, never contacts Neon, Cloudflare, Meta, Instagram, Resend
+# or Anthropic, and deploys nothing (wrangler runs only --dry-run and dev).
+name: Agent CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agent-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Checks, unit, database and Worker tests (PostgreSQL 18)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      AGENT_TESTDB_ADMIN_URL: postgresql://postgres:postgres@localhost:5432
+      AGENT_TEST_DATABASE_URL: postgresql://ufs_agent_worker:agent_test_only@localhost:5432/agent_test
+      AGENT_TEST_SUPER_URL: postgresql://postgres:postgres@localhost:5432/agent_test
+      AGENT_REQUIRE_DB: '1'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Static checks
+        run: npm run check
+      - name: Programme dataset validator
+        run: python3 scripts/validate_programmes_data.py
+      - name: PostgreSQL client and server versions
+        run: |
+          psql --version
+          psql "$AGENT_TESTDB_ADMIN_URL/postgres" -tAc 'select version()'
+      - name: Build test schema (Neon stubs, neon/schema.sql, neon/agent-schema.sql)
+        run: bash scripts/agent-test-db.sh apply
+      - name: Unit and database tests
+        run: npm test
+      - name: Worker bundle (wrangler deploy --dry-run, no account, no upload)
+        run: npm run worker:build
+      - name: Worker end-to-end in workerd against PostgreSQL
+        run: npm run worker:smoke
+
+  site-smoke:
+    name: Public pages and console smoke test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies and Playwright Chromium
+        run: |
+          npm ci
+          npm install --no-save playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Smoke test
+        run: node scripts/agent-site-smoke.js

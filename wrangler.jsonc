@@ -2,8 +2,17 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "united-for-sitges",
   "compatibility_date": "2026-11-01",
+  // The Worker script only handles /api/* (Community Agent endpoints); every
+  // other request is served from static assets without invoking it.
+  "main": "worker/index.js",
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": ".",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
   }
+  // No "triggers.crons" on purpose: the agent scheduler is not activated.
+  // Activation (owner decision) adds e.g. "triggers": { "crons": ["*/5 * * * *"] }
+  // AND sets the AGENT_SCHEDULER_ENABLED=true variable.
 }

@@ -1,0 +1,27 @@
+{
+  "_note": "Editorial topic bank. Topics are subjects, not facts. Factual topics publish only when every listed source is active, recently verified, retrievable, and every claim is backed by an excerpt found in the retrieved source text. Evening discussion topics carry no factual claims and never steer users toward a political position.",
+  "topics": [
+    { "key": "how-to-find-municipal-services", "category": "civic_information", "slot": "morning", "topic": "Where residents can find official information about municipal services", "factual": true, "sources": ["u4s-home"] },
+    { "key": "how-local-government-is-organised", "category": "local_government", "slot": "morning", "topic": "How the Sitges municipal government is organised, as published by the Ajuntament", "factual": true, "sources": ["sitges-equip-govern"] },
+    { "key": "municipal-groups-overview", "category": "local_government", "slot": "morning", "topic": "Where to find the official list of municipal groups in the Sitges council", "factual": true, "sources": ["sitges-grups-municipals"] },
+    { "key": "eu-residents-official-voting-resources", "category": "electoral_resources", "slot": "morning", "topic": "Official resources where EU residents can check municipal voting procedures", "factual": true, "sources": ["ine-voto-ue", "gencat-eleccions-ue"], "sensitive_electoral": true },
+    { "key": "agreement-country-residents-official-resources", "category": "electoral_resources", "slot": "morning", "topic": "Official resources for nationals of countries with municipal voting agreements", "factual": true, "sources": ["ine-voto-acuerdo"], "sensitive_electoral": true },
+    { "key": "electoral-census-office", "category": "electoral_resources", "slot": "morning", "topic": "What the Electoral Census Office is and where to find its official information", "factual": true, "sources": ["ine-cel"], "sensitive_electoral": true },
+    { "key": "about-the-forum", "category": "platform_updates", "slot": "morning", "topic": "How the moderated United for Sitges community forum works", "factual": true, "sources": ["u4s-community"] },
+    { "key": "about-privacy", "category": "platform_updates", "slot": "morning", "topic": "How United for Sitges handles personal data", "factual": true, "sources": ["u4s-privacy"] },
+    { "key": "about-programme-comparison", "category": "platform_updates", "slot": "morning", "topic": "How the neutral programme comparison page is built and sourced", "factual": true, "sources": ["u4s-programmes"] },
+    { "key": "q-public-space", "category": "urban_planning", "slot": "evening", "topic": "Which public spaces in Sitges do you use most, and what information about them would help you?", "factual": false, "sources": [] },
+    { "key": "q-getting-around", "category": "mobility", "slot": "evening", "topic": "What information about getting around Sitges would be most useful to you?", "factual": false, "sources": [] },
+    { "key": "q-accessibility", "category": "mobility", "slot": "evening", "topic": "What accessibility information would make daily life in Sitges easier?", "factual": false, "sources": [] },
+    { "key": "q-tourism-and-residents", "category": "tourism", "slot": "evening", "topic": "What questions do you have about how tourism and resident life fit together in Sitges?", "factual": false, "sources": [] },
+    { "key": "q-local-business", "category": "local_economy", "slot": "evening", "topic": "What information about local businesses and services would you like to find in one place?", "factual": false, "sources": [] },
+    { "key": "q-community-wellbeing", "category": "community_wellbeing", "slot": "evening", "topic": "What community resources would you like to know more about?", "factual": false, "sources": [] },
+    { "key": "q-environment", "category": "environment", "slot": "evening", "topic": "Which environmental topics in Sitges would you like clear, sourced information about?", "factual": false, "sources": [] },
+    { "key": "q-newcomers", "category": "international_integration", "slot": "evening", "topic": "If you moved to Sitges from abroad, what information did you find hardest to locate?", "factual": false, "sources": [] },
+    { "key": "q-languages", "category": "international_integration", "slot": "evening", "topic": "In which languages would you like to receive local civic information?", "factual": false, "sources": [] },
+    { "key": "q-information-needs", "category": "community_questions", "slot": "evening", "topic": "What local question would you like us to research from official sources?", "factual": false, "sources": [] },
+    { "key": "q-civic-services", "category": "civic_information", "slot": "evening", "topic": "Which municipal service would you like explained more clearly?", "factual": false, "sources": [] },
+    { "key": "q-local-government-questions", "category": "local_government", "slot": "evening", "topic": "What would you like to understand better about how local government decisions are made?", "factual": false, "sources": [] },
+    { "key": "q-platform-feedback", "category": "platform_updates", "slot": "evening", "topic": "What would make this platform more useful for you?", "factual": false, "sources": [] }
+  ]
+}

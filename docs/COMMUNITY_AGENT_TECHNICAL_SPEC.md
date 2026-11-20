@@ -1,12 +1,27 @@
 # United for Sitges Community Agent: Technical Specification
 
-Version 1.1 (brief 1.0 plus Addendum 1.1, autonomous editorial publishing). Date: 16 November 2026.
-Status: implemented on branch `feat/u4s-community-agent-mvp`, all outbound behaviour OFF.
+Version 1.2 (brief 1.0, Addendum 1.1, platform move to Cloudflare Workers and Neon). Updated 20 November 2026.
+Status: implemented on branch `feat/u4s-community-agent-mvp`, all outbound behaviour OFF, nothing activated.
 
-Deployment status (verified 16 November 2026):
-- **Preview deployments exist.** Vercel and Netlify build every push to this pull request automatically. The Vercel preview is behind Vercel SSO protection; the Netlify preview is public and serves files statically only (Netlify does not run the `api/` functions). The Vercel project has no environment variables in any environment, so preview functions fail closed (503 `not_configured`). Previews are not test evidence; automated testing is the `Agent CI` GitHub Actions workflow.
-- **No production deployment of this branch.** Production is `main` (`f845176`).
-- **No activation.** No migration applied to live Supabase (no `ufs_agent` schema, no `ufs_agent_worker` role, no `pg_cron`/`pg_net`), no credentials, no scheduler, no outbound calls.
+## 0. Platform change (18 to 20 November 2026)
+
+On 18 November `main` moved hosting from Vercel to **Cloudflare Workers** (static assets, PR #6) and the community forum from Supabase to **Neon** with **Neon Auth** (PR #7). The agent was ported accordingly:
+
+| Concern | Before (16 Nov) | Now |
+| --- | --- | --- |
+| Server endpoints | Vercel functions in `api/agent/*.js` | one Worker, `worker/index.js`, routed only for `/api/*` (`run_worker_first`), static site unchanged |
+| Database | Supabase Postgres 17 | Neon Postgres 18 (`neon/agent-schema.sql`, applied after `neon/schema.sql`) |
+| Driver | node-postgres in Node | node-postgres inside workerd (`nodejs_compat` TCP sockets), one pool per invocation, verified TLS to Neon |
+| Moderator sign-in | Supabase Auth `/auth/v1/user` | Neon Auth session JWT verified locally against `<authUrl>/.well-known/jwks.json` (EdDSA / Ed25519, WebCrypto) |
+| Moderator check | `ufs_profiles` | `ufs_profiles` plus `neon_auth."user"` email verified and not banned |
+| Data API roles | `anon`, `authenticated` | `anonymous`, `authenticated` (no access to `ufs_agent`) |
+| Scheduler | Supabase pg_cron + pg_net (proposed) | Cloudflare Cron Trigger calling `scheduled()`, gated by `AGENT_SCHEDULER_ENABLED`; neither configured |
+| Outbound fetch (SSRF) | Node https with pinned DNS | Workers fetch with manual redirects plus DNS-over-HTTPS public-address pre-check; Node transport kept for tests |
+| Secrets | Vercel env vars | Cloudflare Worker secrets |
+
+Deployment status (20 November 2026): production `main` serves the static site from Cloudflare; this branch is not merged or deployed; no agent schema on Neon; no Worker secrets; no Cron Trigger. Netlify still builds public static deploy previews of this PR (files only, no functions). Previews are not test evidence; automated testing is the `Agent CI` workflow.
+
+The Phase 0 audit below is the original 16 November record (Supabase and Vercel era), kept for history.
 
 ## 1. Phase 0 audit (verified facts, 16 November 2026)
 
@@ -30,13 +45,14 @@ Other observations:
 ## 2. Architecture
 
 ```
-Meta Webhooks ──> /api/agent/meta-webhook  (verify HMAC, dedupe, store, 200)
+Meta Webhooks ──> Cloudflare Worker /api/agent/meta-webhook  (verify HMAC, dedupe, store, 200)
                          │
                          ▼
-                  ufs_agent.events (durable queue, private schema)
+                  Neon: ufs_agent.events (durable queue, private schema)
                          │  leased by
-Supabase Cron ──> /api/agent/cron  (CRON_SECRET) ── runTick():
+Cron Trigger ──> scheduled()  (only if AGENT_SCHEDULER_ENABLED) ── runTick():
    every 5 min        forum ingest ─ events ─ actions ─ plan ─ generate ─ publish ─ metrics ─ alerts ─ digest ─ retention
+Operator ──> POST /api/agent/cron (CRON_SECRET), same tick, for manual runs
                          │                              │                 │
                  classification (rules + Claude)   editorial engine   publication controller
                          │                              │                 │
@@ -44,10 +60,10 @@ Supabase Cron ──> /api/agent/cron  (CRON_SECRET) ── runTick():
                          │                                                │
                  executor (policy.authorizeReply) ─────> adapters (Facebook, Instagram, mock) ─> Graph API
                          │
-Moderators ──> /agent-console.html ──> /api/agent/admin (Supabase Auth token + ufs_profiles moderator check)
+Moderators ──> /agent-console.html (Neon Auth sign-in) ──> /api/agent/admin (JWT via JWKS + ufs_profiles moderator check)
 ```
 
-Runtime: Vercel Node.js functions using the Web `Request`/`Response` handler signature, so the webhook can read the raw body for HMAC verification. Three functions only (`api/agent/meta-webhook.js`, `api/agent/cron.js`, `api/agent/admin.js`); all logic lives in `lib/agent/`. Dependencies: `pg` (database) and `@anthropic-ai/sdk` (model), pinned. The static site is untouched apart from the new `agent-console.html`, `js/agent-console.js` and `assets/agent/cards/`.
+Runtime: a single Cloudflare Worker (`worker/index.js`, `wrangler.jsonc` with `nodejs_compat`). Only `/api/*` invokes it; every other path is served by the assets binding exactly as before. Handlers use the Web `Request`/`Response` API, so the webhook reads the raw body for HMAC verification. All logic lives in `lib/agent/` and is bundled by wrangler. Runtime dependencies: `pg` and `@anthropic-ai/sdk`; `wrangler` is a development dependency. Server code, tests and internal data are excluded from public assets (`.assetsignore`). New public files: `agent-console.html`, `js/agent-console.js`, `assets/agent/cards/`.
 
 Separation of duties:
 - **Read/classify** (`moderation.js`, `classify/`, `editorial/generate.js`): may call the model, may write cases, drafts and pending actions. Has no reference to any provider write method.
@@ -73,9 +89,9 @@ Defence in depth for activation. A live call needs ALL of:
 5. all content, approval, limit and duplicate checks.
 All env switches default to off, so a fresh deployment can never post. There is no fully autonomous moderation mode.
 
-## 4. Data model (`supabase/migrations/20261116120000_community_agent_foundation.sql`)
+## 4. Data model (`neon/agent-schema.sql`)
 
-Private schema `ufs_agent` (not exposed to the Data API; no USAGE for anon/authenticated). RLS enabled and forced on every table; only role `ufs_agent_worker` has policies. The worker is `NOLOGIN` in the migration; the owner enables login out of band.
+Private schema `ufs_agent` (not exposed by the Neon Data API; no USAGE for anonymous/authenticated). RLS enabled and forced on every table; only role `ufs_agent_worker` has policies. The worker is `NOLOGIN` in the migration; the owner enables login out of band.
 
 | Table | Purpose | Key constraints |
 | --- | --- | --- |
@@ -104,11 +120,11 @@ Forum access goes through `ufs_agent.forum_items_since()` (SECURITY DEFINER, min
 | --- | --- | --- |
 | `GET /api/agent/meta-webhook` | `hub.verify_token` (constant-time) | Returns `hub.challenge`. |
 | `POST /api/agent/meta-webhook` | `X-Hub-Signature-256` over the raw body, constant time | 415 non-JSON, 413 over 256 KB, 401 bad signature, 400 bad JSON, 200 for valid (including signed-but-malformed, dropped), 503 if storage fails so Meta retries (up to 36 h). Never replies or publishes. |
-| `GET/POST /api/agent/cron?jobs=...` | `Authorization: Bearer CRON_SECRET` (min 32 chars) | Runs the idempotent tick. |
-| `GET /api/agent/admin?view=...` | Supabase Auth access token verified by `/auth/v1/user`, then `is_active_moderator` | Views: overview, channels, cases, case, events, faq, sources, calendar, publications, failures, audit, digests, digest_preview, external_notes. |
+| `POST /api/agent/cron?jobs=...` | `Authorization: Bearer CRON_SECRET` (min 32 chars) | Runs the idempotent tick manually. Scheduled runs use the Worker `scheduled()` handler. |
+| `GET /api/agent/admin?view=...` | Neon Auth session JWT verified against the JWKS (EdDSA, expiry, optional issuer/audience), then `is_active_moderator` (moderator, not suspended, email verified, not banned) | Views: overview, channels, cases, case, events, faq, sources, calendar, publications, failures, audit, digests, digest_preview, external_notes. |
 | `POST /api/agent/admin` | same, plus Origin check, 32 KB limit | Actions listed in `lib/agent/handlers/admin.js` (emergency stop, modes, schedule, limits, channels, drafts, FAQ, sources, calendar, content replacement, retries, reconciliation, notes, redaction). |
 
-Admin authorisation never reads `user_metadata` or client flags.
+Admin authorisation never trusts token metadata, roles or client flags; only the verified subject id and the database.
 
 ## 6. Inbound decision pipeline
 
@@ -146,14 +162,14 @@ Admin authorisation never reads `user_metadata` or client flags.
 
 ## 9. Security design summary
 
-- Secrets only in Vercel environment variables; the database stores `env:NAME` references (enforced by a CHECK constraint). Logs strip keys whose names look like secrets.
+- Secrets only as Cloudflare Worker secrets; the database stores `env:NAME` references (enforced by a CHECK constraint). Logs strip keys whose names look like secrets.
 - Webhook: raw-body HMAC, constant-time comparison, size and shape limits, prompt acknowledgement, durable queue.
-- Admin: verified Supabase session, server-side moderator check, Origin check, fingerprint-bound approvals, full audit with actor and exact text.
+- Admin: Neon Auth JWT verified with WebCrypto against the published JWKS (unknown key ids trigger one refetch for rotation), server-side moderator check, Origin check, fingerprint-bound approvals, full audit with actor and exact text.
 - Model: no tools, closed schemas, untrusted boundaries, deterministic overrides.
-- Outbound retrieval (`lib/agent/net/safe-get.js`, used for source pages and card images): HTTPS on port 443 only, no credentials or IP literals in URLs, exact host allowlist (active registry hosts; `unitedforsitges.com` for images), redirects followed manually (max 3) and fully re-validated, every DNS answer must be public unicast (private, loopback, link-local, metadata, CGNAT, multicast, reserved, NAT64/6to4/Teredo and mapped ranges refused), the same guarded lookup is used by the socket at connect time so a rebinding answer is refused, no connection reuse, identity encoding, 2 MB (8 MB for images) streamed limit, 12 s timeout. Provider API clients (Graph, Supabase Auth, Resend, Anthropic) only call fixed hosts built in code.
+- Outbound retrieval (`lib/agent/net/safe-get.js`, used for source pages and card images): HTTPS on port 443 only, no credentials or IP literals in URLs, exact host allowlist (active registry hosts; `unitedforsitges.com` for images), redirects followed manually (max 3) and fully re-validated, every DNS answer must be public unicast (private, loopback, link-local, metadata, CGNAT, multicast, reserved, NAT64/6to4/Teredo and mapped ranges refused), identity encoding, 2 MB (8 MB for images) streamed limit, 12 s timeout. On Workers the transport is `fetch` with `redirect: 'manual'` and the address check uses DNS-over-HTTPS (1.1.1.1); Workers cannot pin DNS for a connection, but Cloudflare egress cannot reach private networks or a cloud metadata service, so a rebinding answer has no internal target. In Node (tests, scripts) the guarded lookup is pinned into the socket. Provider API clients (Graph, Neon Auth JWKS, Resend, Anthropic) only call fixed hosts built in code.
 - Database: private schema, forced RLS, least-privilege worker, append-only audit, no deletes of operational records.
 - Browser: console renders all public content with `textContent`; no service keys in the browser.
 
 ## 10. Testing
 
-`npm run check` (static checks, default-off assertions, secret scan), `npm test` with `AGENT_TEST_DATABASE_URL` from `bash scripts/agent-test-db.sh start` (throwaway local PostgreSQL with Supabase stubs, real forum schema, existing migrations and the agent migration), and `node scripts/agent-site-smoke.js`. Mocked Meta, Claude, sources and Resend; no real provider call is made by any test. GitHub Actions workflow `.github/workflows/agent-ci.yml` runs the same checks against a PostgreSQL 17 service (the production major version) plus the smoke test. Results are listed in the pull request.
+`npm run check` (static checks, default-off assertions, Cloudflare config, secret scan), `npm test` with `AGENT_TEST_DATABASE_URL` from `bash scripts/agent-test-db.sh start` (throwaway local PostgreSQL with Neon stand-ins, the real `neon/schema.sql` and `neon/agent-schema.sql`), `npm run worker:build` (wrangler dry-run bundle), `npm run worker:smoke` (the real Worker in workerd against the test database) and `node scripts/agent-site-smoke.js`. Mocked Meta, Claude, sources, Neon Auth and Resend; no real provider call is made by any test. GitHub Actions workflow `.github/workflows/agent-ci.yml` runs all of these against a PostgreSQL 18 service (Neon's major version). Results are listed in the pull request.

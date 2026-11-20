@@ -1,44 +1,47 @@
 # Community Agent: Operations guide
 
-Everything below is preparation. As of 16 November 2026: preview deployments of the pull request exist (Vercel, SSO protected; Netlify, static only), but there is no production deployment of the agent, no migration applied, no credential and every outbound path is off.
+Everything below is preparation. As of 20 November 2026 the site runs on Cloudflare Workers (static assets) with the community forum on Neon. The agent is not activated: no agent schema on Neon, no Worker secrets, no Cron Trigger, every outbound path off.
 
-## 1. Configuration (Vercel environment variables, server side only)
+Platform: one Cloudflare Worker (`worker/index.js`) handles only `/api/agent/*`; every other path is served from static assets without running it (`run_worker_first: ["/api/*"]` in `wrangler.jsonc`). Agent data lives in Neon (`neon/agent-schema.sql`), reached with node-postgres over TCP (Workers `nodejs_compat`). Moderators sign in with their Neon Auth forum account.
 
-| Variable | Required for | Notes |
-| --- | --- | --- |
-| `AGENT_DATABASE_URL` | all functions | Supabase transaction pooler URL for role `ufs_agent_worker` (port 6543). Secret. |
-| `SUPABASE_URL` | admin API | `https://tlmkeofpeigkfxdydwqt.supabase.co` |
-| `SUPABASE_PUBLISHABLE_KEY` | admin API | the browser-safe key already in `forum-config.js`; used only to call `/auth/v1/user`. Never a secret key. |
-| `CRON_SECRET` | scheduler | at least 32 random characters. Also stored in Supabase Vault for the cron job. |
-| `META_APP_ID`, `META_APP_SECRET` | webhook, token checks | App Secret signs webhooks. Secret. |
-| `META_VERIFY_TOKEN` | webhook setup | random string you also type in the Meta dashboard. |
-| `META_PAGE_ACCESS_TOKEN` | Facebook channel | referenced by the channel as `env:META_PAGE_ACCESS_TOKEN`. Secret. |
-| `META_IG_ACCESS_TOKEN` | Instagram channel | referenced as `env:META_IG_ACCESS_TOKEN`. Secret. |
-| `META_GRAPH_VERSION` | optional | default `v27.0`. |
-| `AGENT_AUTHOR_PEPPER` | webhook | random secret used to pseudonymise author ids (HMAC). Webhook refuses to run in production without it. |
-| `ANTHROPIC_API_KEY` | model | Secret. Without it the agent runs rules-only. |
-| `AGENT_MODEL` | optional | default `claude-opus-5-5`. Cheaper models are an owner cost decision. |
-| `AGENT_LLM_ENABLED` | model | `true` allows sending public content to the model. Keep unset until the privacy review is signed off. |
-| `RESEND_API_KEY` | email | dedicated sending key, restricted to `notify.unitedforsitges.com`. Secret. |
-| `AGENT_ADMIN_ORIGIN` | optional | default `https://unitedforsitges.com`. |
-| `AGENT_ALLOW_SUPERVISED` | moderation activation | must be `true` before anyone can select SUPERVISED. |
-| `AGENT_ALLOW_AUTONOMOUS` | publishing activation | must be `true` before anyone can select AUTONOMOUS. |
-| `AGENT_LIVE_META_REPLIES` | live replies | `true` lets SUPERVISED replies reach Facebook/Instagram. |
-| `AGENT_LIVE_META_PUBLISHING` | live Facebook posts | `true` lets AUTONOMOUS publications reach Facebook. |
-| `AGENT_LIVE_INSTAGRAM_PUBLISHING` | live Instagram posts | as above for Instagram. |
-| `AGENT_LIVE_EMAIL` | digest and alerts | `true` lets emails be sent (also needs settings `send_enabled` and a sender on `notify.unitedforsitges.com`). |
+## 1. Configuration (Cloudflare Worker secrets and variables, server side only)
 
-Unset means off. Changing a variable requires a redeploy, which is itself an audit trail in Vercel.
+Set secrets with `npx wrangler secret put NAME` (or the Cloudflare dashboard, Worker, Settings, Variables and Secrets). Never put them in `wrangler.jsonc` or the repository.
+
+| Name | Type | Required for | Notes |
+| --- | --- | --- | --- |
+| `AGENT_DATABASE_URL` | secret | all endpoints | Neon connection string for role `ufs_agent_worker` (pooled host, `sslmode=require`). |
+| `NEON_AUTH_URL` | variable | admin API | the `authUrl` already in `forum-config.js`; the API verifies session JWTs against `<NEON_AUTH_URL>/.well-known/jwks.json` (EdDSA). |
+| `NEON_AUTH_ISSUER`, `NEON_AUTH_AUDIENCE` | variable, optional | admin API | enforce `iss` / `aud` once their values are confirmed from a real token. |
+| `CRON_SECRET` | secret | manual tick | at least 32 random characters; only for `POST /api/agent/cron`. |
+| `AGENT_SCHEDULER_ENABLED` | variable | scheduler | `true` lets the Cron Trigger run the tick. Unset means the scheduled handler does nothing. |
+| `META_APP_ID`, `META_APP_SECRET` | secret | webhook, token checks | App Secret signs webhooks. |
+| `META_VERIFY_TOKEN` | secret | webhook setup | random string you also type in the Meta dashboard. |
+| `META_PAGE_ACCESS_TOKEN` | secret | Facebook channel | referenced by the channel as `env:META_PAGE_ACCESS_TOKEN`. |
+| `META_IG_ACCESS_TOKEN` | secret | Instagram channel | referenced as `env:META_IG_ACCESS_TOKEN`. |
+| `META_GRAPH_VERSION` | variable, optional | | default `v27.0`. |
+| `AGENT_AUTHOR_PEPPER` | secret | webhook | pseudonymises author ids (HMAC). The webhook refuses to run without it. |
+| `ANTHROPIC_API_KEY` | secret | model | without it the agent runs rules-only. |
+| `AGENT_MODEL` | variable, optional | | default `claude-opus-5-5`. Cheaper models are an owner cost decision. |
+| `AGENT_LLM_ENABLED` | variable | model | `true` allows sending public content to the model. Keep unset until the privacy review is signed off. |
+| `RESEND_API_KEY` | secret | email | dedicated sending key restricted to `notify.unitedforsitges.com`. |
+| `AGENT_ADMIN_ORIGIN` | variable, optional | | default `https://unitedforsitges.com`. |
+| `AGENT_ALLOW_SUPERVISED` / `AGENT_ALLOW_AUTONOMOUS` | variable | activation | must be `true` before anyone can select SUPERVISED / AUTONOMOUS. |
+| `AGENT_LIVE_META_REPLIES` / `AGENT_LIVE_META_PUBLISHING` / `AGENT_LIVE_INSTAGRAM_PUBLISHING` / `AGENT_LIVE_EMAIL` | variable | live outbound | `true` lets the matching outbound path reach the provider. |
+
+Unset means off. Every change creates a new Worker version, visible in the Cloudflare dashboard.
 
 ## 2. Deployment prerequisites (in order, each needs owner authorisation)
 
-1. Review and merge the pull request (no automation is active after merge: env vars are empty, so functions answer 503 or run in shadow).
-2. Reconcile Supabase migration history (`supabase migration fetch`), then apply `20261116120000_community_agent_foundation.sql`.
-3. In the SQL editor: `alter role ufs_agent_worker with login password '<strong random>';` and build `AGENT_DATABASE_URL` for the pooler (user `ufs_agent_worker.tlmkeofpeigkfxdydwqt`). Confirm `ufs_agent` is NOT in the Data API exposed schemas.
+1. Review and merge the pull request. After merge, the next Workers build deploys the Worker script with the site. With no secrets set, `/api/agent/*` answers 503 and nothing runs. Confirm the Workers build installs npm dependencies (`npm ci`) before `wrangler deploy`; the bundle needs `pg` and `@anthropic-ai/sdk`.
+2. Apply `neon/agent-schema.sql` to the Neon production branch (SQL editor or `psql` as the owner role), after `neon/schema.sql`. Consider testing on a Neon branch first.
+3. In the SQL editor: `alter role ufs_agent_worker with login password '<strong random, 60+ bits>';` then build `AGENT_DATABASE_URL` with that role and the pooled host. Confirm `ufs_agent` is not exposed by the Neon Data API.
 4. Load seed data: `node scripts/agent-seed.js` and run the output (all inactive).
-5. Set the env vars for the features being enabled (start with database, Supabase, `CRON_SECRET`, `AGENT_AUTHOR_PEPPER`).
-6. Scheduler: approve enabling `pg_cron` and `pg_net`, store the secret in Vault, run `supabase/proposed/agent_scheduler_supabase_cron.sql`. Vercel Hobby cron (once a day, 59 minute jitter) is not suitable; Vercel Schedules beta (15 minute jitter) is a fallback only.
-7. Sign in to `/agent-console.html` with the moderator account; check Overview shows SHADOW / SHADOW.
+5. Set the Worker secrets for the features being enabled (start with `AGENT_DATABASE_URL`, `NEON_AUTH_URL`, `AGENT_AUTHOR_PEPPER`).
+6. Scheduler: add `"triggers": { "crons": ["*/5 * * * *"] }` to `wrangler.jsonc` and set `AGENT_SCHEDULER_ENABLED=true`. Cloudflare Cron Triggers are minute-level and included in the Free plan. Neon Free scales to zero when idle, so the first tick after a pause is slower; that is expected.
+7. Sign in to `/agent-console.html` with the moderator forum account; check Overview shows SHADOW / SHADOW.
+
+Cloudflare Free plan limits to watch (verify current values in the dashboard): 10 ms CPU per invocation (network waits do not count), 50 external subrequests per invocation, 100,000 requests per day. A long tick (model generation plus several sources) could exceed the CPU limit; if it does, the tick fails closed and the next one retries. Moving to Workers Paid is an owner cost decision.
 
 ## 3. Shadow mode
 
@@ -60,21 +63,21 @@ Factual editorial posts require an additional source-attestation approval in the
 
 ## 5. Kill switch
 
-Overview tab, "STOP all outbound actions", with a reason. It is checked by the policy layer and again immediately before every provider call. Scheduled posts held by the stop stay scheduled and expire if their window passes; nothing posts late. Release the stop from the same card. Other levers: pause one channel, disable a category, set a mode to DISABLED, unset the live env switches and redeploy, or unschedule the cron job.
+Overview tab, "STOP all outbound actions", with a reason. It is checked by the policy layer and again immediately before every provider call. Scheduled posts held by the stop stay scheduled and expire if their window passes; nothing posts late. Release the stop from the same card. Other levers: pause one channel, disable a category, set a mode to DISABLED, unset the live variables, or remove the Cron Trigger / unset `AGENT_SCHEDULER_ENABLED`.
 
 ## 6. Monitoring and troubleshooting
 
 - Overview: counts of interactions, awaiting review, urgent, failed events, failed replies, failed posts, today's schedule and usage counters.
 - Failures tab: dead-lettered events (requeue), failed/blocked/unknown replies (requeue re-runs every guardrail), failed/unknown/expired publications.
-- Vercel runtime logs: structured JSON events (`webhook_accepted`, `webhook_signature_rejected`, `agent_tick`, `admin_error`), no credentials.
-- Supabase: `select * from cron.job_run_details order by start_time desc limit 20;` and `net._http_response` for scheduler delivery.
+- Cloudflare Worker logs (dashboard Observability, or `npx wrangler tail`): structured JSON events (`webhook_accepted`, `webhook_signature_rejected`, `agent_tick`, `agent_tick_skipped`, `api_unhandled_error`), no credentials.
+- Cron Trigger history: Cloudflare dashboard, Worker, Settings, Triggers (past executions).
 
 | Symptom | Likely cause | Action |
 | --- | --- | --- |
 | Webhook 401 | wrong App Secret | check `META_APP_SECRET` |
 | Webhook 503 | database unreachable or env missing | check `AGENT_DATABASE_URL`, Meta retries for 36 h |
-| Events stay pending | scheduler not running | check cron job and `CRON_SECRET` |
-| Channel token `invalid` | expired or revoked token | regenerate, update env, redeploy, "Verify token" |
+| Events stay pending | scheduler not running | check the Cron Trigger and `AGENT_SCHEDULER_ENABLED` |
+| Channel token `invalid` | expired or revoked token | regenerate, update the Worker secret, "Verify token" |
 | Publication `unknown` | crash or network error after the write | check the Page, then "Reconcile" with the URL or "not published" |
 | Slot `skipped: source_verification_stale` | source verification older than the window | re-verify the source |
 | Slots not planned | topic bank exhausted within duplicate window | add topics to `data/agent/editorial-topics.json` or shorten the window |
@@ -83,7 +86,7 @@ Overview tab, "STOP all outbound actions", with a reason. It is checked by the p
 
 - Page tokens obtained from a long-lived user token normally do not expire, but are invalidated by password changes, role removal or app de-authorisation. The agent marks a channel `invalid` on error 190 and stops using it.
 - Use "Verify token" weekly (records validity, scopes, expiry from `debug_token`). Instagram Login tokens expire after about 60 days and must be refreshed (refresh endpoint not implemented; manual rotation).
-- Rotation: create the new token, update the Vercel variable, redeploy, Verify token, revoke the old token in Meta. Rotate `CRON_SECRET` (Vercel and Vault together), `AGENT_DATABASE_URL` password, `RESEND_API_KEY` and `ANTHROPIC_API_KEY` at least every 6 months or after any suspected exposure. Rotating `AGENT_AUTHOR_PEPPER` breaks linkage of old author references, which is acceptable.
+- Rotation: create the new token, update the Worker secret, Verify token, revoke the old token in Meta. Rotate `CRON_SECRET`, `AGENT_DATABASE_URL` password, `RESEND_API_KEY` and `ANTHROPIC_API_KEY` at least every 6 months or after any suspected exposure. Rotating `AGENT_AUTHOR_PEPPER` breaks linkage of old author references, which is acceptable.
 
 ## 8. Incident recovery
 
@@ -96,8 +99,8 @@ Overview tab, "STOP all outbound actions", with a reason. It is checked by the p
 
 ## 9. Rollback
 
-- Functional rollback: set both modes to DISABLED or press the stop; unset live switches and redeploy; unschedule the cron job.
-- Code rollback: revert the merge commit; static pages are unaffected.
+- Functional rollback: set both modes to DISABLED or press the stop; unset the live variables; remove the Cron Trigger.
+- Code rollback: roll back to the previous Worker version in the Cloudflare dashboard, or revert the merge commit; static pages are served by assets either way.
 - Database rollback (only if required, after export): `drop schema ufs_agent cascade; drop role ufs_agent_worker;`. The forum schema is untouched by the agent migration, so forum data and policies survive.
 
 ## 10. Local development and tests
@@ -122,6 +125,16 @@ node scripts/agent-site-smoke.js
 npm run check
 ```
 
-CI: `.github/workflows/agent-ci.yml` runs `npm run check`, the programme data validator, the schema build and `npm test` against a PostgreSQL 17 service container with `AGENT_REQUIRE_DB=1` (database tests may not silently skip), plus the site smoke test in a separate job. It uses no secrets and deploys nothing. Against a disposable server, `AGENT_TESTDB_ADMIN_URL=postgresql://postgres:pw@host:5432 bash scripts/agent-test-db.sh apply` builds the test schema.
+```bash
+npm run worker:build
+```
 
-The test database is a throwaway local PostgreSQL with Supabase stand-ins (`tests/agent/fixtures/supabase-stubs.sql`). It never connects to Supabase.
+```bash
+npm run worker:smoke
+```
+
+`worker:build` bundles the Worker with `wrangler deploy --dry-run` (no account, no upload). `worker:smoke` starts the real Worker in workerd with `wrangler dev` (local mode) against the test database and checks static pages, hidden server files, fail-closed endpoints, a signed webhook stored once, the manual tick and the idle scheduler.
+
+CI: `.github/workflows/agent-ci.yml` runs `npm run check`, the programme data validator, the schema build, `npm test`, `worker:build` and `worker:smoke` against a PostgreSQL 18 service container (Neon production runs 18) with `AGENT_REQUIRE_DB=1` (database tests may not silently skip), plus the site smoke test in a separate job. It uses no secrets and deploys nothing. Against a disposable server, `AGENT_TESTDB_ADMIN_URL=postgresql://postgres:pw@host:5432 bash scripts/agent-test-db.sh apply` builds the test schema.
+
+The test database is a throwaway local PostgreSQL with Neon stand-ins (`tests/agent/fixtures/neon-stubs.sql`: Data API roles, a reduced `neon_auth."user"`, `auth.uid()`), the real `neon/schema.sql` and `neon/agent-schema.sql`. It never connects to Neon.

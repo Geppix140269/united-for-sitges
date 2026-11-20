@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Throwaway local PostgreSQL for Community Agent tests. Never touches Supabase.
+# Throwaway local PostgreSQL for Community Agent tests. Never touches Neon.
 # Usage: bash scripts/agent-test-db.sh start|stop|reset
 #        AGENT_TESTDB_ADMIN_URL=postgresql://postgres:pw@host:5432 bash scripts/agent-test-db.sh apply
 # "apply" targets an existing disposable server (CI service container) instead
@@ -25,15 +25,10 @@ fi
 
 apply_schema() {
   psqlc -d postgres -c "drop database if exists agent_test" -c "create database agent_test"
-  psqlc -d agent_test -f "$ROOT/tests/agent/fixtures/supabase-stubs.sql"
-  # Order matches production migration history (see docs/COMMUNITY_AGENT_TECHNICAL_SPEC.md).
-  psqlc -d agent_test -f "$ROOT/supabase/forum-schema.sql"
-  for f in 20261111_community_public_read_privileges.sql 20261111212047_member_reporting_and_moderation_queue.sql \
-           20261111213628_require_report_reply_to_belong_to_topic.sql 20261111_verified_admin_bootstrap.sql \
-           20261111_require_magic_link_for_moderator.sql 20261111_member_submission_limits.sql \
-           20261116120000_community_agent_foundation.sql; do
-    psqlc -d agent_test -f "$ROOT/supabase/migrations/$f"
-  done
+  psqlc -d agent_test -f "$ROOT/tests/agent/fixtures/neon-stubs.sql"
+  # Same order as production: forum schema, then the agent schema.
+  psqlc -d agent_test -f "$ROOT/neon/schema.sql"
+  psqlc -d agent_test -f "$ROOT/neon/agent-schema.sql"
   psqlc -d agent_test -c "alter role ufs_agent_worker with login password 'agent_test_only'"
 }
 

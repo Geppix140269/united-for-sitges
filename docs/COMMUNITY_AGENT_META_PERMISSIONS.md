@@ -66,9 +66,9 @@ Source: https://developers.facebook.com/docs/graph-api/overview/access-levels, h
 ## 7. Outstanding owner actions
 
 1. Confirm the Facebook Page exists, is owned by the project, and record its Page ID.
-2. Create (or identify) a Meta App of type Business owned by the project; add the owner as app admin. Record App ID; keep App Secret only in Vercel.
+2. Create (or identify) a Meta App of type Business owned by the project; add the owner as app admin. Record App ID; keep App Secret only as a Cloudflare Worker secret (`wrangler secret put META_APP_SECRET`).
 3. Generate a long-lived Page access token for that Page via the owner's own login, with only: `pages_show_list`, `pages_manage_metadata`, `pages_read_engagement`, `pages_read_user_content`, `pages_manage_engagement` (moderation replies) and, only when autonomous publishing is approved, `pages_manage_posts` (plus `read_insights` for metrics).
-4. Store tokens as Vercel env vars (`META_PAGE_ACCESS_TOKEN`), never in the database or repository.
+4. Store tokens as Cloudflare Worker secrets (`META_PAGE_ACCESS_TOKEN`), never in the database, `wrangler.jsonc` or the repository.
 5. Configure the webhook callback `https://unitedforsitges.com/api/agent/meta-webhook` with a random `META_VERIFY_TOKEN`; subscribe the app to the Page `feed` field.
 6. Confirm whether an Instagram Professional account exists; if so choose Instagram Login and generate a token with the three `instagram_business_*` permissions.
 7. In the console: add channels, run "Verify token" (uses `debug_token`), check the recorded scopes.

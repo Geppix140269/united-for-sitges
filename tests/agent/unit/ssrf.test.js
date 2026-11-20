@@ -2,7 +2,9 @@ import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:net';
 import { Readable } from 'node:stream';
-import { isPublicAddress, validateTarget, safeGet, guardedLookup, readLimited, httpsTransport, UnsafeDestinationError } from '../../../lib/agent/net/safe-get.js';
+import { isPublicAddress, validateTarget, safeGet, guardedLookup, readLimited, UnsafeDestinationError, ipFamily } from '../../../lib/agent/net/safe-get.js';
+import { httpsTransport } from '../../../lib/agent/net/node-transport.js';
+import { fetchTransport, dohResolver } from '../../../lib/agent/net/fetch-transport.js';
 import { retrieveSource } from '../../../lib/agent/editorial/sources.js';
 import { fetchAndCheckImage } from '../../../lib/agent/editorial/media.js';
 import { sha256Hex } from '../../../lib/agent/crypto.js';
@@ -158,5 +160,53 @@ describe('Callers use the hardened fetcher', () => {
     assert.equal((await fetchAndCheckImage('https://evil.example/x.jpg', fakeNet({}))).reason, 'media_not_first_party');
     const url = 'https://unitedforsitges.com/assets/agent/cards/mobility.jpg';
     assert.equal((await fetchAndCheckImage(url, fakeNet({ [url]: { body: 'x', contentType: 'image/jpeg' } }, { address: '10.0.0.1' }))).reason, 'unsafe_destination:non_public_address');
+  });
+});
+
+describe('Workers transport (fetch) and DNS-over-HTTPS resolver', () => {
+  const resolver = async () => [{ address: PUBLIC_IP, family: 4 }];
+  const respond = (routes) => async (url, init) => {
+    assert.equal(init.redirect, 'manual', 'redirects must never be followed automatically');
+    const r = routes[url];
+    if (!r) return new Response('nf', { status: 404 });
+    return new Response(r.body ?? '', { status: r.status || 200, headers: r.headers || { 'content-type': 'text/html' } });
+  };
+  const transport = (routes) => (url, opts) => fetchTransport(url, { ...opts, fetchImpl: respond(routes) });
+
+  test('manual redirects off the allowlist are refused', async () => {
+    const t = transport({ 'https://www.sitges.cat/': { status: 302, headers: { location: 'https://evil.example/' } } });
+    await assert.rejects(safeGet('https://www.sitges.cat/', { allowedHosts: ALLOWED, transport: t, resolver }), (e) => e.reason === 'host_not_allowlisted');
+  });
+  test('allowed redirect is followed and body returned as bytes', async () => {
+    const t = transport({ 'https://www.sitges.cat/': { status: 301, headers: { location: '/a' } }, 'https://www.sitges.cat/a': { body: html } });
+    const res = await safeGet('https://www.sitges.cat/', { allowedHosts: ALLOWED, transport: t, resolver });
+    assert.equal(res.status, 200);
+    assert.ok(res.body instanceof Uint8Array);
+    assert.equal(res.finalUrl, 'https://www.sitges.cat/a');
+  });
+  test('declared and streamed oversize bodies are refused', async () => {
+    const declared = transport({ 'https://www.sitges.cat/': { body: 'x', headers: { 'content-type': 'text/html', 'content-length': String(10 * 1024 * 1024) } } });
+    await assert.rejects(safeGet('https://www.sitges.cat/', { allowedHosts: ALLOWED, transport: declared, resolver }), (e) => e.code === 'response_too_large');
+    let pulled = 0;
+    const endless = new ReadableStream({ pull(c) { pulled += 1; c.enqueue(new Uint8Array(4096)); } });
+    const t = (url, opts) => fetchTransport(url, { ...opts, fetchImpl: async () => new Response(endless, { status: 200, headers: { 'content-type': 'text/html' } }) });
+    await assert.rejects(safeGet('https://www.sitges.cat/', { allowedHosts: ALLOWED, transport: t, resolver, maxBytes: 64 * 1024 }), (e) => e.code === 'response_too_large');
+    assert.ok(pulled < 40);
+  });
+  test('slow responses time out', async () => {
+    const slow = (url, opts) => fetchTransport(url, { ...opts, fetchImpl: (u, init) => new Promise((_, rej) => init.signal.addEventListener('abort', () => rej(new Error('aborted')))) });
+    await assert.rejects(safeGet('https://www.sitges.cat/', { allowedHosts: ALLOWED, transport: slow, resolver, timeoutMs: 50 }), (e) => e.code === 'timeout');
+  });
+  test('DoH resolver returns A and AAAA answers and private answers are refused', async () => {
+    const doh = dohResolver({ fetchImpl: async (u) => Response.json({ Answer: u.includes('type=AAAA') ? [{ type: 28, data: '2001:4860:4860::8888' }] : [{ type: 5, data: 'alias.example.' }, { type: 1, data: '10.0.0.7' }] }) });
+    const answers = await doh('www.sitges.cat');
+    assert.deepEqual(answers.map((a) => a.address), ['10.0.0.7', '2001:4860:4860::8888']);
+    await assert.rejects(safeGet('https://www.sitges.cat/', { allowedHosts: ALLOWED, transport: async () => { throw new Error('must not connect'); }, resolver: doh }), (e) => e.reason === 'non_public_address');
+  });
+  test('ipFamily recognises literals without node:net', () => {
+    assert.equal(ipFamily('10.0.0.1'), 4);
+    assert.equal(ipFamily('::1'), 6);
+    assert.equal(ipFamily('www.sitges.cat'), 0);
+    assert.equal(ipFamily('999.1.1.1'), 0);
   });
 });

@@ -6,13 +6,13 @@ Prepared 16 November 2026 for the controller. This is not legal advice. Items ma
 
 | Activity | Data | Source | Systems |
 | --- | --- | --- | --- |
-| Moderation triage of Page comments | comment text excerpt (max 2000 chars), comment and post ids, permalink, HMAC of the commenter's Page-scoped id, timestamps | Meta webhooks for the project's own Page (and Instagram account if connected) | Vercel (functions), Supabase eu-west-1 (storage) |
+| Moderation triage of Page comments | comment text excerpt (max 2000 chars), comment and post ids, permalink, HMAC of the commenter's Page-scoped id, timestamps | Meta webhooks for the project's own Page (and Instagram account if connected) | Cloudflare Workers (functions), Neon eu-central-1 Frankfurt (storage) |
 | Forum triage | topic/reply/report text, HMAC of member id | existing forum tables (read through a minimal function) | as above |
 | AI-assisted classification and draft replies | the excerpt above, sent to the model provider | as above | Anthropic API (if `AGENT_LLM_ENABLED`) |
 | Replies (supervised) | approved reply text, target comment id | moderators | Meta Graph API |
 | Editorial content | official public web pages (no personal data intended), generated posts | approved source registry | Anthropic API, Meta Graph API |
-| Publication analytics | aggregate post metrics (views, reactions, comments count, shares, clicks) | Meta Insights | Supabase |
-| Audit log | moderator ids, decisions, approved texts | system | Supabase |
+| Publication analytics | aggregate post metrics (views, reactions, comments count, shares, clicks) | Meta Insights | Neon |
+| Audit log | moderator ids, decisions, approved texts | system | Neon |
 | Administrative digest and alerts | counts, categories, neutral summaries, links | system | Resend |
 
 Not collected or derived: names of commenters (dropped at ingestion), political affiliation, voting intention, sentiment scores about individuals, profiles of individuals, direct messages, data from third-party groups.
@@ -38,7 +38,7 @@ Legitimate interests balancing: people commenting publicly on a civic Page reaso
 
 ## 4. International transfers
 
-- Supabase: eu-west-1 (Ireland). Vercel functions: region to confirm; set the function region to an EU region (**DECISION**, `fra1` or `dub1`, owner to configure).
+- Neon: AWS eu-central-1 (Frankfurt). Cloudflare Workers run at the edge location nearest the request (global network); confirm Cloudflare's DPA and SCCs, and consider Cloudflare's EU data localisation options only if required (**DECISION**).
 - Anthropic: US-based provider. Requires a Data Processing Addendum with Standard Contractual Clauses and a transfer impact assessment, and confirmation of retention and no-training terms for API data. **DECISION**: sign the DPA before setting `AGENT_LLM_ENABLED=true`.
 - Meta: the platform itself; Page operators may be joint controllers for Page Insights (Page Controller Addendum). **DECISION**: confirm acceptance of Meta's Page Insights Controller Addendum.
 - Resend: US provider with EU sending region; DPA and SCCs needed. Digest content is designed to exclude personal data.
@@ -81,7 +81,7 @@ Conclusion: two or more EDPB criteria are met (special category data plus innova
 >
 > **What we process.** The text of comments on our own pages (up to 2000 characters), technical identifiers of the comment, and a scrambled reference to the commenter that cannot be turned back into their identity without a secret key. We do not store commenters' names, and we never record or infer anyone's political views, voting intention or other sensitive characteristics.
 >
-> **Providers and transfers.** Supabase (database, EU, Ireland), Vercel (hosting), Anthropic (AI model, United States, under Standard Contractual Clauses), Meta (Facebook/Instagram) and Resend (administrative email). [Confirm list after DPAs are signed.]
+> **Providers and transfers.** Neon (database, EU, Frankfurt), Cloudflare (hosting and server functions), Anthropic (AI model, United States, under Standard Contractual Clauses), Meta (Facebook/Instagram) and Resend (administrative email). [Confirm list after DPAs are signed.]
 >
 > **Retention.** Comment text is removed after 90 days. Moderation audit records are kept for up to two years. Aggregate post statistics are kept for up to 13 months.
 >
@@ -93,9 +93,9 @@ Conclusion: two or more EDPB criteria are met (special category data plus innova
 
 1. Lawful bases and Article 9 conditions (section 2, 3), with qualified review.
 2. Full DPIA completed and signed.
-3. DPAs: Anthropic, Resend, Vercel; Meta Page Insights Controller Addendum.
-4. Vercel function region in the EU.
+3. DPAs: Anthropic, Resend, Cloudflare, Neon; Meta Page Insights Controller Addendum.
+4. Whether Cloudflare's global edge processing is acceptable or EU-only processing is required.
 5. Retention periods.
 6. Publication of the privacy amendment and a short notice on the Facebook Page About section.
 7. Who acts as moderator(s), and a response time commitment for human review.
-8. Whether leaked password protection should be enabled in Supabase Auth (security advisor warning).
+8. Neon Auth sends verification emails from Neon's shared sender; decide on a custom sender domain.

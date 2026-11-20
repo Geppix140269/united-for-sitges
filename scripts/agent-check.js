@@ -4,7 +4,8 @@
 //  2. Agent data files are valid and internally consistent.
 //  3. All live outbound switches are OFF when no environment is set.
 //  4. The migration ships every outbound default as OFF / SHADOW.
-//  5. No deployment-level automation (Vercel crons) and only the 3 expected functions.
+//  5. Cloudflare config: Worker only on /api/*, no Cron Triggers, scheduler
+//     gated by AGENT_SCHEDULER_ENABLED, server code excluded from public assets.
 //  6. No credential-shaped strings in agent files; no em dashes (house style).
 
 import { spawnSync } from 'node:child_process';
@@ -27,10 +28,10 @@ function walk(dir, out = []) {
 }
 
 const agentFiles = [
-  ...walk(join(root, 'lib/agent')), ...walk(join(root, 'api/agent')), ...walk(join(root, 'tests/agent')),
-  ...walk(join(root, 'data/agent')), ...walk(join(root, 'supabase/proposed')),
+  ...walk(join(root, 'lib/agent')), ...walk(join(root, 'worker')), ...walk(join(root, 'tests/agent')),
+  ...walk(join(root, 'data/agent')),
   ...['js/agent-console.js', 'agent-console.html', 'scripts/agent-check.js', 'scripts/agent-seed.js', 'scripts/agent-test-db.sh', 'scripts/agent-render-cards.js',
-    'scripts/agent-site-smoke.js', 'supabase/migrations/20261116120000_community_agent_foundation.sql', '.github/workflows/agent-ci.yml', 'package.json']
+    'scripts/agent-site-smoke.js', 'scripts/agent-worker-smoke.js', 'neon/agent-schema.sql', '.github/workflows/agent-ci.yml', 'package.json', 'wrangler.jsonc', '.assetsignore']
     .map((f) => join(root, f)).filter(existsSync),
   ...walk(join(root, 'docs')).filter((f) => /COMMUNITY_AGENT_/.test(f)),
 ];
@@ -82,7 +83,7 @@ try {
 }
 
 // 4. Migration defaults
-const mig = readFileSync(join(root, 'supabase/migrations/20261116120000_community_agent_foundation.sql'), 'utf8');
+const mig = readFileSync(join(root, 'neon/agent-schema.sql'), 'utf8');
 const mustContain = {
   "moderation mode SHADOW": "jsonb_build_object('mode','SHADOW','auto_reply_enabled',false)",
   'publishing mode SHADOW': "'mode','SHADOW',\n    'autonomous_publishing_enabled',false",
@@ -100,14 +101,25 @@ for (const [label, needle] of Object.entries(mustContain)) {
 if (/'mode','(SUPERVISED|AUTONOMOUS)'/.test(mig)) fail('migration enables an outbound mode');
 ok('migration ships outbound defaults OFF / SHADOW');
 
-// 5. Deployment configuration
-if (existsSync(join(root, 'vercel.json'))) {
-  const v = JSON.parse(readFileSync(join(root, 'vercel.json'), 'utf8'));
-  if (v.crons && v.crons.length) fail('vercel.json defines cron jobs');
+// 5. Deployment configuration (Cloudflare Workers)
+try {
+  const wr = JSON.parse(readFileSync(join(root, 'wrangler.jsonc'), 'utf8').replace(/^\s*\/\/.*$/gm, ''));
+  if (wr.triggers && Array.isArray(wr.triggers.crons) && wr.triggers.crons.length) fail('wrangler.jsonc defines Cron Triggers (scheduler must stay off)');
+  if (wr.main !== 'worker/index.js') fail('wrangler.jsonc main is not worker/index.js');
+  const rwf = wr.assets && wr.assets.run_worker_first;
+  if (!Array.isArray(rwf) || rwf.length !== 1 || rwf[0] !== '/api/*') fail('Worker must run first only for /api/*');
+  if (!(wr.compatibility_flags || []).includes('nodejs_compat')) fail('nodejs_compat flag missing');
+  if (wr.vars && Object.keys(wr.vars).some((k) => /^AGENT_(LIVE|ALLOW|LLM|SCHEDULER)/.test(k))) fail('wrangler.jsonc sets an activation variable');
+} catch (err) {
+  fail(`wrangler.jsonc unreadable: ${err.message}`);
 }
-const fns = readdirSync(join(root, 'api/agent')).sort();
-if (JSON.stringify(fns) !== JSON.stringify(['admin.js', 'cron.js', 'meta-webhook.js'])) fail(`unexpected API functions: ${fns.join(', ')}`);
-ok('no scheduler in deployment config; API functions: admin, cron, meta-webhook');
+const ignore = readFileSync(join(root, '.assetsignore'), 'utf8').split('\n').map((l) => l.trim());
+for (const p of ['lib', 'worker', 'tests', 'node_modules', 'data/agent', 'package.json']) if (!ignore.includes(p)) fail(`.assetsignore must exclude ${p}`);
+const workerSrc = readFileSync(join(root, 'worker/index.js'), 'utf8');
+if (!/boolEnv\('AGENT_SCHEDULER_ENABLED'\)/.test(workerSrc)) fail('scheduled() is not gated by AGENT_SCHEDULER_ENABLED');
+if (existsSync(join(root, 'vercel.json'))) fail('vercel.json present (hosting is Cloudflare)');
+if (existsSync(join(root, 'api'))) fail('legacy api/ directory present (endpoints live in worker/index.js)');
+ok('Cloudflare: Worker only on /api/*, no Cron Triggers, scheduler gated, server code excluded from assets');
 
 // 6. Secrets and style
 const SECRET_PATTERNS = [

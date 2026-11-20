@@ -20,10 +20,10 @@ describe('Database security boundary', { skip: dbSkip }, () => {
   beforeEach(() => resetDb());
   after(() => closeDbs());
 
-  test('anon and authenticated have no access to any agent table (tests 9 and 10)', async () => {
+  test('anonymous and authenticated (Neon Data API roles) have no access to any agent table (tests 9 and 10)', async () => {
     const tables = await superDb().query("select tablename from pg_tables where schemaname='ufs_agent'");
     assert.ok(tables.length >= 16);
-    for (const role of ['anon', 'authenticated']) {
+    for (const role of ['anonymous', 'authenticated']) {
       for (const { tablename } of tables) {
         await assert.rejects(asRole(role, null, `select 1 from ufs_agent.${tablename} limit 1`), /permission denied/, `${role} ${tablename}`);
       }
@@ -61,7 +61,7 @@ describe('Database security boundary', { skip: dbSkip }, () => {
   test('worker role cannot read or write forum tables directly, only through the bridge', async () => {
     await assert.rejects(workerDb().query('select * from public.ufs_topics'), /permission denied/);
     await assert.rejects(workerDb().query("update public.ufs_topics set status='approved'"), /permission denied/);
-    await assert.rejects(workerDb().query('select * from auth.users'), /permission denied/);
+    await assert.rejects(workerDb().query('select * from neon_auth."user"'), /permission denied/);
     await assert.rejects(workerDb().query('select * from ufs_internal.admin_contact'), /permission denied/);
     const rows = await workerDb().query("select * from ufs_agent.forum_items_since(now() - interval '1 day', '00000000-0000-0000-0000-000000000000'::uuid, 10)");
     assert.ok(Array.isArray(rows));
@@ -86,13 +86,13 @@ describe('Database security boundary', { skip: dbSkip }, () => {
     // Member submits a pending topic through the normal RLS path.
     await asRole('authenticated', member.id, `insert into public.ufs_topics(author_id, author_name, category, title, body)
       values ($1, (select display_name from public.ufs_profiles where user_id=$1), 'living', 'Beach cleaning schedule', 'When are the beaches cleaned during the winter months?')`, [member.id]);
-    assert.equal((await asRole('anon', null, 'select id from public.ufs_topics')).length, 0, 'pending topic hidden from public');
+    assert.equal((await asRole('anonymous', null, 'select id from public.ufs_topics')).length, 0, 'pending topic hidden from public');
     // Ordinary member cannot approve.
     await asRole('authenticated', member.id, "update public.ufs_topics set status='approved'");
     assert.equal((await superDb().query("select status from public.ufs_topics"))[0].status, 'pending');
     // Moderator approves.
     await asRole('authenticated', mod.id, "update public.ufs_topics set status='approved'");
-    assert.equal((await asRole('anon', null, 'select id from public.ufs_topics')).length, 1);
+    assert.equal((await asRole('anonymous', null, 'select id from public.ufs_topics')).length, 1);
     // Agent can see it through the bridge for triage, without changing it.
     const items = await workerDb().query("select kind, status from ufs_agent.forum_items_since(now() - interval '1 hour', '00000000-0000-0000-0000-000000000000'::uuid, 10)");
     assert.equal(items[0].kind, 'topic');
@@ -113,11 +113,13 @@ describe('Admin API authorisation (tests 8, 9, 10)', { skip: dbSkip }, () => {
   before(() => setTestEnv());
   beforeEach(async () => {
     await resetDb();
-    users = { member: await addUser(), mod: await addUser({ moderator: true }), suspended: await addUser({ moderator: true, suspended: true }) };
+    users = { member: await addUser(), mod: await addUser({ moderator: true }), suspended: await addUser({ moderator: true, suspended: true }), unverified: await addUser({ moderator: true, verified: false }), banned: await addUser({ moderator: true, banned: true }) };
     tokens.clear();
     tokens.set('member-token-xxxxxxxxxxxxxxxx', { id: users.member.id });
     tokens.set('mod-token-xxxxxxxxxxxxxxxxxxx', { id: users.mod.id });
     tokens.set('suspended-token-xxxxxxxxxxxxx', { id: users.suspended.id });
+    tokens.set('unverified-token-xxxxxxxxxxxx', { id: users.unverified.id });
+    tokens.set('banned-token-xxxxxxxxxxxxxxxx', { id: users.banned.id });
   });
   after(() => closeDbs());
 
@@ -127,8 +129,8 @@ describe('Admin API authorisation (tests 8, 9, 10)', { skip: dbSkip }, () => {
     assert.equal((await handleAdmin(adminRequest('GET', { token: 'bogus-token-xxxxxxxxxxxxxxxx' }), deps())).status, 401);
   });
 
-  test('ordinary members and suspended moderators cannot read cases', async () => {
-    for (const token of ['member-token-xxxxxxxxxxxxxxxx', 'suspended-token-xxxxxxxxxxxxx']) {
+  test('ordinary members and suspended, unverified or banned moderators cannot read cases', async () => {
+    for (const token of ['member-token-xxxxxxxxxxxxxxxx', 'suspended-token-xxxxxxxxxxxxx', 'unverified-token-xxxxxxxxxxxx', 'banned-token-xxxxxxxxxxxxxxxx']) {
       const res = await handleAdmin(adminRequest('GET', { token, query: '?view=cases' }), deps());
       assert.equal(res.status, 403);
       assert.equal((await res.json()).error, 'not_moderator');

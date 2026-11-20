@@ -11,3 +11,12 @@ netlify.toml
 wrangler.jsonc
 .assetsignore
 .gitignore
+# Community Agent server code, tests and internal data are not public assets
+lib
+worker
+tests
+data/agent
+package.json
+package-lock.json
+.agent-testdb
+.wrangler

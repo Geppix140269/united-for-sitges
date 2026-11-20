@@ -1,18 +1,20 @@
--- United for Sitges Community Agent: foundation schema (version 1.1).
--- STATUS: NOT APPLIED. Review only. Do not run against production
--- (tlmkeofpeigkfxdydwqt) without explicit owner authorisation.
+-- United for Sitges Community Agent: schema for Neon (Postgres 18, Neon Auth).
+-- STATUS: NOT APPLIED. Review only. Do not run against the production Neon
+-- project (united-for-sitges, shiny-dream-02523490) without explicit owner
+-- authorisation. Apply after neon/schema.sql (forum schema).
 --
 -- Design summary
--- * All agent data lives in the private schema ufs_agent. It is NOT in the
---   Data API exposed schemas and anon/authenticated get no USAGE, so no
---   browser key can reach it. RLS is also enabled on every table (defence in
---   depth) with explicit policies only for the backend worker role.
--- * The backend connects as ufs_agent_worker (NOLOGIN here; the owner enables
---   LOGIN with a password out of band, never committed). It is not a
---   superuser, does not bypass RLS and cannot touch auth.* or forum writes.
--- * Existing forum tables, policies and grants are NOT modified. The worker
---   reads forum items only through one SECURITY DEFINER function returning
---   the minimum columns needed for moderation triage.
+-- * All agent data lives in the private schema ufs_agent. It is NOT exposed by
+--   the Neon Data API and the Data API roles (anonymous, authenticated) get no
+--   USAGE, so no browser session can reach it. RLS is also enabled and forced
+--   on every table (defence in depth) with policies only for the worker role.
+-- * The backend (Cloudflare Worker) connects as ufs_agent_worker (NOLOGIN
+--   here; the owner enables LOGIN with a strong password out of band, never
+--   committed). It is not a superuser, does not bypass RLS and cannot read
+--   neon_auth or write forum tables.
+-- * Existing forum tables, policies and grants (neon/schema.sql) are NOT
+--   modified. The worker reads forum items only through one SECURITY DEFINER
+--   function returning the minimum columns needed for moderation triage.
 -- * Exactly-once business rules are enforced with unique constraints
 --   (events, actions, publications per channel/local date/slot, digests).
 -- * No column stores access tokens. Channels hold a credential_ref naming a
@@ -21,8 +23,8 @@
 create schema if not exists ufs_agent;
 revoke all on schema ufs_agent from public;
 do $$ begin
-  if exists (select 1 from pg_roles where rolname='anon') then
-    execute 'revoke all on schema ufs_agent from anon';
+  if exists (select 1 from pg_roles where rolname='anonymous') then
+    execute 'revoke all on schema ufs_agent from anonymous';
   end if;
   if exists (select 1 from pg_roles where rolname='authenticated') then
     execute 'revoke all on schema ufs_agent from authenticated';
@@ -33,7 +35,7 @@ do $$ begin
 end $$;
 grant usage on schema ufs_agent to ufs_agent_worker;
 
--- Prevent Supabase default privileges from leaking future objects.
+-- Prevent default privileges from leaking future objects to other roles.
 alter default privileges in schema ufs_agent revoke all on tables from public;
 alter default privileges in schema ufs_agent revoke all on functions from public;
 alter default privileges in schema ufs_agent revoke all on sequences from public;
@@ -487,10 +489,15 @@ $forum_body$;
 revoke all on function ufs_agent.forum_items_since(timestamptz,uuid,integer) from public;
 
 -- Moderator check used by the admin API (identity comes from a verified
--- Supabase Auth access token; never from user_metadata).
+-- Neon Auth session JWT; never from token metadata). The account must also be
+-- email-verified and not banned in neon_auth.
 create function ufs_agent.is_active_moderator(uid uuid) returns boolean
 language sql stable security definer set search_path='' as $$
-  select exists(select 1 from public.ufs_profiles p where p.user_id=uid and p.is_moderator and not p.is_suspended);
+  select exists(
+    select 1 from public.ufs_profiles p
+    join neon_auth."user" u on u.id = p.user_id
+    where p.user_id = uid and p.is_moderator and not p.is_suspended
+      and u."emailVerified" = true and coalesce(u.banned, false) = false);
 $$;
 revoke all on function ufs_agent.is_active_moderator(uuid) from public;
 
@@ -506,8 +513,8 @@ begin
     execute format('alter table ufs_agent.%I enable row level security', t);
     execute format('alter table ufs_agent.%I force row level security', t);
     execute format('revoke all on ufs_agent.%I from public', t);
-    if exists (select 1 from pg_roles where rolname='anon') then
-      execute format('revoke all on ufs_agent.%I from anon, authenticated', t);
+    if exists (select 1 from pg_roles where rolname='anonymous') then
+      execute format('revoke all on ufs_agent.%I from anonymous, authenticated', t);
     end if;
     execute format('create policy %I on ufs_agent.%I for all to ufs_agent_worker using (true) with check (true)', 'worker_'||t, t);
   end loop;

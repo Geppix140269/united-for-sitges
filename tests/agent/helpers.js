@@ -27,8 +27,7 @@ export function setTestEnv(extra = {}) {
     META_VERIFY_TOKEN: 'verify-token-for-tests',
     AGENT_AUTHOR_PEPPER: 'pepper-for-tests',
     CRON_SECRET: 'c'.repeat(40),
-    SUPABASE_URL: 'https://supabase.invalid',
-    SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_test',
+    NEON_AUTH_URL: 'https://neon-auth.invalid/neondb/auth',
     AGENT_LLM_ENABLED: 'true',
   };
   for (const [k, v] of Object.entries({ ...base, ...extra })) {
@@ -135,7 +134,7 @@ export async function resetDb() {
   await s.query(`truncate ${AGENT_TABLES.map((t) => `ufs_agent.${t}`).join(', ')} cascade`);
   for (const row of defaultSettings) await s.query('update ufs_agent.settings set value=$2 where key=$1', [row.key, row.value]);
   await s.query('truncate public.ufs_reports, public.ufs_replies, public.ufs_topics, public.ufs_profiles cascade');
-  await s.query('delete from auth.users');
+  await s.query('delete from neon_auth."user"');
 }
 
 export async function patchSetting(key, patch) {
@@ -177,10 +176,10 @@ export function mockRegistry() {
   return adapterFor;
 }
 
-export async function addUser({ email = `${randomUUID().slice(0, 8)}@example.test`, moderator = false, suspended = false } = {}) {
+export async function addUser({ email = `${randomUUID().slice(0, 8)}@example.test`, moderator = false, suspended = false, verified = true, banned = false } = {}) {
   const id = randomUUID();
   const s = superDb();
-  await s.query('insert into auth.users(id, email, email_confirmed_at) values ($1,$2,now())', [id, email]);
+  await s.query('insert into neon_auth."user"(id, email, "emailVerified", banned) values ($1,$2,$3,$4)', [id, email, verified, banned]);
   await s.query('insert into public.ufs_profiles(user_id, display_name, is_moderator, is_suspended) values ($1,$2,$3,$4)', [id, `User ${id.slice(0, 6)}`, moderator, suspended]);
   return { id, email };
 }

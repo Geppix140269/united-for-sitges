@@ -1,10 +1,15 @@
 // Agent console (moderators only). All data comes from /api/agent/admin,
 // which re-checks moderator status server-side on every call. Content from
 // the public is rendered with textContent only, never as HTML.
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.75.0';
+// Sign-in uses Neon Auth through the same self-hosted SDK as the forum; the
+// session JWT is sent to the API, which verifies it against Neon's JWKS.
+import { createClient } from '/js/vendor/neon-js-0.10.2.min.js';
 
 const cfg = window.UFS_FORUM_CONFIG || {};
-const supabase = createClient(cfg.url, cfg.publishableKey, { auth: { persistSession: true, storageKey: 'ufs-agent-console' } });
+const neon = cfg.authUrl ? createClient({ auth: { url: cfg.authUrl }, dataApi: { url: cfg.dataApiUrl } }) : null;
+async function authCall(fn) {
+  try { const r = await fn(); return { data: r?.data ?? null, error: r?.error ?? null }; } catch (e) { return { data: null, error: e }; }
+}
 const API = '/api/agent/admin';
 const $ = (id) => document.getElementById(id);
 
@@ -26,8 +31,8 @@ const statusKind = (s) => (['published', 'succeeded', 'passed', 'publishable', '
     : ['needs_review', 'simulated', 'pending', 'medium', 'awaiting_approval', 'skipped', 'dry_run'].includes(s) ? 'warn' : '');
 
 async function token() {
-  const { data } = await supabase.auth.getSession();
-  return data.session?.access_token;
+  const { data } = await authCall(() => neon.auth.getSession());
+  return data?.session?.token || null;
 }
 
 async function api(method, params = {}) {
@@ -365,8 +370,8 @@ function showLogin() {
 }
 
 async function showApp() {
-  const { data } = await supabase.auth.getUser();
-  if (!data.user) { showLogin(); return; }
+  const { data } = await authCall(() => neon.auth.getSession());
+  if (!data?.user) { showLogin(); return; }
   $('who').textContent = data.user.email || '';
   $('login').classList.add('hidden');
   $('app').classList.remove('hidden');
@@ -378,15 +383,19 @@ async function showApp() {
 $('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   $('loginStatus').textContent = 'Signing in...';
-  const { error } = await supabase.auth.signInWithPassword({ email: $('email').value.trim(), password: $('password').value });
+  const { error } = await authCall(() => neon.auth.signIn.email({ email: $('email').value.trim(), password: $('password').value }));
   $('password').value = '';
-  if (error) { $('loginStatus').textContent = 'Sign in failed.'; return; }
+  if (error) {
+    const code = error?.code || error?.error?.code;
+    $('loginStatus').textContent = code === 'EMAIL_NOT_VERIFIED' ? 'Confirm your email on the community page first, then sign in here.' : 'Sign in failed.';
+    return;
+  }
   $('loginStatus').textContent = '';
   showApp();
 });
-$('logout').addEventListener('click', async () => { await supabase.auth.signOut(); showLogin(); });
+$('logout').addEventListener('click', async () => { await authCall(() => neon.auth.signOut()); showLogin(); });
 
-if (!cfg.url || !cfg.publishableKey) {
+if (!neon) {
   $('loginStatus').textContent = 'Console not configured.';
 } else {
   showApp();

@@ -6,7 +6,14 @@
 # of a local cluster. Prints the connection URL to export as AGENT_TEST_DATABASE_URL.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-DATA="${AGENT_TESTDB_DIR:-$ROOT/.agent-testdb}"
+# Outside the project so wrangler dev (which watches project files) never
+# reloads because PostgreSQL wrote to its data directory.
+if [ "$(id -u)" = "0" ]; then
+  DEFAULT_DATA="$(getent passwd postgres | cut -d: -f6)/u4s-agent-testdb"   # postgres must own it
+else
+  DEFAULT_DATA="${XDG_CACHE_HOME:-$HOME/.cache}/u4s-agent-testdb"
+fi
+DATA="${AGENT_TESTDB_DIR:-$DEFAULT_DATA}"
 PORT="${AGENT_TESTDB_PORT:-54329}"
 PGBIN="${PGBIN:-$(ls -d /usr/lib/postgresql/*/bin 2>/dev/null | sort -V | tail -1)}"
 RUNAS=()

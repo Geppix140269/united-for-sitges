@@ -117,7 +117,7 @@ try {
   check(unauth.status === 401, 'manual tick rejects wrong secret');
   const tick = await fetch(`${BASE}/api/agent/cron?jobs=events,actions`, { method: 'POST', headers: { authorization: `Bearer ${CRON_SECRET}` } });
   const summary = await tick.json().catch(() => ({}));
-  check(tick.status === 200 && summary.mode?.moderation === 'SHADOW', 'manual tick runs in SHADOW', `status ${tick.status}`);
+  check(tick.status === 200 && summary.mode?.moderation === 'SHADOW', 'manual tick runs in SHADOW', `status ${tick.status} ${tick.status === 200 ? '' : JSON.stringify(summary)}`);
   const kase = await sup.query('select c.category from ufs_agent.cases c join ufs_agent.events e on e.id=c.event_id where e.external_object_id=$1', [commentId]);
   check(kase.rows.length === 1, 'tick classified the stored event into one case', kase.rows[0]?.category);
   const admin = await fetch(`${BASE}/api/agent/admin`, { headers: { authorization: 'Bearer abc.def.ghi' } });

@@ -61,6 +61,8 @@ Sources: open each URL yourself, then "Verify". Verification lasts 90 days by de
 
 Factual editorial posts require an additional source-attestation approval in the calendar slot's Review panel. Read the full post and both social captions, compare each factual statement with the linked original source, then click **Approve factual content**. This approval is fingerprint-bound to the exact content. Until approval, publication stays in NEEDS_REVIEW, including in AUTONOMOUS mode. Manual replacement of factual topics without evidence-backed claim mapping is disabled.
 
+Erasure requests: open the case, choose "Erase stored data" (this item, or all items by this author), pick the reason code and type `ERASE STORED DATA`. The Privacy tab lists requests with their counts; a failed request changed nothing and can be retried there (the scheduler also retries it). Erasure is local only: remove the original comment or our reply on the platform separately. See `COMMUNITY_AGENT_DATA_MAP.md`.
+
 ## 5. Kill switch
 
 Overview tab, "STOP all outbound actions", with a reason. It is checked by the policy layer and again immediately before every provider call. Scheduled posts held by the stop stay scheduled and expire if their window passes; nothing posts late. Release the stop from the same card. Other levers: pause one channel, disable a category, set a mode to DISABLED, unset the live variables, or remove the Cron Trigger / unset `AGENT_SCHEDULER_ENABLED`.

@@ -125,7 +125,7 @@ export async function closeDbs() {
   superPool = null;
 }
 
-const AGENT_TABLES = ['publication_metrics', 'publications', 'content', 'editorial_calendar', 'actions', 'drafts', 'cases', 'events', 'faq', 'sources',
+const AGENT_TABLES = ['privacy_suppressions', 'privacy_requests', 'publication_metrics', 'publications', 'content', 'editorial_calendar', 'actions', 'drafts', 'cases', 'events', 'faq', 'sources',
   'channels', 'audit_log', 'usage_counters', 'digests', 'external_notes'];
 
 export async function resetDb() {

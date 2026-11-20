@@ -81,7 +81,8 @@ insert into ufs_agent.settings(key,value) values
     'outbound_per_day',20,
     'max_attempts',5)),
  ('digest', jsonb_build_object('send_enabled',false,'recipient','hello@giuseppefunaro.com','sender',null,'dashboard_url','https://unitedforsitges.com/agent-console.html')),
- ('retention', jsonb_build_object('event_content_days',90,'audit_days',730,'metrics_days',400));
+ ('retention', jsonb_build_object('event_content_days',90,'audit_days',730,'metrics_days',400,
+    'identifier_days',400,'suppression_days',400,'digest_days',90,'external_note_days',365,'batch_size',200));
 
 -- ---------------------------------------------------------------------------
 -- Channels: authorised accounts. Publishing and moderation default OFF.
@@ -243,6 +244,15 @@ create index drafts_case_idx on ufs_agent.drafts(case_id, version desc);
 create function ufs_agent.drafts_immutable_text() returns trigger
 language plpgsql set search_path='' as $$
 begin
+  -- The only permitted text change is a one-time privacy redaction to the
+  -- fixed marker (see ufs_agent.redact_events); fingerprints never change, so
+  -- the accountability record of what was approved is kept as a hash.
+  if new.proposed_answer is distinct from old.proposed_answer
+     and new.proposed_answer = '[redacted]' and old.redacted_at is null and new.redacted_at is not null
+     and new.content_fingerprint is not distinct from old.content_fingerprint
+     and new.case_id is not distinct from old.case_id then
+    return new;
+  end if;
   if new.proposed_answer is distinct from old.proposed_answer
      or new.content_fingerprint is distinct from old.content_fingerprint
      or new.case_id is distinct from old.case_id then
@@ -416,9 +426,33 @@ create index audit_entity_idx on ufs_agent.audit_log(entity_type, entity_id);
 
 create function ufs_agent.audit_append_only() returns trigger
 language plpgsql set search_path='' as $$
+declare
+  k text;
+  v jsonb;
 begin
   if tg_op='UPDATE' then
-    raise exception 'audit_log is append-only';
+    -- Single narrow exception: a one-time privacy redaction of `detail` in
+    -- which every existing value is either unchanged or replaced by the
+    -- marker "[redacted]", no key is removed or invented, and a `_redaction`
+    -- stamp is added. Every other column must be identical.
+    if old.detail ? '_redaction' or not (new.detail ? '_redaction')
+       or new.id is distinct from old.id or new.at is distinct from old.at
+       or new.actor_type is distinct from old.actor_type or new.actor_id is distinct from old.actor_id
+       or new.action is distinct from old.action or new.entity_type is distinct from old.entity_type
+       or new.entity_id is distinct from old.entity_id then
+      raise exception 'audit_log is append-only';
+    end if;
+    for k, v in select * from jsonb_each(old.detail) loop
+      if not (new.detail ? k) or (new.detail -> k <> v and new.detail -> k <> to_jsonb('[redacted]'::text)) then
+        raise exception 'audit_log is append-only';
+      end if;
+    end loop;
+    for k in select jsonb_object_keys(new.detail) loop
+      if k <> '_redaction' and not (old.detail ? k) then
+        raise exception 'audit_log is append-only';
+      end if;
+    end loop;
+    return new;
   end if;
   -- Deletes are permitted only for rows older than the retention floor (365 days).
   if tg_op='DELETE' and old.at > now() - interval '365 days' then
@@ -502,13 +536,212 @@ $$;
 revoke all on function ufs_agent.is_active_moderator(uuid) from public;
 
 -- ---------------------------------------------------------------------------
+-- Personal data: erasure requests, redaction of every derived copy,
+-- suppression of re-ingestion, retention (issue #5).
+-- Data map: docs/COMMUNITY_AGENT_DATA_MAP.md
+-- ---------------------------------------------------------------------------
+alter table ufs_agent.events
+  add column derived_redacted_at timestamptz,
+  add column redaction_reason text check (redaction_reason is null or redaction_reason in ('data_subject_request','retention')),
+  add column identifiers_purged_at timestamptz;
+alter table ufs_agent.cases add column redacted_at timestamptz;
+alter table ufs_agent.drafts add column redacted_at timestamptz;
+alter table ufs_agent.actions add column redacted_at timestamptz;
+alter table ufs_agent.digests add column redacted_at timestamptz;
+create index events_retention_idx on ufs_agent.events(received_at) where derived_redacted_at is null;
+
+-- Accountability record of a request. No free text and no identifiers of the
+-- person: only internal ids, a reason code, counts and timestamps.
+create table ufs_agent.privacy_requests (
+  id uuid primary key default gen_random_uuid(),
+  kind text not null default 'erasure' check (kind in ('erasure')),
+  scope text not null check (scope in ('item','author')),
+  seed_event_id uuid references ufs_agent.events(id) on delete set null,
+  suppress_future boolean not null default false,
+  reason_code text not null check (reason_code in ('data_subject_request','objection','legal_request','moderator_decision')),
+  requested_by uuid not null,
+  status text not null default 'pending' check (status in ('pending','completed','failed')),
+  attempts integer not null default 0 check (attempts >= 0),
+  last_error text check (last_error is null or length(last_error) <= 80),
+  result jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  completed_at timestamptz
+);
+create index privacy_requests_status_idx on ufs_agent.privacy_requests(status, created_at);
+
+-- Identifiers that must not be stored again (an edited or redelivered
+-- comment would otherwise bring the erased text back). Kept for
+-- retention.suppression_days, then deleted by the retention job.
+create table ufs_agent.privacy_suppressions (
+  id uuid primary key default gen_random_uuid(),
+  channel_id uuid not null references ufs_agent.channels(id) on delete cascade,
+  kind text not null check (kind in ('object','author')),
+  value text not null check (length(value) between 1 and 128),
+  request_id uuid references ufs_agent.privacy_requests(id) on delete set null,
+  created_at timestamptz not null default now(),
+  expires_at timestamptz not null,
+  unique (channel_id, kind, value)
+);
+
+-- Audit details that stay readable after redaction: structural, non-personal.
+create function ufs_agent.redacted_detail(d jsonb, p_request uuid, p_reason text) returns jsonb
+language sql immutable set search_path='' as $$
+  select coalesce((
+    select jsonb_object_agg(e.key,
+      case when e.key = any(array['case_id','action_id','fingerprint','validation','category','risk','model_note','signals',
+                                  'status','error','attempt','reasons','actor','outcome','external_result_id','valid'])
+                or e.value = 'null'::jsonb
+           then e.value else to_jsonb('[redacted]'::text) end)
+    from jsonb_each(d) e), '{}'::jsonb)
+  || jsonb_build_object('_redaction', jsonb_build_object('request_id', p_request, 'reason', p_reason, 'at', now()));
+$$;
+
+-- Redacts every local copy derived from the given events in ONE transaction
+-- (the caller's). Idempotent: already-redacted rows are skipped. Returns counts.
+create function ufs_agent.redact_events(p_event_ids uuid[], p_reason text, p_request uuid default null)
+returns jsonb language plpgsql set search_path='' as $$
+declare
+  v_events uuid[];
+  v_cases uuid[];
+  v_drafts uuid[];
+  v_actions uuid[];
+  v_summaries text[];
+  s text;
+  n_actions_cancelled integer := 0;
+  n_actions integer := 0;
+  n_drafts integer := 0;
+  n_cases integer := 0;
+  n_events integer := 0;
+  n_audit integer := 0;
+  n_digests integer := 0;
+  n integer;
+begin
+  if p_reason not in ('data_subject_request','retention') then
+    raise exception 'invalid redaction reason';
+  end if;
+  select coalesce(array_agg(id), '{}') into v_events from ufs_agent.events where id = any(p_event_ids);
+  select coalesce(array_agg(id), '{}') into v_cases from ufs_agent.cases where event_id = any(v_events);
+  select coalesce(array_agg(summary), '{}') into v_summaries from ufs_agent.cases
+    where id = any(v_cases) and redacted_at is null and length(summary) >= 12;
+  select coalesce(array_agg(id), '{}') into v_drafts from ufs_agent.drafts where case_id = any(v_cases);
+  select coalesce(array_agg(a.id), '{}') into v_actions from ufs_agent.actions a
+    where a.case_id = any(v_cases) or a.draft_id = any(v_drafts)
+       or exists (select 1 from ufs_agent.events e where e.id = any(v_events)
+                  and e.channel_id = a.target_channel_id and e.external_object_id = a.external_target_id);
+
+  -- 1. Stop anything outbound that is still pending or in flight.
+  update ufs_agent.actions set execution_status = 'cancelled', status_reason = 'privacy_redaction',
+         lease_owner = null, lease_expires_at = null, updated_at = now()
+   where id = any(v_actions) and execution_status in ('pending','executing','blocked','failed');
+  get diagnostics n_actions_cancelled = row_count;
+  update ufs_agent.actions set payload_text = '[redacted]', redacted_at = now(), updated_at = now()
+   where id = any(v_actions) and redacted_at is null;
+  get diagnostics n_actions = row_count;
+
+  -- 2. Drafts: text replaced, approvals can no longer be used.
+  update ufs_agent.drafts set proposed_answer = '[redacted]', source_references = '[]'::jsonb, validation_notes = '[]'::jsonb,
+         status = case when status in ('proposed','approved') then 'rejected' else status end, redacted_at = now()
+   where id = any(v_drafts) and redacted_at is null;
+  get diagnostics n_drafts = row_count;
+
+  -- 3. Cases: summary removed; open work closed.
+  update ufs_agent.cases set summary = '[redacted]', redacted_at = now(), updated_at = now(),
+         status = case when status in ('open','awaiting_approval','escalated') then 'dismissed' else status end
+   where id = any(v_cases) and redacted_at is null;
+  get diagnostics n_cases = row_count;
+
+  -- 4. Events: text, author reference and link removed; never processed again.
+  update ufs_agent.events set content_excerpt = null, author_ref = null, permalink = null,
+         content_purged_at = coalesce(content_purged_at, now()), derived_redacted_at = now(), redaction_reason = p_reason,
+         processing_status = case when processing_status in ('pending','processing','failed') then 'ignored' else processing_status end,
+         lease_owner = null, lease_expires_at = null
+   where id = any(v_events) and derived_redacted_at is null;
+  get diagnostics n_events = row_count;
+
+  -- 5. Audit details for the affected entities (scoped, trigger-checked).
+  update ufs_agent.audit_log a set detail = ufs_agent.redacted_detail(a.detail, p_request, p_reason)
+   where not (a.detail ? '_redaction')
+     and ((a.entity_type = 'event' and a.entity_id = any(v_events::text[]))
+       or (a.entity_type = 'case' and a.entity_id = any(v_cases::text[]))
+       or (a.entity_type = 'draft' and a.entity_id = any(v_drafts::text[]))
+       or (a.entity_type = 'action' and a.entity_id = any(v_actions::text[]))
+       or (a.detail ->> 'case_id') = any(v_cases::text[]));
+  get diagnostics n_audit = row_count;
+
+  -- 6. Administrative emails stored locally: remove the case summaries.
+  foreach s in array v_summaries loop
+    update ufs_agent.digests
+       set body_text = replace(body_text, left(s, 160), '[redacted]'),
+           content_hash = encode(sha256(convert_to(replace(body_text, left(s, 160), '[redacted]'), 'UTF8')), 'hex'),
+           redacted_at = now()
+     where body_text is not null and strpos(body_text, left(s, 160)) > 0;
+    get diagnostics n = row_count;
+    n_digests := n_digests + n;
+  end loop;
+
+  return jsonb_build_object('events', n_events, 'cases', n_cases, 'drafts', n_drafts, 'actions', n_actions,
+    'actions_cancelled', n_actions_cancelled, 'audit_entries', n_audit, 'digests', n_digests);
+end $$;
+
+-- Processes one erasure request atomically. Safe to call again: a completed
+-- request returns its stored result; a failed one can be retried.
+create function ufs_agent.process_privacy_request(p_id uuid)
+returns jsonb language plpgsql set search_path='' as $$
+declare
+  r ufs_agent.privacy_requests%rowtype;
+  v_author text;
+  v_channel uuid;
+  v_events uuid[];
+  v_days integer;
+  v_counts jsonb;
+  n_supp integer := 0;
+  n integer;
+begin
+  select * into r from ufs_agent.privacy_requests where id = p_id for update;
+  if not found then raise exception 'privacy request not found'; end if;
+  if r.status = 'completed' then return r.result; end if;
+  select author_ref, channel_id into v_author, v_channel from ufs_agent.events where id = r.seed_event_id;
+  if r.scope = 'author' and v_author is not null then
+    select coalesce(array_agg(id), '{}') into v_events from ufs_agent.events
+     where author_ref = v_author and channel_id = v_channel;
+  else
+    v_events := array_remove(array[r.seed_event_id], null);
+  end if;
+  select coalesce((value ->> 'suppression_days')::int, 400) into v_days from ufs_agent.settings where key = 'retention';
+
+  -- Suppress re-ingestion of the same comments (edits, redeliveries).
+  insert into ufs_agent.privacy_suppressions(channel_id, kind, value, request_id, expires_at)
+  select e.channel_id, 'object', e.external_object_id, r.id, now() + make_interval(days => v_days)
+    from ufs_agent.events e where e.id = any(v_events) and e.external_object_id not like 'purged:%'
+  on conflict (channel_id, kind, value) do update set expires_at = greatest(ufs_agent.privacy_suppressions.expires_at, excluded.expires_at);
+  get diagnostics n_supp = row_count;
+  if r.suppress_future and v_author is not null then
+    insert into ufs_agent.privacy_suppressions(channel_id, kind, value, request_id, expires_at)
+    values (v_channel, 'author', v_author, r.id, now() + make_interval(days => v_days))
+    on conflict (channel_id, kind, value) do update set expires_at = greatest(ufs_agent.privacy_suppressions.expires_at, excluded.expires_at);
+    get diagnostics n = row_count;
+    n_supp := n_supp + n;
+  end if;
+
+  v_counts := ufs_agent.redact_events(v_events, 'data_subject_request', r.id)
+              || jsonb_build_object('matched_events', coalesce(array_length(v_events, 1), 0), 'suppressions', n_supp);
+  update ufs_agent.privacy_requests
+     set status = 'completed', attempts = attempts + 1, last_error = null, result = v_counts, completed_at = now()
+   where id = r.id;
+  insert into ufs_agent.audit_log(actor_type, actor_id, action, entity_type, entity_id, detail)
+  values ('system', null, 'privacy_request_completed', 'privacy_request', r.id::text, v_counts);
+  return v_counts;
+end $$;
+
+-- ---------------------------------------------------------------------------
 -- RLS on every table, worker-only policies, explicit least-privilege grants.
 -- ---------------------------------------------------------------------------
 do $$
 declare t text;
 begin
   foreach t in array array['settings','channels','events','cases','faq','drafts','sources','editorial_calendar',
-    'content','publications','publication_metrics','actions','audit_log','usage_counters','digests','external_notes']
+    'content','publications','publication_metrics','actions','audit_log','usage_counters','digests','external_notes',
+    'privacy_requests','privacy_suppressions']
   loop
     execute format('alter table ufs_agent.%I enable row level security', t);
     execute format('alter table ufs_agent.%I force row level security', t);
@@ -526,7 +759,16 @@ grant select, insert, update on
   ufs_agent.publications, ufs_agent.actions, ufs_agent.digests, ufs_agent.usage_counters
 to ufs_agent_worker;
 grant select, insert on ufs_agent.audit_log, ufs_agent.publication_metrics, ufs_agent.external_notes to ufs_agent_worker;
+-- Privacy: requests, suppressions, scoped audit redaction (trigger-checked),
+-- retention of moderator notes.
+grant select, insert, update on ufs_agent.privacy_requests to ufs_agent_worker;
+grant select, insert, update, delete on ufs_agent.privacy_suppressions to ufs_agent_worker;
+grant update (detail) on ufs_agent.audit_log to ufs_agent_worker;
+grant update (summary) on ufs_agent.external_notes to ufs_agent_worker;
+grant execute on function ufs_agent.redacted_detail(jsonb,uuid,text), ufs_agent.redact_events(uuid[],text,uuid),
+  ufs_agent.process_privacy_request(uuid) to ufs_agent_worker;
 -- Retention purge of old audit rows and metrics (trigger still enforces the floor).
 grant delete on ufs_agent.audit_log, ufs_agent.publication_metrics to ufs_agent_worker;
 grant execute on function ufs_agent.forum_items_since(timestamptz,uuid,integer), ufs_agent.is_active_moderator(uuid) to ufs_agent_worker;
 -- No DELETE on events/cases/drafts/actions/publications: retention redacts content in place.
+revoke all on function ufs_agent.redacted_detail(jsonb,uuid,text), ufs_agent.redact_events(uuid[],text,uuid), ufs_agent.process_privacy_request(uuid) from public;

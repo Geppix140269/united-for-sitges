@@ -59,19 +59,31 @@ Conclusion: two or more EDPB criteria are met (special category data plus innova
 
 ## 7. Retention (implemented defaults, configurable)
 
+Full map of every copy, what stays and why: `COMMUNITY_AGENT_DATA_MAP.md`.
+
 | Data | Retention | Mechanism |
 | --- | --- | --- |
-| Event text, author reference, permalink | 90 days | daily retention job redacts in place |
-| Cases, drafts, actions (without event text) | kept for accountability | text of rejected/superseded drafts' source references cleared after 90 days |
-| Audit log | 730 days (minimum 365 enforced by trigger) | daily deletion |
-| Publication metrics | 400 days | daily deletion |
-| Digests | until deleted manually | contains no personal data by design |
+| Comment text, author reference, permalink, and every derived copy (case summary, draft and reply text, audit details, digest summaries) | 90 days | retention job, same redaction path as an erasure request, bounded batches |
+| Platform identifiers (comment ids, our reply ids) | 400 days | replaced by internal placeholders |
+| Suppression list (erased comments, objecting authors) | 400 days | deleted after expiry |
+| Locally stored digests | 90 days | body replaced by `[expired]` |
+| Moderator notes on external groups | 365 days | summary replaced by `[expired]` |
+| Audit log | 730 days (minimum 365 enforced by trigger) | rows deleted |
+| Publication metrics | 400 days | rows deleted |
 
-**DECISION**: confirm these periods.
+**DECISION**: confirm these periods and how long erasure request records are kept.
 
 ## 8. Rights, human review and contestation
 
-- Access, erasure and objection requests go to the published contact. The console offers "Redact stored text" per item (clears excerpt, author reference, permalink and summary) and the audit log records the redaction.
+- Access, erasure and objection requests go to the published contact.
+- **Erasure (issue #5):** the console offers "Erase stored data" for one item or for every stored item by the same author. One database transaction:
+  - redacts the comment and every derived copy (cases, drafts, queued and sent reply texts, audit details, stored digests);
+  - cancels pending replies;
+  - blocks re-import of the erased comments (and, on objection, of the author's future comments);
+  - records a request with counts only.
+  - A failed request changes nothing and is retried. Details are in `COMMUNITY_AGENT_DATA_MAP.md`.
+- **Erasure is local.** Deleting the original comment, or our published reply, on Facebook or Instagram is a separate manual step.
+- **Access or export requests** are not automated yet (**DECISION**: process and identity checks).
 - Every automated reply is labelled as automated and states that a person reviews other questions.
 - Anyone can ask for a human to review an automated reply; moderators can respond manually. No automated decision affects a person's account.
 
@@ -83,7 +95,7 @@ Conclusion: two or more EDPB criteria are met (special category data plus innova
 >
 > **Providers and transfers.** Neon (database, EU, Frankfurt), Cloudflare (hosting and server functions), Anthropic (AI model, United States, under Standard Contractual Clauses), Meta (Facebook/Instagram) and Resend (administrative email). [Confirm list after DPAs are signed.]
 >
-> **Retention.** Comment text is removed after 90 days. Moderation audit records are kept for up to two years. Aggregate post statistics are kept for up to 13 months.
+> **Retention.** Comment text, and any copy made from it, is removed after 90 days. Moderation audit records are kept for up to two years. Aggregate post statistics are kept for up to 13 months.
 >
 > **Your rights.** You can ask us to delete the stored copy of your comment, to have a person review an automated reply, or to object to this processing, by writing to the contact address above.
 >

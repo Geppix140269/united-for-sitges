@@ -74,7 +74,7 @@ function table(headers, rows) {
 // ------------------------------------------------------------------ tabs
 const TABS = {
   overview: 'Overview', cases: 'Cases', publishing: 'Content publishing', faq: 'FAQ library', sources: 'Sources',
-  channels: 'Channels', failures: 'Failures', audit: 'Audit', digests: 'Digests', external: 'External notes', settings: 'Settings',
+  channels: 'Channels', failures: 'Failures', audit: 'Audit', digests: 'Digests', external: 'External notes', privacy: 'Privacy', settings: 'Settings',
 };
 let current = 'overview';
 
@@ -219,6 +219,17 @@ const RENDER = {
       table(['When', 'Source', 'Summary', 'Follow-up'], notes.map((n) => el('tr', {}, el('td', { text: fmt(n.created_at) }), el('td', { text: n.source_label }), el('td', { text: n.summary }), el('td', { text: n.follow_up || '' })))))];
   },
 
+  async privacy() {
+    const { requests } = await api('GET', { view: 'privacy_requests' });
+    return [el('div', { class: 'card' }, el('h2', { text: 'Erasure requests' }),
+      el('p', { class: 'muted', text: 'Start an erasure from a case. Each request redacts every local copy in one transaction and blocks re-import of the erased comments. Remove the content on Facebook or Instagram separately; our own published replies keep their platform id until identifier retention so you can find them.' }),
+      requests.length ? table(['Created', 'Scope', 'Reason', 'Status', 'Attempts', 'Result', ''], requests.map((r) => el('tr', {},
+        el('td', { text: fmt(r.created_at) }), el('td', { text: r.scope }), el('td', { text: r.reason_code }),
+        el('td', {}, pill(r.status, statusKind(r.status === 'completed' ? 'passed' : r.status)), r.last_error ? el('div', { class: 'muted', text: r.last_error }) : ''),
+        el('td', { text: String(r.attempts) }), el('td', {}, el('pre', { text: JSON.stringify(r.result) })),
+        el('td', {}, r.status !== 'completed' ? el('button', { class: 'act secondary', onclick: () => act({ action: 'privacy_request_retry', id: r.id }, 'Retried.') }, 'Retry') : '')))) : el('p', { class: 'muted', text: 'No requests.' }))];
+  },
+
   async settings() {
     const o = await api('GET', { view: 'overview' });
     const p = o.settings.publishing;
@@ -279,9 +290,22 @@ async function openCase(id) {
         el('button', { class: 'act secondary', onclick: () => act({ action: 'case_update', id: k.id, status: 'escalated' }) }, 'Escalate'),
         el('button', { class: 'act secondary', onclick: () => act({ action: 'case_update', id: k.id, status: 'resolved' }) }, 'Mark resolved'),
         el('button', { class: 'act secondary', onclick: () => act({ action: 'case_update', id: k.id, status: 'dismissed' }) }, 'Dismiss'),
-        el('button', { class: 'act secondary', onclick: () => { if (confirm('Redact the stored text of this item (data request)?')) act({ action: 'redact_event_content', event_id: k.event_id, reason: 'data subject request' }); } }, 'Redact stored text'))),
+        el('button', { class: 'act secondary', onclick: () => erase(k.event_id, 'item') }, 'Erase stored data: this item'),
+        el('button', { class: 'act secondary', onclick: () => erase(k.event_id, 'author') }, 'Erase stored data: all items by this author'))),
     el('div', { class: 'card' }, el('h2', { text: 'History' }), table(['When', 'Actor', 'Action'], d.history.map((h) => el('tr', {}, el('td', { text: fmt(h.at) }), el('td', { text: h.actor_type }), el('td', { text: h.action }))))),
   );
+}
+
+// Erasure of local copies (issue #5). Does not delete anything on Meta.
+async function erase(eventId, scope) {
+  const what = scope === 'author' ? 'every stored item by this author' : 'this item';
+  if (!confirm(`Erase all local copies of ${what} (event text, case summary, drafts, queued replies, audit details, digests)?\nThis cannot be undone and does NOT delete anything on Facebook or Instagram.`)) return;
+  const reason = prompt('Reason code: data_subject_request, objection, legal_request or moderator_decision', 'data_subject_request');
+  if (!reason) return;
+  const suppressFuture = reason === 'objection' && scope === 'author'
+    ? confirm('Also ignore future comments by this author (objection to processing)?') : false;
+  const r = await act({ action: 'privacy_request_create', event_id: eventId, scope, reason_code: reason.trim(), suppress_future: suppressFuture, confirm: 'ERASE STORED DATA' }, 'Erasure completed.');
+  if (r && r.status === 'failed') setStatus(`Erasure failed (${r.error}); nothing was changed. Retry it from the Privacy tab.`, true);
 }
 
 function openSlot(c) {

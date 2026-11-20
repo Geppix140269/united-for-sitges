@@ -1,12 +1,10 @@
-// Supabase public credentials for the isolated United for Sitges community project.
-// This is a publishable (browser-safe) key, NEVER a service_role or secret key.
-// Public forum launch is requested, but the UI verifies Supabase Auth public
-// signup settings before rendering signup. If Auth disallows signups or cannot
-// be checked, the page fails closed and leaves moderator login available.
-// This flag does not bypass Supabase Auth or email confirmation.
+// Public endpoints of the United for Sitges community backend (Neon project united-for-sitges,
+// region eu-central-1). These are browser-safe URLs, not credentials: there is no key here.
+// Access is enforced by Neon Auth (verified email) and row-level security (neon/schema.sql).
+// Never put a database connection string, password or API key in browser code.
 window.UFS_FORUM_CONFIG = Object.freeze({
-  url: "https://tlmkeofpeigkfxdydwqt.supabase.co",
-  publishableKey: "sb_publishable_STEFkmE2VB_fBTBoQoHbhA_Bjpcqqei",
-  enabled: true,
-  betaEnabled: true // Keep verified moderator testing accessible if signup is blocked
+  authUrl: "https://ep-steep-poetry-bak6vf4f.neonauth.c-8.eu-central-1.aws.neon.tech/neondb/auth",
+  dataApiUrl: "https://ep-steep-poetry-bak6vf4f.apirest.c-8.eu-central-1.aws.neon.tech/neondb/rest/v1",
+  enabled: true,      // public member registration
+  betaEnabled: true   // keep moderator sign-in available if public registration is turned off
 });

@@ -1,0 +1,13 @@
+.git
+.claude
+.github
+docs
+scripts
+supabase
+neon
+node_modules
+*.md
+netlify.toml
+wrangler.jsonc
+.assetsignore
+.gitignore

@@ -4,3 +4,6 @@ Thumbs.db
 node_modules/
 .env
 .agent-testdb/
+
+# Cloudflare local state
+.wrangler/

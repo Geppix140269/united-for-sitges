@@ -27,6 +27,7 @@
 <div class="panel">
 <div class="entry-head"><h2 style="margin:0">Community discussions</h2><span class="badge" id="forum-badge">In preparation</span></div>
 <div class="cats" id="category-filters"><button class="active" data-filter="all">All topics</button><button data-filter="voting">Voting & registration</button><button data-filter="living">Life in Sitges</button><button data-filter="issues">Local issues</button><button data-filter="questions">Questions</button><button data-filter="official">Official information</button></div>
+<div class="field" style="max-width:260px"><label for="translate-lang">Show translations in</label><select id="translate-lang"><option value="en">English</option><option value="es">Español</option><option value="ca">Català</option><option value="it">Italiano</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="nl">Nederlands</option></select></div><p class="muted" style="font-size:13px">Write in any language you like. Use "Translate" under a message to read it in your language (automatic translation, may contain errors).</p>
 <div id="topics" aria-live="polite"><p class="muted">There are no approved discussions in this category yet.</p></div>
 <div class="buttons" style="margin-top:20px"><button id="new-topic-toggle" class="btn hidden" type="button">Start a discussion</button><button id="refresh" class="btn secondary hidden" type="button">Refresh</button></div>
 </div>
@@ -65,8 +66,15 @@ const show=(id,yes)=>$(id).classList.toggle("hidden",!yes);
 const setStatus=(id,message,error=false)=>{const el=$(id);el.textContent=message;el.classList.toggle("error",error)};
 const categories={voting:"Voting & registration",living:"Life in Sitges",issues:"Local issues",questions:"Questions",official:"Official information"};
 const authForms=["sign-in-form","sign-up-form","recovery-form","reset-form","verify-form"];
+document.addEventListener("DOMContentLoaded",()=>{$("translate-lang").value=targetLang();$("translate-lang").onchange=()=>{try{localStorage.setItem("ufs_lang",$("translate-lang").value)}catch(_){}}});
 let api=null,me=null,profile=null,allTopics=[],filter="all";
 let pendingEmail="",pendingPassword="";
+const tLangNames={en:"English",es:"Spanish",ca:"Catalan",it:"Italian",fr:"French",de:"German",nl:"Dutch"};
+function targetLang(){let v="";try{v=localStorage.getItem("ufs_lang")||""}catch(_){}if(!tLangNames[v])v=(navigator.language||"en").slice(0,2).toLowerCase();return tLangNames[v]?v:"en"}
+async function translateText(text){const r=await fetch("/api/translate",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({text,target:$("translate-lang").value})});const d=await r.json().catch(()=>({}));if(!r.ok||!d.translation)throw new Error(d.error||"Translation failed");return d.translation}
+function translateControl(getTexts,onResult){const wrap=el("div","");const btn=el("button","small-btn","Translate");btn.type="button";const out=el("div","");const note=el("small","muted","");let shown=false;
+  btn.onclick=async()=>{if(shown){out.replaceChildren();note.textContent="";btn.textContent="Translate";shown=false;return}btn.disabled=true;note.textContent="Translating…";try{const res=await Promise.all(getTexts().map(translateText));out.replaceChildren(...onResult(res));note.textContent="Automatic translation into "+tLangNames[$("translate-lang").value]+". May contain errors.";btn.textContent="Show original only";shown=true}catch(e){note.textContent="Translation is not available right now."}btn.disabled=false};
+  wrap.append(btn,out,note);return wrap}
 function el(tag,cls,text){const node=document.createElement(tag);if(cls)node.className=cls;if(text!==undefined)node.textContent=text;return node}
 function mayModerate(){return Boolean(profile?.is_moderator && !profile?.is_suspended)}
 function errorMessage(e){
@@ -138,6 +146,7 @@ function renderTopics(){
     block.append(el("p","",categories[topic.category]+" · "+topic.author_name+" · "+new Date(topic.created_at).toLocaleDateString()));
     const details=el("div","hidden");
     details.append(el("p","body",topic.body));
+    details.append(translateControl(()=>[topic.title,topic.body],r=>[el("h4","",r[0]),el("p","body",r[1])]));
     if(canParticipate()&&topic.status==="approved"){
       const report=el("button","small-btn reject","Report discussion");
       report.type="button";report.onclick=()=>reportContent(topic.id,null);
@@ -159,7 +168,7 @@ async function toggleThread(topic,block){
   replies.replaceChildren();
   if(error){replies.append(el("p","muted",errorMessage(error)));return}
   for(const reply of data||[]){
-    const item=el("div","reply");item.append(el("small","",reply.author_name+" · "+new Date(reply.created_at).toLocaleDateString()+(reply.status!=="approved"?" · "+reply.status:"")));item.append(el("p","",reply.body));
+    const item=el("div","reply");item.append(el("small","",reply.author_name+" · "+new Date(reply.created_at).toLocaleDateString()+(reply.status!=="approved"?" · "+reply.status:"")));item.append(el("p","",reply.body));item.append(translateControl(()=>[reply.body],r=>[el("p","",r[0])]));
     if(canParticipate()&&reply.status==="approved"){
       const report=el("button","small-btn reject","Report reply");report.type="button";
       report.onclick=()=>reportContent(topic.id,reply.id);item.append(report);

@@ -22,7 +22,7 @@ Owner decision (Giuseppe, 18 Nov 2026): no paid Supabase; United for Sitges move
 - User ids reference `neon_auth."user"(id)` (uuid).
 - Signed-out visitors use the Data API role `anonymous` (Supabase: `anon`), with an anonymous JWT fetched by the SDK.
 - `auth.uid()` / `auth.jwt()` come from Neon's `pg_session_jwt`. They work inside RLS policies, but the `auth` schema (owned by `cloud_admin`) is not usable by the member role inside function bodies, so the rate-limit trigger no longer re-checks the author (the insert policies already enforce it).
-- Administrator bootstrap: the moderator flag is set when the verified owner of `ufs_internal.admin_contact` (hello@giuseppefunaro.com) creates a profile. Neon requires the email code before sign-in, so the Supabase magic-link check is replaced by `neon_auth."user"."emailVerified"`. The reserved display names (for example "United for Sitges") are allowed only for that verified administrator.
+- Administrator bootstrap: the moderator flag is set when the verified owner of `ufs_internal.admin_contact` (hello@unitedforsitges.com) creates a profile. Neon requires the email code before sign-in, so the Supabase magic-link check is replaced by `neon_auth."user"."emailVerified"`. The reserved display names (for example "United for Sitges") are allowed only for that verified administrator.
 
 ## Verification (18 Nov 2026)
 
@@ -36,7 +36,7 @@ Against the live Neon project with throwaway test accounts (`claude-test-*@examp
 
 ## After deploy
 
-1. Giuseppe registers on /community.html with hello@giuseppefunaro.com, display name "United for Sitges", enters the code; /admin-setup.html confirms moderator status.
+1. Giuseppe registers on /community.html with hello@unitedforsitges.com, display name "United for Sitges", enters the code; /admin-setup.html confirms moderator status.
 2. Diana registers again.
 3. The two existing topics (welcome post, approved; Diana's question, pending) are restored with their original ids and dates by a one-off SQL run by Claude (not committed: it contains a member email).
 4. Then the Supabase project is paused (with a backup downloaded first).

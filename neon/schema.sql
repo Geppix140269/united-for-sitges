@@ -70,7 +70,7 @@ create table if not exists ufs_internal.admin_contact (
   email text not null check (email = lower(trim(email)))
 );
 insert into ufs_internal.admin_contact (singleton, email)
-values (true, 'hello@giuseppefunaro.com')
+values (true, 'hello@unitedforsitges.com')
 on conflict (singleton) do update set email = excluded.email;
 
 create or replace function ufs_internal.is_admin_email(uid uuid)

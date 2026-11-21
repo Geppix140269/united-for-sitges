@@ -2,7 +2,7 @@
 
 Status (11 November 2026): **Resend DNS verified, moderator onboarding published, database RLS tested, public signups remain OFF**.
 Project: `tlmkeofpeigkfxdydwqt`, region `eu-west-1`. Public site: https://unitedforsitges.com/community.html
-Moderator contact designated: `hello@giuseppefunaro.com` (must still register and verify email).
+Moderator contact designated: `hello@unitedforsitges.com` (must still register and verify email).
 
 ## 1. Authorize notification sender in GoDaddy DNS
 
@@ -47,7 +47,7 @@ Project → Authentication → Email → SMTP Settings (wording can vary by dash
 ## 4. Confirm moderator
 
 - The owner may now open **https://unitedforsitges.com/admin-setup.html** and request an email magic link sent exclusively to the designated address. Public member registration remains closed (`enabled: false`).
-- The owner personally follows the verification link at `hello@giuseppefunaro.com`.
+- The owner personally follows the verification link at `hello@unitedforsitges.com`.
 - Confirm a matching verified account exists in `auth.users`.
 - The private moderator setup page handles profile creation, password choice and login after a verified email sign-in.
 - The private database trigger `ufs_internal.promote_verified_primary_moderator()` assigns moderation only after a verified matching email creates its profile; three simulated RLS tests passed and rolled back. Do not assign moderator using user-controlled signup metadata. If no privileges appear after successful verification, stop and investigate.

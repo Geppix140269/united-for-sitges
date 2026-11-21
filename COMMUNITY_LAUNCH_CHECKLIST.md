@@ -14,11 +14,11 @@ Last checked: 2026-11-11.
 - [x] Deploy from GitHub `main` to Vercel automatically.
 
 ## Required before allowing public registrations
-- [x] Contact and controller identified in the published policy (Giuseppe Funaro, hello@giuseppefunaro.com). The contact must continue to be monitored.
+- [x] Contact and controller identified in the published policy (Giuseppe Funaro, hello@unitedforsitges.com). The contact must continue to be monitored.
 - [x] Published expanded initial privacy notice with controller, contact, processing purposes/bases, hosting providers, rights, retention, age policy and sensitive-topic restrictions. Independent legal review remains advisable as the service scales.
 - [x] Adult-only (18+) registration consent, moderation and no-campaigning rules added. Existing member report feature remains available.
 - [ ] Configure and test secure registration, email verification and production SMTP/rate limits in Supabase Auth; set Site URL and approved redirect URLs for the correct production domain.
-- [x] Primary moderator email selected: `hello@giuseppefunaro.com` (reserved in Supabase's non-public `ufs_internal.admin_contact` table; this is NOT an Auth account yet).
+- [x] Primary moderator email selected: `hello@unitedforsitges.com` (reserved in Supabase's non-public `ufs_internal.admin_contact` table; this is NOT an Auth account yet).
 - [x] Private first-moderator grant trigger added and tested: matching verified email + recent OTP/magic-link sign-in only. Password-only or unverified signups cannot self-promote.
 - [x] Administrator invited, email confirmed and account logged in, verified moderator profile created and real welcome post submitted and approved.
 - [ ] Ensure guests and members can only read approved topics/replies; authors can see their own pending posts; moderators can see and approve pending content; non-moderators cannot approve/alter post status. Confirm with actual test accounts.
@@ -38,7 +38,7 @@ Last checked: 2026-11-11.
 
 ## Primary administrator provisioned contact
 
-The private database setting `ufs_internal.admin_contact` has been set to `hello@giuseppefunaro.com` on 2026-11-11. This is an **account designation**, not proof the email receives mail or an active Supabase Auth account. No admin privileges exist until the mailbox is verified and the matching user is securely granted moderator status. The public forum remains disabled in `forum-config.js` until the launch gates above pass.
+The private database setting `ufs_internal.admin_contact` has been set to `hello@unitedforsitges.com` on 2026-11-11. This is an **account designation**, not proof the email receives mail or an active Supabase Auth account. No admin privileges exist until the mailbox is verified and the matching user is securely granted moderator status. The public forum remains disabled in `forum-config.js` until the launch gates above pass.
 
 After the admin account has been registered and email confirmation independently verified, an authorised operator may run a one-time, scoped moderation grant:
 

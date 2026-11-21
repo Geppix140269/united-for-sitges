@@ -11,3 +11,4 @@ netlify.toml
 wrangler.jsonc
 .assetsignore
 .gitignore
+worker

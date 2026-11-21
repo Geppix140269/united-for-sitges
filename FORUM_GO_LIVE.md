@@ -1,92 +1,54 @@
-# United for Sitges — make the forum operational
+# United for Sitges: community forum, how it runs
 
-Status (11 November 2026): **Resend DNS verified, moderator onboarding published, database RLS tested, public signups remain OFF**.
-Project: `tlmkeofpeigkfxdydwqt`, region `eu-west-1`. Public site: https://unitedforsitges.com/community.html
-Moderator contact designated: `hello@unitedforsitges.com` (must still register and verify email).
+Status (21 November 2026): **forum open to public registration**. Site hosted on Cloudflare Workers. Backend on Neon. Sixteen opening discussions published by the administrator account.
+Public page: https://unitedforsitges.com/community.html
 
-## 1. Authorize notification sender in GoDaddy DNS
+History: the forum first ran on Supabase and Vercel. It moved to Neon on 18 November 2026 (see `docs/2026-11-18-neon-migration.md`) and the site moved to Cloudflare Workers the same week. The `supabase/` folder and older notes are kept only as history.
 
-A Resend sender was created for `notify.unitedforsitges.com`, Resend domain id `1c4c06fb-e25f-427c-9016-8e2943d3408a`.
-**VERIFIED** as of 11 November 2026: Resend reports DKIM, SPF (TXT/MX), CNAME all verified. GoDaddy manages the zone `unitedforsitges.com`.
+## Architecture
 
-**These records are already installed and verified. Do not add duplicates.** The MX below is for **send.notify**, *not* the apex `@` record.
+| Part | Service | Notes |
+|---|---|---|
+| Website and API route | Cloudflare Workers (static assets + `worker/index.js`) | `wrangler.jsonc`; headers in `_headers`, redirects in `_redirects` |
+| Accounts | Neon Auth (email + password, 6-digit email code) | trusted domains `unitedforsitges.com` and `www.unitedforsitges.com` |
+| Database | Neon project `united-for-sitges` (`shiny-dream-02523490`), Frankfurt | schema in `neon/schema.sql`, access enforced by row-level security |
+| Translation | Cloudflare Workers AI via `POST /api/translate` | on demand, per message, cached 30 days |
+| Account emails | Neon shared sender `auth@mail.myneon.app` | custom sender can be set later in the Neon console |
 
-| Type | Host | Value | MX priority |
-|---|---|---|---|
-| TXT | `resend._domainkey.notify` | `p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/3JKDtFCIdAbE+OMFeJZt0fbY0rCvpKsZFlZAXbdjqp9ZK8Br/jgbxBPYleIc79QYbHinXQUtpZDE+ew4w/gy8sZUhq3UmbM1/cy0Q5uTTi8w4lZ3pXM97dMsWk9mW/J+Bp2DK+Eqrsdi2yw2xAbsNZHutqWQaIDgOmkjYlBhVwIDAQAB` | — |
-| MX | `send.notify` | `feedback-smtp.eu-west-1.amazonses.com` | 10 |
-| TXT | `send.notify` | `v=spf1 include:amazonses.com ~all` | — |
-| CNAME | `rsend.notify` | `send.forge.rmta.net` | — |
+`forum-config.js` holds only public URLs (no keys). Never put a database password or API key in browser code or in the repository.
 
-Do not modify apex MX, TXT, existing SPF, DKIM or DMARC, website A records or `www` CNAME.
-Verification is complete, sender status is **verified**, sending enabled.
+## Roles and moderation
 
-## 2. Auth URL configuration (Supabase Dashboard)
+- Administrator: `hello@unitedforsitges.com`, display name "United for Sitges". The moderator flag is granted automatically when that verified email creates its profile (`ufs_internal.admin_contact`). Reserved display names can be used only by this account.
+- Members post topics and replies. Everything starts as `pending` and is public only after a moderator approves it in the moderation panel on `community.html`.
+- Members can report posts privately. Limits per member: 3 topics, 12 replies, 5 reports per hour.
+- Category `official` is reserved for moderators.
 
-Project → Authentication → URL Configuration.
-- **Site URL**: `https://unitedforsitges.com`
-- Add exact Redirect URL `https://unitedforsitges.com/community.html`
-- If users are actually served on www, add `https://www.unitedforsitges.com/community.html`
-- Add `https://united-for-sitges.vercel.app/community.html` only if that legacy Vercel alias is still used for authentication testing.
-- Avoid unconstrained URL wildcards.
+## Opening discussions
 
-## 3. Auth sending: Resend custom SMTP
+Sixteen discussions, one per policy theme (economy, planning, housing, tourism, safety, mobility, environment, public services, finances, governance, international community, culture, education, health, sport, other), were published on 21 November 2026 by the administrator account. They are in the category "Local issues" ("Questions" for the last one). Replies are written in any language; readers use the "Translate" button.
 
-Project → Authentication → Email → SMTP Settings (wording can vary by dashboard).
-- Make a **sending-only** Resend API key scoped to the verified notification domain, and use it privately for Supabase SMTP. Do not put it in GitHub, public JavaScript, browser dev tools or chat text.
-- Server: `smtp.resend.com`.
-- Port: `465` (TLS) or `587` (STARTTLS).
-- Username: `resend`.
-- Password: the sending-only Resend key (secret).
-- Sender: `no-reply@notify.unitedforsitges.com`.
-- Sender name: `United for Sitges`.
-- Confirm Email: **ON**. Anonymous sign-in: **OFF**.
-- Enable anti-abuse (CAPTCHA, rate limits) before public launch.
-- Ensure confirmation and password-reset links return to `/community.html` on the allowed site.
+## Translation
 
-## 4. Confirm moderator
+- Worker route `/api/translate`: JSON `{text, target}`, target in en/es/ca/it/fr/de/nl, up to 4000 characters, same-origin only.
+- Check it is live: opening `https://unitedforsitges.com/api/translate` in a browser must show `{"error":"Method not allowed"}` (confirmed 21 November 2026).
+- Uses the Workers AI free daily allowance. If that is exceeded, translation fails gracefully ("not available right now") and the rest of the forum is unaffected.
+- The privacy policy states that message text is sent to Cloudflare Workers AI when a reader presses Translate.
 
-- The owner may now open **https://unitedforsitges.com/admin-setup.html** and request an email magic link sent exclusively to the designated address. Public member registration remains closed (`enabled: false`).
-- The owner personally follows the verification link at `hello@unitedforsitges.com`.
-- Confirm a matching verified account exists in `auth.users`.
-- The private moderator setup page handles profile creation, password choice and login after a verified email sign-in.
-- The private database trigger `ufs_internal.promote_verified_primary_moderator()` assigns moderation only after a verified matching email creates its profile; three simulated RLS tests passed and rolled back. Do not assign moderator using user-controlled signup metadata. If no privileges appear after successful verification, stop and investigate.
+## Routine tasks
 
-## 5. GDPR notice and moderation launch gate
+- Check the moderation queue daily in the first weeks.
+- Keep `hello@unitedforsitges.com` monitored (privacy requests, deletions, reports).
+- Review the Neon console now and then: storage (Free plan, 1 GB) and auth logs.
 
-The current `privacy.html` is a pre-launch notice, not a complete forum notice.
-Before collecting accounts, publish a reviewed notice identifying the actual controller and contact, purpose and lawful basis, data retention/deletion process, user rights, hosting provider, potential international transfers, and political-opinion/sensitive-content handling. Community terms need to cover age, prohibited political campaigning, content reporting and moderation appeal.
+## Open items
 
-## 6. End-to-end tests
+- [ ] Independent legal review of `privacy.html` (the current text is a full draft, published 21 November 2026, review pending).
+- [ ] Test a fresh non-admin account end to end on the production domain: sign-up, email code, topic, reply, moderator approval, report, sign-out, password reset. Check Safari and iOS (the session cookie is set by the Neon Auth domain).
+- [ ] Optional: custom SMTP in Neon so account emails come from `unitedforsitges.com` (Resend domain `notify.unitedforsitges.com` is already verified; do not change apex DNS records).
+- [ ] Optional: Cloudflare Web Analytics (cookieless). Enable in the Cloudflare dashboard under the Worker's Metrics / Web Analytics, then add one line to the privacy policy.
+- [ ] Optional: CAPTCHA or extra rate limiting before large promotion.
 
-- New user registers, receives email, confirms via site URL, signs in, signs out, password reset.
-- Profile created with display name; ordinary user is NOT a moderator.
-- Unauthenticated reader sees only approved topics/replies. Pending posts remain private.
-- Member posts topic/reply, both pending moderation.
-- Moderator approves, rejects, views private reports.
-- Ordinary user cannot approve/reject or read other users' pending posts, nor change `is_moderator`.
-- Member can report approved post privately.
-- Report and other moderation processes checked with independent test accounts.
-- Run Supabase security advisors and retest responsive UI after deployment.
+## Redeploy
 
-## 7. Enable only after all the above
-
-In `forum-config.js` set `enabled: true` when verified (only the publishable key is exposed to browser, not any secret). Commit and deploy through GitHub `main`. Recheck end-to-end on the production domain. **Do not enable until SMTP, URL redirects, privacy, moderator and end-to-end tests are verified.**
-
-## Database test evidence — 11 November 2026
-
-- Passed: simulated anonymous visitor sees approved discussions, not unapproved content; no personal profile rows were exposed.
-- Passed: a simulated authenticated member can create a profile and pending topic, but cannot approve their own topic.
-- Passed: a simulated verified moderator can approve a pending topic and mark a private member report as reviewed.
-- Tests ran inside SQL transactions ending with ROLLBACK. Confirmed all five forum tables and Auth still have zero user-generated records.
-- Passed: Supabase Security Advisor returned no findings following the reporting migration.
-- Passed: published GitHub site state on Vercel reported READY. End-to-end real email confirmation remains UNTESTED until DNS, Auth URL and SMTP are configured.
-
-## Latest progress (11 November 2026)
-
-- Resend sender domain **verified**; dedicated `United for Sitges Supabase SMTP` credential has been created in Resend (secret value not inspected or copied to repository).
-- Supabase Auth logs show the email limit changed from 2 to 30 per hour, suggesting SMTP-related settings were altered, **not** conclusive evidence of delivery.
-- The administrator has a private onboarding page at `/admin-setup.html`. It sends a magic link to the designated email, verifies the returned session, lets the owner set a password and visible name, then creates the profile under strict RLS. Supabase Auth must allow `https://unitedforsitges.com/admin-setup.html` as an explicit redirect URL.
-- The `forum-config.js` flags are `enabled: false` and `betaEnabled: true`: anonymous users may view only approved topics, and a verified moderator may test topics, replies, reports and approvals. No public signup UI is displayed.
-- RLS promotion tests: confirmed administrator promoted; verified other address and unverified address not promoted. Rolled back.
-- Before the public forum opens, a full GDPR/terms review, real email test and at least one separate member test account remain necessary.
+Push to `main` on GitHub; Cloudflare builds and deploys the Worker and assets. Netlify and Vercel are no longer used (Netlify disconnected 21 November 2026).

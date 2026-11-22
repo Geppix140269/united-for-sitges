@@ -1,6 +1,6 @@
 # Source catalogue
 
-Last reviewed: 13 November 2026. Machine-readable version: `data/programmes.json`.
+Last updated: 22 November 2026 (ERC programme); other source verification dates remain as recorded. Machine-readable version: `data/programmes.json`.
 
 All URLs below were opened and read during this review. Reference copies of PDFs are kept outside the repository; their SHA-256 hashes identify the exact version consulted.
 
@@ -24,6 +24,7 @@ Notes:
 |---|---|---|---|---|---|---|---|---|---|
 | `sgi-2023-programme-ca` | sgi | [Programa electoral 2023 (Amb tu)](https://www.sitgesgi.com/SITGESGI_programa-electoral-2023_catala.pdf) | election_programme | Sitges Grup Independent | ca | 2023-05-14 | 2026-11-13 | yes | `22a7bd8f867e…` |
 | `sgi-2023-programme-es` | sgi | [Programa electoral 2023 (Contigo), Spanish version](https://www.sitgesgi.com/SITGESGI_programa-electoral-2023_castellano.pdf) | election_programme | Sitges Grup Independent | es | 2023-05-12 | 2026-11-13 | yes | `8e239627b13f…` |
+| `erc-2023-programme-ca` | erc | [Programa Electoral 2023–2027](https://locals.esquerra.cat/documents/programa-erc-sitges-2023-27_textrefos_v2.pdf) | election_programme | ERC Sitges | ca | Not independently established | 2026-11-22 | yes | `b88817ac292ef975e5edc9edb4dc64e1694af09c7cbaffdbc22e76b53dda05af` |
 | `rm-2023-junts-2023-05-19` | junts | [Mònica Gallardo (Junts per Sitges) creu imprescindible traçar un full de ruta del model turístic que es vol per Sitges per recuperar la il·lusió perduda](https://www.radiomaricel.cat/monica-gallardo-junts-per-sitges-creu-imprescindible-tracar-un-full-de-ruta-del-model-turistic-que-es-vol-per-sitges-per-recuperar-la-illusio-perduda/) | media_report | Ràdio Maricel (Sitges municipal radio) | ca | 2023-05-19 | 2026-11-13 | no |  |
 | `rm-2023-erc-2023-05-26` | erc | [Aurora Carbonell (ERC) prioritza millorar la resposta de l'administració al ciutadà, millorar la neteja i creu que Vallcarca és una oportunitat que no es pot perdre](https://www.radiomaricel.cat/aurora-carbonell-erc-prioritza-millorar-la-resposta-de-ladministracio-al-ciutada-millorar-la-neteja-i-creu-que-vallcarca-es-una-oportunitat-que-no-es-pot-perdre/) | media_report | Ràdio Maricel (Sitges municipal radio) | ca | 2023-05-26 | 2026-11-13 | no |  |
 | `rm-2023-psc-2023-05-13` | psc | [El PSC-El Margalló proposa un nou auditori, dos pavellons i nous equipaments en el seu programa electoral](https://www.radiomaricel.cat/el-psc-proposa-un-nou-auditori-dos-pavellons-i-nous-equipaments-en-el-seu-programa-electoral/) | media_report | Ràdio Maricel (Sitges municipal radio) | ca | 2023-05-13 | 2026-11-13 | no |  |
@@ -59,7 +60,7 @@ These are cited on the page next to the statement they support.
 
 | Party | URL | Status |
 |---|---|---|
-| ERC Sitges | https://locals.esquerra.cat/documents/programa-erc-sitges-2023-27_textrefos_v2.pdf | Appears in search engine results as ERC's Sitges 2023-2027 programme. The host returned a bot-protection page (HTTP 403) to automated requests on 13 November 2026. Not used. Needs a check in a normal browser. |
+
 | ERC Sitges | https://locals.esquerra.cat/documents/programa-erc-sitges.pdf | Undated; may be an earlier programme. Same access block. Not used. |
 
 ## Not used, and why
@@ -67,3 +68,7 @@ These are cited on the page next to the statement they support.
 - National or framework programmes of Junts, PSC and Valents (Barcelona): not specific to Sitges.
 - Social media posts: could not be read reliably from the research environment; none used.
 - L'Eco de Sitges articles on the 2023 programme launches: identified by the research agents but not reachable from this environment for independent checking; not used.
+
+## ERC update, 22 November 2026
+
+Albert Oliver-Rodés confirmed by direct correspondence that the linked 2023–2027 PDF is ERC Sitges’s latest election programme and that its 2027 election programme is not yet finalised. The private correspondence is retained by the organiser, not republished here. The official 28-page PDF was retrieved and reviewed; 13 initial proposals are now catalogued with PDF page references. PDF metadata records creation on 12 May 2023, which is not treated as a verified publication date. Four earlier media items remain separately labelled.

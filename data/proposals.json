@@ -856,7 +856,7 @@
       "excerpt_original": "a l’actual camp d’Aiguadolç es prioritzi un nou equipament esportiu, amb pàrquing soterrani",
       "excerpt_lang": "ca",
       "source_section": "Interview, 26 May 2023",
-      "review_notes": "Excerpt checked by script against the source text on 2026-11-13. Summary describes a media report, not the party's own wording."
+      "review_notes": "Excerpt checked by script against the source text on 2026-11-13. Summary describes a media report, not the party's own wording. Reviewed against the official programme on 2026-11-22: PDF page 10 proposes a multipurpose field at Aiguadolç without mentioning underground parking there; page 13 locates underground parking at Can Robert. The media report is retained under its original secondary label, separately from the programme proposal."
     },
     {
       "id": "psc-2023-m01",
@@ -1912,6 +1912,277 @@
       "excerpt_lang": "ca",
       "source_section": "Interview, 18 May 2023",
       "review_notes": "Excerpt checked by script against the source text on 2026-11-13. Summary describes a media report, not the party's own wording."
+    },
+    {
+      "id": "erc-2023-p01",
+      "party_id": "erc",
+      "election_year": 2023,
+      "source_id": "erc-2023-programme-ca",
+      "categories": [
+        "01",
+        "02",
+        "07"
+      ],
+      "title_en": "Vallcarca audiovisual park with environmental and training conditions",
+      "summary_en": "Work towards converting Vallcarca into an audiovisual park, returning part of the industrial land to Garraf park and linking the project to training and employment opportunities.",
+      "evidence_label": "HISTORICAL_PROPOSAL",
+      "commitment_type": "commitment",
+      "competence": "shared",
+      "date_verified": "2026-11-22",
+      "excerpt_original": "parc audiovisual",
+      "excerpt_lang": "ca",
+      "source_page": "2",
+      "source_section": "UN COMPROMÍS PER SITGES",
+      "review_notes": "Independent summary checked against the official PDF. Short source locator checked against the extracted text of the stated PDF page on 2026-11-22.",
+      "competence_note": "The conversion involves land-use decisions and cooperation beyond the council."
+    },
+    {
+      "id": "erc-2023-p02",
+      "party_id": "erc",
+      "election_year": 2023,
+      "source_id": "erc-2023-programme-ca",
+      "categories": [
+        "14"
+      ],
+      "title_en": "Land for a new primary-care centre",
+      "summary_en": "Provide land to the Generalitat for construction of a new primary-care centre (CAP), in coordination with the health department.",
+      "evidence_label": "HISTORICAL_PROPOSAL",
+      "commitment_type": "commitment",
+      "competence": "shared",
+      "date_verified": "2026-11-22",
+      "excerpt_original": "nou CAP",
+      "excerpt_lang": "ca",
+      "source_page": "2",
+      "source_section": "UN COMPROMÍS PER SITGES",
+      "review_notes": "Independent summary checked against the official PDF. Short source locator checked against the extracted text of the stated PDF page on 2026-11-22.",
+      "competence_note": "The council would provide land; the Generalitat is responsible for the health facility."
+    },
+    {
+      "id": "erc-2023-p03",
+      "party_id": "erc",
+      "election_year": 2023,
+      "source_id": "erc-2023-programme-ca",
+      "categories": [
+        "03"
+      ],
+      "title_en": "Start construction of 200 additional protected homes",
+      "summary_en": "Commit to beginning construction of 200 additional officially protected homes (HPO) during the 2023–2027 term.",
+      "evidence_label": "HISTORICAL_PROPOSAL",
+      "commitment_type": "commitment",
+      "competence": "shared",
+      "date_verified": "2026-11-22",
+      "excerpt_original": "200 Habitatges",
+      "excerpt_lang": "ca",
+      "source_page": "2",
+      "source_section": "UN COMPROMÍS PER SITGES",
+      "review_notes": "Independent summary checked against the official PDF. Short source locator checked against the extracted text of the stated PDF page on 2026-11-22.",
+      "competence_note": "Delivery depends on housing, planning and financing arrangements involving the relevant authorities."
+    },
+    {
+      "id": "erc-2023-p04",
+      "party_id": "erc",
+      "election_year": 2023,
+      "source_id": "erc-2023-programme-ca",
+      "categories": [
+        "06"
+      ],
+      "title_en": "Can Robert underground parking and bus station",
+      "summary_en": "Build underground parking at the existing Can Robert car park and place a bus station above it.",
+      "evidence_label": "HISTORICAL_PROPOSAL",
+      "commitment_type": "commitment",
+      "competence": "municipal",
+      "date_verified": "2026-11-22",
+      "excerpt_original": "estació de",
+      "excerpt_lang": "ca",
+      "source_page": "13",
+      "source_section": "SEGUIM MILLORANT LA MOBILITAT",
+      "review_notes": "Independent summary checked against the official PDF. Short source locator checked against the extracted text of the stated PDF page on 2026-11-22."
+    },
+    {
+      "id": "erc-2023-p05",
+      "party_id": "erc",
+      "election_year": 2023,
+      "source_id": "erc-2023-programme-ca",
+      "categories": [
+        "12",
+        "13"
+      ],
+      "title_en": "Plan a new library at La Plana",
+      "summary_en": "Plan a new public library on the designated facilities plot at La Plana, sized for the town’s current needs.",
+      "evidence_label": "HISTORICAL_PROPOSAL",
+      "commitment_type": "commitment",
+      "competence": "municipal",
+      "date_verified": "2026-11-22",
+      "excerpt_original": "nova biblioteca",
+      "excerpt_lang": "ca",
+      "source_page": "8",
+      "source_section": "SEGUIM AUGMENTANT ELS EQUIPAMENTS CULTURALS",
+      "review_notes": "Independent summary checked against the official PDF. Short source locator checked against the extracted text of the stated PDF page on 2026-11-22."
+    },
+    {
+      "id": "erc-2023-p06",
+      "party_id": "erc",
+      "election_year": 2023,
+      "source_id": "erc-2023-programme-ca",
+      "categories": [
+        "08",
+        "10"
+      ],
+      "title_en": "More resources for the citizen service office",
+      "summary_en": "Improve the citizen service office (OAC) by providing the resources needed to serve residents more effectively.",
+      "evidence_label": "HISTORICAL_PROPOSAL",
+      "commitment_type": "commitment",
+      "competence": "municipal",
+      "date_verified": "2026-11-22",
+      "excerpt_original": "l’OAC",
+      "excerpt_lang": "ca",
+      "source_page": "20",
+      "source_section": "SEGUIM MILLORANT LA CASA GRAN",
+      "review_notes": "Independent summary checked against the official PDF. Short source locator checked against the extracted text of the stated PDF page on 2026-11-22."
+    },
+    {
+      "id": "erc-2023-p07",
+      "party_id": "erc",
+      "election_year": 2023,
+      "source_id": "erc-2023-programme-ca",
+      "categories": [
+        "08",
+        "07"
+      ],
+      "title_en": "New waste contract and selective door-to-door collection",
+      "summary_en": "Prepare and launch a new waste-management contract with service improvements, introducing door-to-door collection in suitable neighbourhoods.",
+      "evidence_label": "HISTORICAL_PROPOSAL",
+      "commitment_type": "commitment",
+      "competence": "municipal",
+      "date_verified": "2026-11-22",
+      "excerpt_original": "porta a",
+      "excerpt_lang": "ca",
+      "source_page": "16",
+      "source_section": "SEGUIM FENT UN SITGES MÉS NET",
+      "review_notes": "Independent summary checked against the official PDF. Short source locator checked against the extracted text of the stated PDF page on 2026-11-22."
+    },
+    {
+      "id": "erc-2023-p08",
+      "party_id": "erc",
+      "election_year": 2023,
+      "source_id": "erc-2023-programme-ca",
+      "categories": [
+        "15"
+      ],
+      "title_en": "Convert the existing Aiguadolç field to multipurpose sports use",
+      "summary_en": "Convert the existing Aiguadolç football field into a multipurpose sports field, including hockey and football, and modernise its facilities. The programme passage does not mention underground parking at this site.",
+      "evidence_label": "HISTORICAL_PROPOSAL",
+      "commitment_type": "commitment",
+      "competence": "municipal",
+      "date_verified": "2026-11-22",
+      "excerpt_original": "camp polivalent",
+      "excerpt_lang": "ca",
+      "source_page": "10",
+      "source_section": "SEGUIM MILLORANT ELS EQUIPAMENTS ESPORTIUS",
+      "review_notes": "Independent summary checked against the official PDF. Short source locator checked against the extracted text of the stated PDF page on 2026-11-22."
+    },
+    {
+      "id": "erc-2023-p09",
+      "party_id": "erc",
+      "election_year": 2023,
+      "source_id": "erc-2023-programme-ca",
+      "categories": [
+        "05"
+      ],
+      "title_en": "Neighbourhood policing",
+      "summary_en": "Promote a neighbourhood policing model.",
+      "evidence_label": "HISTORICAL_PROPOSAL",
+      "commitment_type": "commitment",
+      "competence": "municipal",
+      "date_verified": "2026-11-22",
+      "excerpt_original": "policia de",
+      "excerpt_lang": "ca",
+      "source_page": "24",
+      "source_section": "SEGUIM CONSTRUINT UN SITGES MÉS SEGUR",
+      "review_notes": "Independent summary checked against the official PDF. Short source locator checked against the extracted text of the stated PDF page on 2026-11-22."
+    },
+    {
+      "id": "erc-2023-p10",
+      "party_id": "erc",
+      "election_year": 2023,
+      "source_id": "erc-2023-programme-ca",
+      "categories": [
+        "11"
+      ],
+      "title_en": "Welcome dossier for new residents",
+      "summary_en": "Add a welcome dossier to the new-citizens programme with practical information, important local dates and events affecting community life.",
+      "evidence_label": "HISTORICAL_PROPOSAL",
+      "commitment_type": "commitment",
+      "competence": "municipal",
+      "date_verified": "2026-11-22",
+      "excerpt_original": "de benvinguda",
+      "excerpt_lang": "ca",
+      "source_page": "26",
+      "source_section": "SEGUIM ACOLLINT",
+      "review_notes": "Independent summary checked against the official PDF. Short source locator checked against the extracted text of the stated PDF page on 2026-11-22."
+    },
+    {
+      "id": "erc-2023-p11",
+      "party_id": "erc",
+      "election_year": 2023,
+      "source_id": "erc-2023-programme-ca",
+      "categories": [
+        "04",
+        "03"
+      ],
+      "title_en": "Continue action against unlicensed tourist accommodation",
+      "summary_en": "Continue detecting, monitoring and sanctioning tourist accommodation operating without a licence.",
+      "evidence_label": "HISTORICAL_PROPOSAL",
+      "commitment_type": "commitment",
+      "competence": "shared",
+      "date_verified": "2026-11-22",
+      "excerpt_original": "sense llicència",
+      "excerpt_lang": "ca",
+      "source_page": "18",
+      "source_section": "SEGUIM ORBINT-NOS AL MÓN",
+      "review_notes": "Independent summary checked against the official PDF. Short source locator checked against the extracted text of the stated PDF page on 2026-11-22.",
+      "competence_note": "Tourist-accommodation regulation and enforcement involve municipal and Catalan authorities."
+    },
+    {
+      "id": "erc-2023-p12",
+      "party_id": "erc",
+      "election_year": 2023,
+      "source_id": "erc-2023-programme-ca",
+      "categories": [
+        "09",
+        "14"
+      ],
+      "title_en": "Social pricing for municipal services",
+      "summary_en": "Introduce social-pricing criteria for public prices and service fees in education, training, culture, sport and leisure, and essential services including water and waste collection.",
+      "evidence_label": "HISTORICAL_PROPOSAL",
+      "commitment_type": "commitment",
+      "competence": "municipal",
+      "date_verified": "2026-11-22",
+      "excerpt_original": "tarifació social",
+      "excerpt_lang": "ca",
+      "source_page": "19",
+      "source_section": "SEGUIM MILLORANT LA CASA GRAN",
+      "review_notes": "Independent summary checked against the official PDF. Short source locator checked against the extracted text of the stated PDF page on 2026-11-22."
+    },
+    {
+      "id": "erc-2023-p13",
+      "party_id": "erc",
+      "election_year": 2023,
+      "source_id": "erc-2023-programme-ca",
+      "categories": [
+        "07"
+      ],
+      "title_en": "Create a local energy agency",
+      "summary_en": "Create a local energy agency.",
+      "evidence_label": "HISTORICAL_PROPOSAL",
+      "commitment_type": "commitment",
+      "competence": "municipal",
+      "date_verified": "2026-11-22",
+      "excerpt_original": "l’energia",
+      "excerpt_lang": "ca",
+      "source_page": "12",
+      "source_section": "SEGUIM AUGMENTANT LA SOSTENIBILITAT",
+      "review_notes": "Independent summary checked against the official PDF. Short source locator checked against the extracted text of the stated PDF page on 2026-11-22."
     }
   ]
 }

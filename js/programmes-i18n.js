@@ -3,7 +3,7 @@
    summaries and are never machine-translated; the original-language excerpt is shown instead. */
 window.UFS_PROGRAMME_I18N = {
 en: {
-  imbalanceTitle: "Why some parties have more entries:", imbalance: "Only one 2023 programme document (Sitges Grup Independent) could be located online and verified, so more of its proposals are recorded. For the other parties we use local media reports of their 2023 programme presentations and candidate interviews, clearly labelled as secondary reporting. The difference reflects which documents are publicly available, not any editorial preference. Parties can send their 2023 or 2027 programmes using the corrections link below.",
+  imbalanceTitle: "Why some parties have more entries:", imbalance: "Verified 2023 programme documents are available for Sitges Grup Independent and ERC Sitges. For other parties we currently use clearly labelled local media reports of the 2023 campaign. Coverage reflects the documents available and the proposals recorded so far, not editorial preference. Parties can send programmes through the corrections link below.",
   competenceLabel: "Who decides:",
   d_history: "Changes since 2023", ps_located_unverified: "Located online but not verified", unverifiedLead: "A file presented as this party's 2023 programme appears in search results, but the website blocked automated access, so its content has not been checked or used:",
   badge2023media: "2023 campaign · historical reference", mediaOnly: "media reports only", mediaElsewhere: "Media reports of its 2023 positions on other subjects are listed where available.",
@@ -63,7 +63,7 @@ en: {
   lang_ca: "Catalan", lang_es: "Spanish", lang_en: "English"
 },
 ca: {
-  imbalanceTitle: "Per què alguns partits tenen més entrades:", imbalance: "Només s'ha pogut localitzar en línia i verificar un programa del 2023 (Sitges Grup Independent), i per això se'n registren més propostes. Per als altres partits fem servir notícies de mitjans locals sobre la presentació dels seus programes i entrevistes als candidats del 2023, clarament etiquetades com a font secundària. La diferència reflecteix quins documents són públics, no cap preferència editorial. Els partits poden enviar els seus programes del 2023 o del 2027 amb l'enllaç de correccions.",
+  imbalanceTitle: "Per què alguns partits tenen més entrades:", imbalance: "Disposem de programes del 2023 verificats de Sitges Grup Independent i ERC Sitges. Per als altres partits, de moment fem servir notícies locals de la campanya del 2023, clarament etiquetades. La cobertura reflecteix els documents disponibles i les propostes registrades fins ara, sense preferències editorials. Els partits poden enviar programes mitjançant l’enllaç de correccions.",
   competenceLabel: "Qui decideix:",
   d_history: "Canvis des del 2023", ps_located_unverified: "Localitzat en línia però no verificat", unverifiedLead: "Als resultats de cerca apareix un fitxer presentat com el programa 2023 d'aquest partit, però el web en va bloquejar l'accés automatitzat; per tant, no se n'ha comprovat ni utilitzat el contingut:",
   badge2023media: "Campanya 2023 · referència històrica", mediaOnly: "només mitjans", mediaElsewhere: "Quan n'hi ha, es mostren notícies de premsa sobre les seves posicions del 2023 en altres temes.",
@@ -123,7 +123,7 @@ ca: {
   lang_ca: "català", lang_es: "castellà", lang_en: "anglès"
 },
 es: {
-  imbalanceTitle: "Por qué algunos partidos tienen más entradas:", imbalance: "Solo se ha podido localizar en línea y verificar un programa de 2023 (Sitges Grup Independent), por eso se registran más propuestas suyas. Para los demás partidos usamos noticias de medios locales sobre la presentación de sus programas y entrevistas a los candidatos de 2023, claramente etiquetadas como fuente secundaria. La diferencia refleja qué documentos son públicos, no ninguna preferencia editorial. Los partidos pueden enviar sus programas de 2023 o 2027 mediante el enlace de correcciones.",
+  imbalanceTitle: "Por qué algunos partidos tienen más entradas:", imbalance: "Disponemos de programas de 2023 verificados de Sitges Grup Independent y ERC Sitges. Para los demás partidos usamos por ahora noticias locales de la campaña de 2023, claramente etiquetadas. La cobertura refleja los documentos disponibles y las propuestas registradas hasta ahora, sin preferencias editoriales. Los partidos pueden enviar programas mediante el enlace de correcciones.",
   competenceLabel: "Quién decide:",
   d_history: "Cambios desde 2023", ps_located_unverified: "Localizado en línea pero no verificado", unverifiedLead: "En los resultados de búsqueda aparece un archivo presentado como el programa 2023 de este partido, pero la web bloqueó el acceso automatizado; por tanto, su contenido no se ha comprobado ni utilizado:",
   badge2023media: "Campaña 2023 · referencia histórica", mediaOnly: "solo medios", mediaElsewhere: "Cuando existen, se muestran noticias de prensa sobre sus posiciones de 2023 en otros temas.",
@@ -183,7 +183,7 @@ es: {
   lang_ca: "catalán", lang_es: "castellano", lang_en: "inglés"
 },
 it: {
-  imbalanceTitle: "Perché alcuni partiti hanno più voci:", imbalance: "È stato possibile trovare online e verificare un solo programma del 2023 (Sitges Grup Independent), quindi ne sono registrate più proposte. Per gli altri partiti usiamo articoli dei media locali sulla presentazione dei programmi e interviste ai candidati del 2023, chiaramente indicati come fonte secondaria. La differenza riflette quali documenti sono pubblici, non una preferenza editoriale. I partiti possono inviare i loro programmi 2023 o 2027 tramite il link per le correzioni.",
+  imbalanceTitle: "Perché alcuni partiti hanno più voci:", imbalance: "Sono disponibili programmi 2023 verificati di Sitges Grup Independent ed ERC Sitges. Per gli altri partiti utilizziamo per ora notizie locali della campagna 2023, chiaramente etichettate. La copertura riflette i documenti disponibili e le proposte finora registrate, senza preferenze editoriali. I partiti possono inviare programmi dal collegamento per le correzioni.",
   competenceLabel: "Chi decide:",
   d_history: "Cambiamenti dal 2023", ps_located_unverified: "Trovato online ma non verificato", unverifiedLead: "Nei risultati di ricerca compare un file presentato come programma 2023 di questo partito, ma il sito ha bloccato l'accesso automatico; il contenuto non è stato verificato né utilizzato:",
   badge2023media: "Campagna 2023 · riferimento storico", mediaOnly: "solo media", mediaElsewhere: "Quando disponibili, sono riportati articoli di stampa sulle sue posizioni del 2023 su altri temi.",
@@ -243,7 +243,7 @@ it: {
   lang_ca: "catalano", lang_es: "spagnolo", lang_en: "inglese"
 },
 fr: {
-  imbalanceTitle: "Pourquoi certains partis ont plus d'entrées :", imbalance: "Un seul programme de 2023 (Sitges Grup Independent) a pu être trouvé en ligne et vérifié ; davantage de ses propositions sont donc relevées. Pour les autres partis, nous utilisons des articles de médias locaux sur la présentation de leurs programmes et des entretiens avec les candidats de 2023, clairement signalés comme sources secondaires. L'écart reflète les documents disponibles publiquement, pas une préférence éditoriale. Les partis peuvent envoyer leurs programmes 2023 ou 2027 via le lien de correction.",
+  imbalanceTitle: "Pourquoi certains partis ont plus d'entrées :", imbalance: "Des programmes 2023 vérifiés sont disponibles pour Sitges Grup Independent et ERC Sitges. Pour les autres partis, nous utilisons actuellement des articles locaux de la campagne 2023, clairement identifiés. La couverture reflète les documents disponibles et les propositions enregistrées, sans préférence éditoriale. Les partis peuvent envoyer leurs programmes via le lien de correction.",
   competenceLabel: "Qui décide :",
   d_history: "Changements depuis 2023", ps_located_unverified: "Repéré en ligne mais non vérifié", unverifiedLead: "Un fichier présenté comme le programme 2023 de ce parti apparaît dans les résultats de recherche, mais le site a bloqué l'accès automatisé ; son contenu n'a donc été ni vérifié ni utilisé :",
   badge2023media: "Campagne 2023 · référence historique", mediaOnly: "médias uniquement", mediaElsewhere: "Lorsqu'ils existent, des articles de presse sur ses positions de 2023 sur d'autres thèmes sont indiqués.",
@@ -303,7 +303,7 @@ fr: {
   lang_ca: "catalan", lang_es: "espagnol", lang_en: "anglais"
 },
 de: {
-  imbalanceTitle: "Warum manche Parteien mehr Einträge haben:", imbalance: "Nur ein Programm von 2023 (Sitges Grup Independent) konnte online gefunden und geprüft werden, daher sind mehr seiner Vorschläge erfasst. Für die anderen Parteien nutzen wir Berichte lokaler Medien über die Vorstellung ihrer Programme und Interviews mit den Kandidierenden von 2023, klar als Sekundärquellen gekennzeichnet. Der Unterschied spiegelt wider, welche Dokumente öffentlich verfügbar sind, keine redaktionelle Vorliebe. Parteien können ihre Programme 2023 oder 2027 über den Korrekturlink senden.",
+  imbalanceTitle: "Warum manche Parteien mehr Einträge haben:", imbalance: "Geprüfte Wahlprogramme von 2023 liegen für Sitges Grup Independent und ERC Sitges vor. Für andere Parteien nutzen wir derzeit klar gekennzeichnete lokale Medienberichte zum Wahlkampf 2023. Die Abdeckung ergibt sich aus den verfügbaren Dokumenten und bisher erfassten Vorschlägen, ohne redaktionelle Bevorzugung. Parteien können Programme über den Korrekturlink einreichen.",
   competenceLabel: "Wer entscheidet:",
   d_history: "Änderungen seit 2023", ps_located_unverified: "Online gefunden, aber nicht geprüft", unverifiedLead: "In Suchergebnissen erscheint eine Datei, die als Programm 2023 dieser Partei bezeichnet wird, doch die Website blockierte den automatisierten Zugriff; der Inhalt wurde daher weder geprüft noch verwendet:",
   badge2023media: "Wahlkampf 2023 · historische Referenz", mediaOnly: "nur Medienberichte", mediaElsewhere: "Soweit vorhanden, sind Medienberichte über ihre Positionen von 2023 zu anderen Themen aufgeführt.",
@@ -363,7 +363,7 @@ de: {
   lang_ca: "Katalanisch", lang_es: "Spanisch", lang_en: "Englisch"
 },
 nl: {
-  imbalanceTitle: "Waarom sommige partijen meer vermeldingen hebben:", imbalance: "Slechts één programma uit 2023 (Sitges Grup Independent) kon online worden gevonden en gecontroleerd, daarom zijn er meer voorstellen van vastgelegd. Voor de andere partijen gebruiken we lokale mediaberichten over de presentatie van hun programma's en interviews met kandidaten uit 2023, duidelijk gelabeld als secundaire bron. Het verschil weerspiegelt welke documenten openbaar zijn, geen redactionele voorkeur. Partijen kunnen hun programma's van 2023 of 2027 sturen via de correctielink.",
+  imbalanceTitle: "Waarom sommige partijen meer vermeldingen hebben:", imbalance: "Geverifieerde programma’s uit 2023 zijn beschikbaar voor Sitges Grup Independent en ERC Sitges. Voor andere partijen gebruiken we voorlopig duidelijk gemarkeerde lokale mediaberichten uit de campagne van 2023. De dekking weerspiegelt de beschikbare documenten en geregistreerde voorstellen, zonder redactionele voorkeur. Partijen kunnen programma’s sturen via de correctielink.",
   competenceLabel: "Wie beslist:",
   d_history: "Wijzigingen sinds 2023", ps_located_unverified: "Online gevonden maar niet gecontroleerd", unverifiedLead: "In zoekresultaten verschijnt een bestand dat wordt gepresenteerd als het programma 2023 van deze partij, maar de website blokkeerde geautomatiseerde toegang; de inhoud is dus niet gecontroleerd of gebruikt:",
   badge2023media: "Campagne 2023 · historische referentie", mediaOnly: "alleen media", mediaElsewhere: "Waar beschikbaar staan mediaberichten over haar standpunten uit 2023 over andere onderwerpen vermeld.",

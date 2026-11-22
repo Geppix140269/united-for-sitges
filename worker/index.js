@@ -54,8 +54,11 @@ export async function handleTranslate(request, env, ctx) {
       max_tokens: 2048,
       temperature: 0
     });
-  } catch {
-    return json({ error: "Translation service unavailable" }, 502);
+  } catch (err) {
+    // Logged for Cloudflare Observability; the short reason helps diagnose setup problems.
+    console.error("Workers AI translation failed", err);
+    const reason = String(err?.message || err).slice(0, 200);
+    return json({ error: "Translation service unavailable", reason }, 502);
   }
   const translation = typeof result?.response === "string" ? result.response.trim() : "";
   if (!translation) return json({ error: "Empty translation" }, 502);

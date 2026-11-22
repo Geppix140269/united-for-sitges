@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "meta": {
-    "last_reviewed": "2026-11-13",
+    "last_reviewed": "2026-11-22",
     "election_2023_date": "2023-05-28",
     "election_2027_date": "2027-05-23",
     "results_source": "Junta Electoral Central, Resolution of 5 July 2023 (BOE-A-2023-18101), BOE no. 187, 7 August 2023, p. 116996",
@@ -77,7 +77,7 @@
         "de": "4 Ratsmitglieder. Teil des aktuellen Regierungsteams (ERC und Sitges GI, Dekret vom 13. Juli 2026).",
         "nl": "4 raadsleden. Onderdeel van het huidige bestuur (ERC en Sitges GI, decreet van 13 juli 2026)."
       },
-      "programme_2023_status": "located_unverified",
+      "programme_2023_status": "verified",
       "programme_2027_status": "not_verified",
       "history_note": {
         "en": "Signed the June 2023 government agreement with Sitges GI, Verds en Comú Podem and Fets per Sitges. Holds the mayoralty.",
@@ -85,12 +85,24 @@
         "es": "Firmó el acuerdo de gobierno de junio de 2023 con Sitges GI, Verds en Comú Podem y Fets per Sitges. Ostenta la alcaldía."
       },
       "history_source_url": "https://www.radiomaricel.cat/erc-sitgesgi-verds-en-comu-podem-i-fets-per-sitges-signen-el-pacte-de-govern-a-la-torreta-en-espera-del-posicionament-de-guanyem-a-la-investidura/",
-      "unverified_leads": [
-        {
-          "url": "https://locals.esquerra.cat/documents/programa-erc-sitges-2023-27_textrefos_v2.pdf",
-          "note": "A file with this name appears in search engine results as ERC's Sitges 2023-2027 programme, but the site blocked automated access when checked on 13 November 2026, so its content has not been verified."
-        }
-      ]
+      "programme_2023_note": {
+        "en": "Albert Oliver-Rodés confirmed on 22 November 2026 that this is ERC Sitges’s latest election programme. The official PDF has now been accessed and reviewed. Historical reference for the 2023–2027 term.",
+        "ca": "Albert Oliver-Rodés va confirmar el 22 de novembre del 2026 que aquest és el darrer programa electoral d’ERC Sitges. Ja s’ha pogut consultar i revisar el PDF oficial. Referència històrica del mandat 2023–2027.",
+        "es": "Albert Oliver-Rodés confirmó el 22 de noviembre de 2026 que este es el último programa electoral de ERC Sitges. Ya se ha podido consultar y revisar el PDF oficial. Referencia histórica del mandato 2023–2027.",
+        "it": "Albert Oliver-Rodés ha confermato il 22 novembre 2026 che questo è l’ultimo programma elettorale di ERC Sitges. Il PDF ufficiale è stato consultato e verificato. Riferimento storico per il mandato 2023–2027.",
+        "fr": "Albert Oliver-Rodés a confirmé le 22 novembre 2026 qu’il s’agit du dernier programme électoral d’ERC Sitges. Le PDF officiel a été consulté et vérifié. Référence historique du mandat 2023–2027.",
+        "de": "Albert Oliver-Rodés bestätigte am 22. November 2026, dass dies das jüngste Wahlprogramm von ERC Sitges ist. Das offizielle PDF wurde eingesehen und geprüft. Historische Referenz für die Amtszeit 2023–2027.",
+        "nl": "Albert Oliver-Rodés bevestigde op 22 november 2026 dat dit het laatste verkiezingsprogramma van ERC Sitges is. De officiële PDF is geraadpleegd en gecontroleerd. Historische referentie voor de bestuursperiode 2023–2027."
+      },
+      "programme_2027_note": {
+        "en": "On 22 November 2026, ERC Sitges confirmed that its 2027 election programme is not yet finalised and that it will send it to United for Sitges when available. No 2027 programme is available here yet.",
+        "ca": "El 22 de novembre del 2026, ERC Sitges va confirmar que encara no té tancat el programa electoral del 2027 i que el farà arribar a United for Sitges quan en disposi. Encara no hi ha cap programa del 2027 disponible aquí.",
+        "es": "El 22 de noviembre de 2026, ERC Sitges confirmó que su programa electoral de 2027 aún no está cerrado y que lo enviará a United for Sitges cuando esté disponible. Aquí todavía no hay ningún programa de 2027 disponible.",
+        "it": "Il 22 novembre 2026 ERC Sitges ha confermato che il programma elettorale 2027 non è ancora definitivo e che lo invierà a United for Sitges appena disponibile. Qui non è ancora disponibile un programma 2027.",
+        "fr": "Le 22 novembre 2026, ERC Sitges a confirmé que son programme électoral de 2027 n’est pas encore finalisé et sera transmis à United for Sitges dès qu’il sera disponible. Aucun programme 2027 n’est encore disponible ici.",
+        "de": "Am 22. November 2026 bestätigte ERC Sitges, dass sein Wahlprogramm für 2027 noch nicht fertiggestellt ist und United for Sitges zugesandt wird, sobald es vorliegt. Hier ist noch kein Wahlprogramm für 2027 verfügbar.",
+        "nl": "Op 22 november 2026 bevestigde ERC Sitges dat het verkiezingsprogramma voor 2027 nog niet definitief is en naar United for Sitges wordt gestuurd zodra het beschikbaar is. Hier is nog geen programma voor 2027 beschikbaar."
+      }
     },
     {
       "id": "psc",

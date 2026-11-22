@@ -72,6 +72,22 @@
       "notes_public": "Spanish edition of the same programme. Proposals on this site are taken from the Catalan edition."
     },
     {
+      "id": "erc-2023-programme-ca",
+      "party_id": "erc",
+      "title": "Programa Electoral 2023–2027: Seguim cap a un Sitges millor",
+      "election_year": 2023,
+      "document_type": "election_programme",
+      "publisher": "ERC Sitges",
+      "url": "https://locals.esquerra.cat/documents/programa-erc-sitges-2023-27_textrefos_v2.pdf",
+      "language": "ca",
+      "pages": 28,
+      "date_verified": "2026-11-22",
+      "primary": true,
+      "completeness": "complete",
+      "sha256": "b88817ac292ef975e5edc9edb4dc64e1694af09c7cbaffdbc22e76b53dda05af",
+      "notes_public": "Confirmed as ERC Sitges’s latest election programme by Albert Oliver-Rodés on 22 November 2026. The official 28-page PDF was accessed and reviewed on the same date. PDF metadata gives a creation date of 12 May 2023; the publication date is not independently established. An initial selection of 13 programme proposals is recorded, alongside four separately labelled media reports. This is a 2023 programme for the 2023–2027 term, not a programme for the 2027 election."
+    },
+    {
       "id": "rm-2023-junts-2023-05-19",
       "party_id": "junts",
       "title": "Mònica Gallardo (Junts per Sitges) creu imprescindible traçar un full de ruta del model turístic que es vol per Sitges per recuperar la il·lusió perduda",

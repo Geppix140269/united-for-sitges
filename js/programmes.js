@@ -187,8 +187,8 @@
       '<dt>' + esc(t('d_result2023')) + '</dt><dd>' + esc(resultLine(p)) + ' · <a href="' + esc(DATA.meta.results_source_url) + '" target="_blank" rel="noopener">BOE</a></dd>' +
       '<dt>' + esc(t('d_council')) + '</dt><dd>' + esc(p.council_status_2026[state.lang] || p.council_status_2026.en) + '</dd>' +
       (p.history_note ? '<dt>' + esc(t('d_history')) + '</dt><dd>' + esc(p.history_note[state.lang] || p.history_note.en) + ' <a href="' + esc(p.history_source_url) + '" target="_blank" rel="noopener">' + esc(t('source')) + '</a></dd>' : '') +
-      '<dt>' + esc(t('d_prog2023')) + '</dt><dd>' + esc(t('ps_' + p.programme_2023_status)) + '</dd>' +
-      '<dt>' + esc(t('d_prog2027')) + '</dt><dd>' + esc(t('ps_' + p.programme_2027_status)) + '</dd>' +
+      '<dt>' + esc(t('d_prog2023')) + '</dt><dd>' + esc(t('ps_' + p.programme_2023_status)) + (p.programme_2023_note ? '<p class="small-note">' + esc(p.programme_2023_note[state.lang] || p.programme_2023_note.en) + '</p>' : '') + '</dd>' +
+      '<dt>' + esc(t('d_prog2027')) + '</dt><dd>' + esc(t('ps_' + p.programme_2027_status)) + (p.programme_2027_note ? '<p class="small-note">' + esc(p.programme_2027_note[state.lang] || p.programme_2027_note.en) + '</p>' : '') + '</dd>' +
       (p.website ? '<dt>' + esc(t('d_website')) + '</dt><dd><a href="' + esc(p.website) + '" target="_blank" rel="noopener">' + esc(p.website.replace(/^https?:\/\//, '').replace(/\/$/, '')) + '</a></dd>' : '') +
       '</dl>';
     (p.unverified_leads || []).forEach(function (u) {
@@ -252,6 +252,7 @@
       }).join('');
       return '<div class="status-item"><h3>' + esc(p.short_name) + '</h3>' +
         '<p><span class="badge ' + (p.programme_2027_status === 'verified' ? 'y2027' : 'warn') + '">' + esc(t('ps_' + p.programme_2027_status)) + '</span></p>' +
+        (p.programme_2027_note ? '<p class="small-note">' + esc(p.programme_2027_note[state.lang] || p.programme_2027_note.en) + '</p>' : '') +
         '<p class="small-note">' + esc(p.council_status_2026[state.lang] || p.council_status_2026.en) + '</p>' + items + '</div>';
     }).join('');
   }

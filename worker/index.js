@@ -3,10 +3,10 @@
 // The target language is chosen by the reader; the source language is detected by the model,
 // so members can write in any language.
 
-// Tried in order. EuroLLM is built for European languages; the second is a fallback.
-// Cloudflare retires models from time to time (the first choice was retired 30 May 2026):
-// if /api/translate returns 502 with a "reason", check the Workers AI model catalog.
-const MODELS = ["@cf/utter-project/eurollm-9b-it", "@cf/meta/llama-3.1-8b-instruct-fp8"];
+// Tried in order; both are current, multilingual Workers AI models (checked in the model catalog
+// 23 Nov 2026). Cloudflare retires models from time to time (Llama 3.1 8B was retired in 2026):
+// if /api/translate returns 502 with a "reason", check https://developers.cloudflare.com/workers-ai/models/
+const MODELS = ["@cf/google/gemma-4-26b-a4b-it", "@cf/mistralai/mistral-small-3.1-24b-instruct"];
 const MAX_CHARS = 4000;
 const LANGUAGES = {
   en: "English", es: "Spanish", ca: "Catalan", it: "Italian",
@@ -52,21 +52,21 @@ export async function handleTranslate(request, env, ctx) {
     { role: "user", content: text }
   ];
   let translation = "";
-  let lastError = "";
+  const errors = [];
   for (const model of MODELS) {
     try {
       const result = await env.AI.run(model, { messages, max_tokens: 2048, temperature: 0 });
       const raw = typeof result?.response === "string" ? result.response : result?.choices?.[0]?.message?.content;
       translation = typeof raw === "string" ? raw.trim() : "";
       if (translation) break;
-      lastError = model + ": empty response";
+      errors.push(model + ": empty response");
     } catch (err) {
       // Logged for Cloudflare Observability; the short reason helps diagnose setup problems.
       console.error("Workers AI translation failed", model, err);
-      lastError = String(err?.message || err).slice(0, 200);
+      errors.push(model.split("/").pop() + ": " + String(err?.message || err).slice(0, 160));
     }
   }
-  if (!translation) return json({ error: "Translation service unavailable", reason: lastError }, 502);
+  if (!translation) return json({ error: "Translation service unavailable", reason: errors.join(" | ").slice(0, 400) }, 502);
   const out = { translation, target };
   if (cache) {
     ctx.waitUntil(cache.put(cacheKey, new Response(JSON.stringify(out), {
